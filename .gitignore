@@ -31,6 +31,10 @@ RM_*/
 *.2bit
 *.dmnd
 
-# Keep documentation/source scripts tracked
+# Keep documentation/source scripts tracked without tracking generated Python caches
 !docs/**
-!scripts/**
+!scripts/**/
+!scripts/**/*.py
+!scripts/**/*.pl
+!scripts/**/*.sh
+!scripts/**/*.md
