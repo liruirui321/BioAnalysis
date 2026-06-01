@@ -1,0 +1,36 @@
+__pycache__/
+*.py[cod]
+*.log
+*.tmp
+*.temp
+.DS_Store
+
+# Runtime outputs
+*.out
+*.err
+*.treefile
+*.iqtree
+*.ckp.gz
+*.meryl/
+RM_*/
+
+# Large biological data files are examples/inputs, not source by default
+*.fastq
+*.fastq.gz
+*.fq
+*.fq.gz
+*.bam
+*.sam
+*.cram
+*.fa
+*.fasta
+*.fna
+*.faa
+*.pep
+*.cds
+*.2bit
+*.dmnd
+
+# Keep documentation/source scripts tracked
+!docs/**
+!scripts/**

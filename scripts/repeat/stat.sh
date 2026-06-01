@@ -1,0 +1,8 @@
+less -S $1|awk '{print $1"\t"$4-1"\t"$5}'|grep -v ^#|sort -k1,1 -k2,2n|bedtools merge -i -|awk -v gsize="$2" '{sum += $3 - $2} END {print "all repeat: "sum" ("sum/gsize*100"%)"}'
+less -S $1|grep DNA|awk '{print $1"\t"$4-1"\t"$5}'|grep -v ^#|sort -k1,1 -k2,2n|bedtools merge -i -|awk -v gsize="$2" '{sum += $3 - $2} END {print "DNA Transposons: "sum" ("sum/gsize*100"%)"}'
+less -S $1|grep SINE|awk '{print $1"\t"$4-1"\t"$5}'|grep -v ^#|sort -k1,1 -k2,2n|bedtools merge -i -|awk -v gsize="$2" '{sum += $3 - $2} END {print "SINEs: "sum" ("sum/gsize*100"%)"}'
+less -S $1|grep LINE|awk '{print $1"\t"$4-1"\t"$5}'|grep -v ^#|sort -k1,1 -k2,2n|bedtools merge -i -|awk -v gsize="$2" '{sum += $3 - $2} END {print "LINE: "sum" ("sum/gsize*100"%)"}'
+less -S $1|grep LTR|awk '{print $1"\t"$4-1"\t"$5}'|grep -v ^#|sort -k1,1 -k2,2n|bedtools merge -i -|awk -v gsize="$2" '{sum += $3 - $2} END {print "LTR: "sum" ("sum/gsize*100"%)"}'
+less -S $1|grep Unknown|awk '{print $1"\t"$4-1"\t"$5}'|grep -v ^#|sort -k1,1 -k2,2n|bedtools merge -i -|awk -v gsize="$2" '{sum += $3 - $2} END {print "Unknown: "sum" ("sum/gsize*100"%)"}'
+less -S $1|grep Satellite|awk '{print $1"\t"$4-1"\t"$5}'|grep -v ^#|sort -k1,1 -k2,2n|bedtools merge -i -|awk -v gsize="$2" '{sum += $3 - $2} END {print "Satellite: "sum" ("sum/gsize*100"%)"}'
+less -S $1|grep Simple_repeat|awk '{print $1"\t"$4-1"\t"$5}'|grep -v ^#|sort -k1,1 -k2,2n|bedtools merge -i -|awk -v gsize="$2" '{sum += $3 - $2} END {print "Simple_repeat: "sum" ("sum/gsize*100"%)"}'
