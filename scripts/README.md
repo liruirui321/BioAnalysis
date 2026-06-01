@@ -1,24 +1,38 @@
-# BioAnalysis scripts
+# BioAnalysis Scripts
 
-This directory contains project-owned helper scripts used by the BioAnalysis genome workflow SOP.
+Scripts are organized by numbered workflow stage. Shared Python helpers remain in `common/` so maintained scripts can import `common.bioio` consistently.
 
-Principles:
-
-- Third-party tools such as BRAKER, InterProScan, eggNOG-mapper, RAxML, IQ-TREE, OrthoFinder, RepeatMasker and Merqury are external dependencies and are not reimplemented here.
-- Scripts here handle format conversion, table parsing, ID mapping, QC summaries and workflow handoffs between tools.
-- Python scripts use the standard library unless noted otherwise.
-- Every script should support `--help` and write TSV/plain-text outputs suitable for downstream workflow steps.
-
-Directory layout:
+## Layout
 
 ```text
-common/           shared FASTA/GFF/TSV helpers
-assembly/         assembly statistics
-gff/              GFF/CDS/PEP extraction
-annotation/       functional annotation parsing and merging
-repeat/           repeat annotation wrappers/converters/statistics
-cafe/             CAFE input preparation and filtering
-phylogeny/        orthogroup, alignment and gene-tree utilities
-genome_features/  intron and feature extraction
-synteny/          synteny-to-Circos conversion
+common/              shared FASTA/GFF/TSV helpers
+01_preprocessing/    input QC and NT-based contamination-screening wrappers
+02_assembly/         assembly statistics and QC helpers
+03_repeat/           repeat annotation wrappers, converters, and statistics
+04_gff/              GFF/CDS/PEP extraction and QC
+05_genome_features/  intron, introner, and genome-feature evidence tracks
+06_annotation/       functional annotation parsing, merging, and KEGG helpers
+07_phylogeny/        orthogroups, alignments, tree helpers, and legacy tree scripts
+08_cafe/             CAFE input preparation and filtering
+09_synteny/          synteny and Circos link conversion
+10_hgt/              HGT candidate screening and validation handoff
+11_visualization/    reference-derived visualization helpers
 ```
+
+## Script policy
+
+- Maintained BioAnalysis scripts should expose explicit CLI arguments and `--help`.
+- Reference-derived scripts must not contain real local paths or private project identifiers.
+- Legacy scripts should be kept under legacy/reference directories and marked as review-required.
+- External bioinformatics programs are not vendored; document them in the software list.
+- Repository-facing script help, comments, and documentation should be English.
+
+## Adding a new workflow
+
+1. Place scripts in the relevant numbered stage directory.
+2. Use stable descriptive filenames; use numbered filenames for multi-step workflows when order matters.
+3. Add command examples to `docs/BioAnalysis_Genome_Command_Templates.md`.
+4. Add SOP/checklist entries.
+5. Add provenance and status to `scripts/SCRIPT_SOURCES.md`.
+6. Add Makefile validation when useful.
+7. Run `make check-all`.
