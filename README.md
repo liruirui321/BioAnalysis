@@ -31,8 +31,8 @@ bioAnalysis/
     04_gff/
     05_genome_features/
     06_annotation/
-    07_phylogeny/
-    08_cafe/
+    07_gene_family/
+    08_gene_family_evolution/
     09_synteny/
     10_hgt/
     11_visualization/
@@ -60,8 +60,8 @@ Read the repository in this order:
 04 GFF/CDS/PEP extraction
 05 genome features and intron workflows
 06 functional annotation and KEGG reference helpers
-07 orthogroups, phylogeny, and gene trees
-08 CAFE expansion/contraction
+07 gene families, orthogroups, and phylogeny helpers
+08 gene-family evolution with Count and CAFE
 09 synteny and Circos links
 10 HGT candidate screening and validation handoff
 11 visualization reference helpers

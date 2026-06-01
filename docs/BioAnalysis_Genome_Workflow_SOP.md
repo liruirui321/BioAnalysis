@@ -20,9 +20,9 @@ Missing data must be recorded as `missing` or `not_tested`; it must not be inter
 03 repeat annotation
 04 GFF/CDS/PEP extraction
 05 genome features, introns, and introner evidence
-06 functional annotation
-07 orthogroups, species trees, and gene trees
-08 CAFE expansion/contraction
+06 functional annotation and downstream term summaries
+07 gene families, orthogroups, and phylogeny helpers
+08 gene-family evolution with Count and CAFE
 09 synteny and Circos links
 10 HGT candidate screening and validation handoff
 11 visualization and final evidence tables
@@ -157,7 +157,7 @@ The abstract method is:
 
 QC requires tool-version notes, candidate-count summaries, and manual review of high-confidence introner candidates.
 
-## 06 Functional annotation
+## 06 Functional annotation and downstream term summaries
 
 Functional annotation combines InterProScan, eggNOG, KofamScan, DIAMOND/BLASTP, and maintained parser scripts.
 
@@ -167,29 +167,109 @@ python3 scripts/06_annotation/parse_kofam_detail.py --input Arabidopsis_thaliana
 python3 scripts/06_annotation/merge_function_annotations.py --gff Arabidopsis_thaliana.annotation.primary.gff3 --out Arabidopsis_thaliana.functional_annotation.tsv
 ```
 
-Unannotated genes should remain in merged tables with `NA` fields.
-
-## 07 Orthogroups and phylogeny
-
-Use OrthoFinder, MAFFT, trimAl, IQ-TREE/RAxML, and helper scripts in `scripts/07_phylogeny/`.
-
-Key handoffs:
-
-```text
-protein FASTA per species -> OrthoFinder -> orthogroup member lists -> alignments -> trimmed alignments -> gene trees -> tree summaries
-```
-
-`root_tree.py` is a rooting handoff helper only; it does not reroot topology. Use validated external tree tools for real rerooting.
-
-## 08 CAFE expansion/contraction
+After `functional_annotation.tsv` is available, summarize downstream terms for figures, enrichment tests, and family-level interpretation.
 
 ```bash
-python3 scripts/08_cafe/prepare_cafe_input.py \
+python3 scripts/06_annotation/summarize_go_terms.py \
+  --annotation Arabidopsis_thaliana.functional_annotation.tsv \
+  --out Arabidopsis_thaliana.go.counts.tsv \
+  --gene2go Arabidopsis_thaliana.gene2go.tsv
+
+python3 scripts/06_annotation/summarize_pfam_domains.py \
+  --annotation Arabidopsis_thaliana.functional_annotation.tsv \
+  --out Arabidopsis_thaliana.pfam.counts.tsv \
+  --gene2pfam Arabidopsis_thaliana.gene2pfam.tsv
+
+python3 scripts/06_annotation/summarize_kegg_pathways.py \
+  --annotation Arabidopsis_thaliana.functional_annotation.tsv \
+  --ko-map refs/ko_to_pathway.tsv \
+  --pathway-names refs/pathway_names.tsv \
+  --out Arabidopsis_thaliana.kegg.pathway_counts.tsv \
+  --gene2pathway Arabidopsis_thaliana.gene2pathway.tsv \
+  --unmapped Arabidopsis_thaliana.kegg.unmapped_ko.tsv
+
+python3 scripts/06_annotation/summarize_domain_architecture.py \
+  --iprscan Arabidopsis_thaliana.iprscan.xls \
+  --out Arabidopsis_thaliana.domain_architecture.tsv \
+  --summary Arabidopsis_thaliana.domain_architecture_summary.tsv
+```
+
+Use `scripts/06_annotation/enrich_annotation_terms.py` for simple foreground-vs-background overrepresentation tests when a target gene list is already defined.
+
+Unannotated genes should remain in merged tables with `NA` fields. Term-map sources and foreground/background gene lists must be recorded in project run notes.
+
+## 07 Gene families, orthogroups, and phylogeny helpers
+
+Gene-family and orthogroup analysis comes before alignment and tree-building. Use OrthoFinder to define families, summarize copy-number and occupancy patterns, then select families for downstream phylogeny helpers.
+
+Key handoff:
+
+```text
+protein FASTA per species -> optional FASTA ID prefixing -> OrthoFinder -> gene-family summaries -> selected orthogroups -> alignments -> trimmed alignments -> gene trees -> tree summaries
+```
+
+```bash
+python3 scripts/07_gene_family/prefix_fasta_ids.py \
+  --input Arabidopsis_thaliana.protein.primary.fa \
+  --prefix Arabidopsis_thaliana \
+  --sep '|' \
+  --out Arabidopsis_thaliana.protein.primary.prefixed.fa \
+  --map Arabidopsis_thaliana.species_gene_id_map.tsv
+
+orthofinder \
+  -f protein_dir \
+  -t 32 \
+  -a 32
+
+python3 scripts/07_gene_family/summarize_orthofinder_gene_families.py \
+  --orthogroups Orthogroups.tsv \
+  --gene-count Orthogroups.GeneCount.tsv \
+  --out orthofinder_gene_family_summary.tsv \
+  --single-copy-list single_copy_orthogroups.list \
+  --core-list core_orthogroups.list \
+  --lineage-specific-list lineage_specific_orthogroups.list
+```
+
+Use `extract_orthogroup_members.py`, alignment tools, and tree helpers only after the family or orthogroup set is defined. `root_tree.py` is a rooting handoff helper only; it does not reroot topology. Use validated external tree tools for real rerooting.
+
+## 08 Gene-family evolution: Count and CAFE
+
+Use Count and CAFE after OrthoFinder has produced a species-by-family count matrix and the species tree has been checked against the same species names.
+
+```bash
+python3 scripts/08_gene_family_evolution/prepare_count_input.py \
+  --orthofinder-count Orthogroups.GeneCount.tsv \
+  --species-tree species_tree.nwk \
+  --out count_input.tsv \
+  --rejected count_rejected_families.tsv \
+  --species-order count_species_order.tsv
+
+Count \
+  -tree species_tree.nwk \
+  -table count_input.tsv \
+  > count_gain_loss.raw.tsv
+
+python3 scripts/08_gene_family_evolution/parse_count_gain_loss.py \
+  --input count_gain_loss.raw.tsv \
+  --format long \
+  --out count_gain_loss.tsv
+
+python3 scripts/08_gene_family_evolution/summarize_family_gain_loss.py \
+  --count-gain-loss count_gain_loss.tsv \
+  --family-summary orthofinder_gene_family_summary.tsv \
+  --out family_gain_loss_summary.tsv \
+  --node-summary node_gain_loss_summary.tsv
+```
+
+For CAFE handoff:
+
+```bash
+python3 scripts/08_gene_family_evolution/prepare_cafe_input.py \
   --orthofinder-count Orthogroups.GeneCount.tsv \
   --species-tree species_tree.nwk \
   --out cafe_input.tsv
 
-python3 scripts/08_cafe/filter_cafe_families.py \
+python3 scripts/08_gene_family_evolution/filter_cafe_families.py \
   --input cafe_input.tsv \
   --max-copy 100 \
   --min-species 2 \
@@ -198,7 +278,7 @@ python3 scripts/08_cafe/filter_cafe_families.py \
   --removed cafe_input.removed.tsv
 ```
 
-QC requires tree tips to match count-matrix columns and filtered-family reasons to be retained.
+QC requires tree tips to match count-matrix columns, rejected or filtered families to retain reasons, and Count/CAFE model assumptions to be recorded.
 
 ## 09 Synteny and Circos links
 

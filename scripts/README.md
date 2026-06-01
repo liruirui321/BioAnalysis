@@ -12,8 +12,8 @@ common/              shared FASTA/GFF/TSV helpers
 04_gff/              GFF/CDS/PEP extraction and QC
 05_genome_features/  intron, introner, and genome-feature evidence tracks
 06_annotation/       functional annotation parsing, merging, and KEGG helpers
-07_phylogeny/        orthogroups, alignments, tree helpers, and legacy tree scripts
-08_cafe/             CAFE input preparation and filtering
+07_gene_family/      gene-family analysis, orthogroups, alignments, and tree helpers
+08_gene_family_evolution/ Count/CAFE gene-family gain, loss, expansion, and contraction
 09_synteny/          synteny and Circos link conversion
 10_hgt/              HGT candidate screening and validation handoff
 11_visualization/    reference-derived visualization helpers

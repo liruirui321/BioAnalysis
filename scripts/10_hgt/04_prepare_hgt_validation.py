@@ -40,7 +40,7 @@ def main():
             "query_id": query,
             "candidate_id_file": "hgt_candidate.ids",
             "top_donor_subject_ids": ",".join(ids) if ids else "NA",
-            "recommended_validation": "build candidate homolog tree with scripts/06_phylogeny workflow",
+            "recommended_validation": "build candidate homolog tree with scripts/07_gene_family workflow",
             "validation_priority": row.get("validation_priority", "review"),
             "missing_data_note": row.get("missing_data_note", "NA"),
         })

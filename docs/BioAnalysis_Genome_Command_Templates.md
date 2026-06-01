@@ -82,7 +82,7 @@ bash scripts/05_genome_features/run_introner_elements.sh \
   --tool-dir refs/Introner-elements-main
 ```
 
-## 06 Functional annotation
+## 06 Functional annotation and downstream term summaries
 
 ```bash
 python3 scripts/06_annotation/parse_interproscan_tsv.py --input Arabidopsis_thaliana.interproscan.tsv --out Arabidopsis_thaliana.iprscan.xls
@@ -90,10 +90,48 @@ python3 scripts/06_annotation/parse_kofam_detail.py --input Arabidopsis_thaliana
 python3 scripts/06_annotation/merge_function_annotations.py --gff Arabidopsis_thaliana.annotation.primary.gff3 --out Arabidopsis_thaliana.functional_annotation.tsv
 ```
 
-## 07 Phylogeny helpers
+```bash
+python3 scripts/06_annotation/summarize_go_terms.py \
+  --annotation Arabidopsis_thaliana.functional_annotation.tsv \
+  --out Arabidopsis_thaliana.go.counts.tsv \
+  --gene2go Arabidopsis_thaliana.gene2go.tsv
+
+python3 scripts/06_annotation/summarize_pfam_domains.py \
+  --annotation Arabidopsis_thaliana.functional_annotation.tsv \
+  --out Arabidopsis_thaliana.pfam.counts.tsv \
+  --gene2pfam Arabidopsis_thaliana.gene2pfam.tsv
+```
 
 ```bash
-python3 scripts/07_phylogeny/prefix_fasta_ids.py \
+python3 scripts/06_annotation/summarize_kegg_pathways.py \
+  --annotation Arabidopsis_thaliana.functional_annotation.tsv \
+  --ko-map refs/ko_to_pathway.tsv \
+  --pathway-names refs/pathway_names.tsv \
+  --out Arabidopsis_thaliana.kegg.pathway_counts.tsv \
+  --gene2pathway Arabidopsis_thaliana.gene2pathway.tsv \
+  --unmapped Arabidopsis_thaliana.kegg.unmapped_ko.tsv
+```
+
+```bash
+python3 scripts/06_annotation/summarize_domain_architecture.py \
+  --iprscan Arabidopsis_thaliana.iprscan.xls \
+  --out Arabidopsis_thaliana.domain_architecture.tsv \
+  --summary Arabidopsis_thaliana.domain_architecture_summary.tsv
+```
+
+```bash
+python3 scripts/06_annotation/enrich_annotation_terms.py \
+  --annotation Arabidopsis_thaliana.functional_annotation.tsv \
+  --foreground gained_family_genes.ids \
+  --mode kegg \
+  --term-column KEGG_ko \
+  --out Arabidopsis_thaliana.gained_family.kegg_enrichment.tsv
+```
+
+## 07 Gene families, orthogroups, and phylogeny helpers
+
+```bash
+python3 scripts/07_gene_family/prefix_fasta_ids.py \
   --input Arabidopsis_thaliana.protein.primary.fa \
   --prefix Arabidopsis_thaliana \
   --sep '|' \
@@ -102,7 +140,32 @@ python3 scripts/07_phylogeny/prefix_fasta_ids.py \
 ```
 
 ```bash
-python3 scripts/07_phylogeny/concat_alignments.py \
+orthofinder \
+  -f protein_dir \
+  -t 32 \
+  -a 32
+```
+
+```bash
+python3 scripts/07_gene_family/summarize_orthofinder_gene_families.py \
+  --orthogroups Orthogroups.tsv \
+  --gene-count Orthogroups.GeneCount.tsv \
+  --out orthofinder_gene_family_summary.tsv \
+  --single-copy-list single_copy_orthogroups.list \
+  --core-list core_orthogroups.list \
+  --lineage-specific-list lineage_specific_orthogroups.list
+```
+
+```bash
+python3 scripts/07_gene_family/extract_orthogroup_members.py \
+  --orthogroups Orthogroups.tsv \
+  --target-list target_orthogroups.list \
+  --id-map species_gene_id_map.tsv \
+  --outdir gene_tree/01_member_lists
+```
+
+```bash
+python3 scripts/07_gene_family/concat_alignments.py \
   --input-dir trimmed_alignment_dir \
   --suffix .trimmed.fa \
   --species-list species.list \
@@ -111,11 +174,40 @@ python3 scripts/07_phylogeny/concat_alignments.py \
   --out-stats occupancy.tsv
 ```
 
-## 08 CAFE
+## 08 Gene-family evolution: Count and CAFE
 
 ```bash
-python3 scripts/08_cafe/prepare_cafe_input.py --orthofinder-count Orthogroups.GeneCount.tsv --species-tree species_tree.nwk --out cafe_input.tsv
-python3 scripts/08_cafe/filter_cafe_families.py --input cafe_input.tsv --max-copy 100 --min-species 2 --remove-all-zero --out cafe_input.filtered.tsv --removed cafe_input.removed.tsv
+python3 scripts/08_gene_family_evolution/prepare_count_input.py \
+  --orthofinder-count Orthogroups.GeneCount.tsv \
+  --species-tree species_tree.nwk \
+  --out count_input.tsv \
+  --rejected count_rejected_families.tsv \
+  --species-order count_species_order.tsv
+```
+
+```bash
+Count \
+  -tree species_tree.nwk \
+  -table count_input.tsv \
+  > count_gain_loss.raw.tsv
+```
+
+```bash
+python3 scripts/08_gene_family_evolution/parse_count_gain_loss.py \
+  --input count_gain_loss.raw.tsv \
+  --format long \
+  --out count_gain_loss.tsv
+
+python3 scripts/08_gene_family_evolution/summarize_family_gain_loss.py \
+  --count-gain-loss count_gain_loss.tsv \
+  --family-summary orthofinder_gene_family_summary.tsv \
+  --out family_gain_loss_summary.tsv \
+  --node-summary node_gain_loss_summary.tsv
+```
+
+```bash
+python3 scripts/08_gene_family_evolution/prepare_cafe_input.py --orthofinder-count Orthogroups.GeneCount.tsv --species-tree species_tree.nwk --out cafe_input.tsv
+python3 scripts/08_gene_family_evolution/filter_cafe_families.py --input cafe_input.tsv --max-copy 100 --min-species 2 --remove-all-zero --out cafe_input.filtered.tsv --removed cafe_input.removed.tsv
 ```
 
 ## 09 Synteny

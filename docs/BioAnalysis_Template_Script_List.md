@@ -24,20 +24,29 @@ Status labels match [`../scripts/SCRIPT_SOURCES.md`](../scripts/SCRIPT_SOURCES.m
 | 06 annotation | `scripts/06_annotation/parse_interproscan_tsv.py` | Implemented and CLI verified | InterProScan TSV | Parsed InterPro/Pfam table |
 | 06 annotation | `scripts/06_annotation/parse_kofam_detail.py` | Implemented and CLI verified | Kofam detail output | KO table |
 | 06 annotation | `scripts/06_annotation/merge_function_annotations.py` | Implemented and CLI verified | GFF, CDS QC, database outputs | `functional_annotation.tsv` |
+| 06 annotation | `scripts/06_annotation/summarize_go_terms.py` | Implemented and CLI verified | Functional annotation table | Gene-to-GO table and GO count summary |
+| 06 annotation | `scripts/06_annotation/summarize_kegg_pathways.py` | Implemented and CLI verified | Functional annotation table and KO-to-pathway map | Gene-to-pathway table, pathway counts, unmapped KO report |
+| 06 annotation | `scripts/06_annotation/summarize_pfam_domains.py` | Implemented and CLI verified | Functional annotation table | Gene-to-Pfam table and Pfam count summary |
+| 06 annotation | `scripts/06_annotation/summarize_domain_architecture.py` | Implemented and CLI verified | Parsed InterProScan table | Per-query Pfam architecture and architecture summary |
+| 06 annotation | `scripts/06_annotation/enrich_annotation_terms.py` | Implemented and CLI verified | Functional annotation table and foreground gene IDs | GO/KEGG/Pfam enrichment table |
 | 06 annotation | `scripts/06_annotation/kegg/*.pl` | Reference-derived; review before use | KEGG/pathway inputs | KEGG helper outputs |
-| 07 phylogeny | `scripts/07_phylogeny/prefix_fasta_ids.py` | Implemented and CLI verified | Protein FASTA | Prefixed FASTA and ID map |
-| 07 phylogeny | `scripts/07_phylogeny/extract_orthogroup_members.py` | Implemented and CLI verified | OrthoFinder outputs | Per-family ID lists |
-| 07 phylogeny | `scripts/07_phylogeny/clean_pep_for_tree.py` | Implemented and CLI verified | Peptide FASTA | Clean peptide FASTA |
-| 07 phylogeny | `scripts/07_phylogeny/concat_alignments.py` | Implemented and CLI verified | Trimmed alignments | Supermatrix, partition, stats |
-| 07 phylogeny | `scripts/07_phylogeny/select_genes_by_function.py` | Implemented and CLI verified | Functional annotation | Target gene IDs |
-| 07 phylogeny | `scripts/07_phylogeny/select_blast_hits.py` | Implemented and CLI verified | BLAST/DIAMOND TSV | Selected subject IDs |
-| 07 phylogeny | `scripts/07_phylogeny/build_function_tree_tip_table.py` | Implemented and CLI verified | Target/outgroup/marker inputs | Tree-tip annotation table |
-| 07 phylogeny | `scripts/07_phylogeny/make_tree_tip_annotation.py` | Implemented and CLI verified | Functional annotation and ID map | Tree-tip metadata |
-| 07 phylogeny | `scripts/07_phylogeny/rename_tree_tips.py` | Implemented and CLI verified | Tree and tip map | Renamed tree |
-| 07 phylogeny | `scripts/07_phylogeny/root_tree.py` | Implemented; limited placeholder behavior | Tree and outgroup note | Copied tree plus rooting note |
-| 07 phylogeny | `scripts/07_phylogeny/summarize_gene_trees.py` | Implemented and CLI verified | Tree list, alignment dir, IQ-TREE dir | Gene-tree summary |
-| 08 CAFE | `scripts/08_cafe/prepare_cafe_input.py` | Implemented and CLI verified | OrthoFinder count table, species tree | CAFE input table |
-| 08 CAFE | `scripts/08_cafe/filter_cafe_families.py` | Implemented and CLI verified | CAFE input table | Filtered and removed-family tables |
+| 07 gene family | `scripts/07_gene_family/prefix_fasta_ids.py` | Implemented and CLI verified | Protein FASTA | Prefixed FASTA and ID map |
+| 07 gene family | `scripts/07_gene_family/summarize_orthofinder_gene_families.py` | Implemented and CLI verified | OrthoFinder orthogroup and gene-count tables | Family summary and selected orthogroup lists |
+| 07 gene family | `scripts/07_gene_family/extract_orthogroup_members.py` | Implemented and CLI verified | OrthoFinder outputs | Per-family ID lists |
+| 07 gene family | `scripts/07_gene_family/clean_pep_for_tree.py` | Implemented and CLI verified | Peptide FASTA | Clean peptide FASTA |
+| 07 gene family | `scripts/07_gene_family/concat_alignments.py` | Implemented and CLI verified | Trimmed alignments | Supermatrix, partition, stats |
+| 07 gene family | `scripts/07_gene_family/select_genes_by_function.py` | Implemented and CLI verified | Functional annotation | Target gene IDs |
+| 07 gene family | `scripts/07_gene_family/select_blast_hits.py` | Implemented and CLI verified | BLAST/DIAMOND TSV | Selected subject IDs |
+| 07 gene family | `scripts/07_gene_family/build_function_tree_tip_table.py` | Implemented and CLI verified | Target/outgroup/marker inputs | Tree-tip annotation table |
+| 07 gene family | `scripts/07_gene_family/make_tree_tip_annotation.py` | Implemented and CLI verified | Functional annotation and ID map | Tree-tip metadata |
+| 07 gene family | `scripts/07_gene_family/rename_tree_tips.py` | Implemented and CLI verified | Tree and tip map | Renamed tree |
+| 07 gene family | `scripts/07_gene_family/root_tree.py` | Implemented; limited placeholder behavior | Tree and outgroup note | Copied tree plus rooting note |
+| 07 gene family | `scripts/07_gene_family/summarize_gene_trees.py` | Implemented and CLI verified | Tree list, alignment dir, IQ-TREE dir | Gene-tree summary |
+| 08 gene-family evolution | `scripts/08_gene_family_evolution/prepare_count_input.py` | Implemented and CLI verified | OrthoFinder count table, species tree | Count-ready family matrix and rejected-family report |
+| 08 gene-family evolution | `scripts/08_gene_family_evolution/parse_count_gain_loss.py` | Implemented and CLI verified | Count gain/loss output | Normalized family-node gain/loss table |
+| 08 gene-family evolution | `scripts/08_gene_family_evolution/summarize_family_gain_loss.py` | Implemented and CLI verified | Parsed Count gain/loss table and optional family summary | Family-level and node-level gain/loss summaries |
+| 08 gene-family evolution | `scripts/08_gene_family_evolution/prepare_cafe_input.py` | Implemented and CLI verified | OrthoFinder count table, species tree | CAFE input table |
+| 08 gene-family evolution | `scripts/08_gene_family_evolution/filter_cafe_families.py` | Implemented and CLI verified | CAFE input table | Filtered and removed-family tables |
 | 09 synteny | `scripts/09_synteny/anchors_to_circos_links.py` | Implemented and CLI verified | Anchor/simple file and BED maps | Circos link file |
 | 10 HGT | `scripts/10_hgt/01_classify_hgt_hits.py` | Implemented and CLI verified | Hits and local taxonomy table | Classified HGT hit table |
 | 10 HGT | `scripts/10_hgt/02_score_hgt_candidates.py` | Implemented and CLI verified | Classified hits | Candidate and rejected HGT tables |
@@ -48,7 +57,7 @@ Status labels match [`../scripts/SCRIPT_SOURCES.md`](../scripts/SCRIPT_SOURCES.m
 ## Deprecated or legacy notes
 
 - Prefer `scripts/03_repeat/repeat_stat.sh` over `scripts/03_repeat/stat.sh`.
-- Prefer `scripts/07_phylogeny/rename_tree_tips.py` over legacy tree renaming scripts.
+- Prefer `scripts/07_gene_family/rename_tree_tips.py` over legacy tree renaming scripts.
 - Prefer `scripts/09_synteny/anchors_to_circos_links.py` over legacy `simple2links.py`.
 - `root_tree.py` does not reroot a Newick tree; use external tree tools for true rerooting.
 
