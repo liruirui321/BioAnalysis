@@ -74,12 +74,16 @@ Reusable repository files must use anonymized examples such as `Arabidopsis_thal
 | `08_gene_family_evolution/prepare_count_input.py` | Implemented and CLI verified | Convert OrthoFinder count tables to Count input while validating species names. |
 | `08_gene_family_evolution/parse_count_gain_loss.py` | Implemented and CLI verified | Normalize Count gain/loss output to long or wide family-node tables. |
 | `08_gene_family_evolution/summarize_family_gain_loss.py` | Implemented and CLI verified | Summarize Count gain/loss calls by family and node. |
+| `08_gene_family_evolution/integrate_target_family_evolution.py` | Implemented and CLI verified | Integrate target-family evidence with orthogroups and Count/CAFE gain-loss outputs. |
 | `08_gene_family_evolution/prepare_cafe_input.py` | Implemented and CLI verified | Convert OrthoFinder count tables to CAFE input. |
 | `08_gene_family_evolution/filter_cafe_families.py` | Implemented and CLI verified | Filter CAFE families and record removed-family reasons. |
 | `09_synteny/anchors_to_circos_links.py` | Implemented and CLI verified | Convert synteny anchors/blocks to Circos links. |
 | `10_hgt/run_hgt_blast2hgt_workflow.sh` | Implemented and CLI verified | Chain NR hit input, blast2hgt handoff, candidate filtering, context annotation, and validation preparation. |
+| `10_hgt/run_hgt_family_integration_workflow.sh` | Implemented and CLI verified | Chain donor-taxonomy refinement and HGT-family evolution integration. |
 | `10_hgt/00_run_blast2hgt_handoff.sh` | Reference-derived; cleaned wrapper | Run a parameterized blast2hgt handoff from NR BLAST/DIAMOND outputs to taxonomy-group HGT tables. |
 | `10_hgt/filter_blast2hgt_candidates.py` | Implemented and CLI verified | Filter blast2hgt `.rp.tsv` output into candidate and rejected HGT tables. |
+| `10_hgt/refine_hgt_donor_taxonomy.py` | Implemented and CLI verified | Refine HGT candidate donor taxonomy using local lineage or taxonomy tables. |
+| `10_hgt/integrate_hgt_family_evolution.py` | Implemented and CLI verified | Integrate HGT candidates with donor taxonomy, orthogroups, target-family evidence, and family-evolution calls. |
 | `10_hgt/01_classify_hgt_hits.py` | Implemented and CLI verified | Classify similarity hits by local taxonomy groups for HGT screening. |
 | `10_hgt/02_score_hgt_candidates.py` | Implemented and CLI verified | Score conservative HGT candidates from classified hits. |
 | `10_hgt/03_add_hgt_context.py` | Implemented and CLI verified | Merge HGT candidates with coordinate, annotation, intron, and synteny context. |

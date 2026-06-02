@@ -180,6 +180,17 @@ Run Count between input preparation and parsing when `count_gain_loss.raw.tsv` i
 Count -tree species_tree.nwk -table family_evolution_work/count_input.tsv > count_gain_loss.raw.tsv
 ```
 
+Integrate target-family evidence with orthogroup evolution results:
+
+```bash
+python3 scripts/08_gene_family_evolution/integrate_target_family_evolution.py \
+  --target-evidence target_family_work/Arabidopsis_thaliana.target_families.target_family_evidence.tsv \
+  --orthogroups Orthogroups.tsv \
+  --family-gain-loss family_evolution_work/family_gain_loss_summary.tsv \
+  --out target_family_evolution.tsv \
+  --summary target_family_evolution_summary.tsv
+```
+
 ## 09 Synteny
 
 ```bash
@@ -215,3 +226,17 @@ bash scripts/10_hgt/run_hgt_blast2hgt_workflow.sh \
 ```
 
 If NR taxon-group DIAMOND searches have not already been run, replace `--blast-glob` with `--diamond-db-dir refs/nr_by_taxon` and add repeated `--taxon` values for the self, vertical, and donor groups.
+
+Integrate HGT candidates with donor taxonomy, orthogroups, target-family evidence, and family-evolution results:
+
+```bash
+bash scripts/10_hgt/run_hgt_family_integration_workflow.sh \
+  --candidates hgt_work/Arabidopsis_thaliana.protein.primary.fa.hgt.candidates.tsv \
+  --outdir hgt_family_integration \
+  --prefix Arabidopsis_thaliana.hgt \
+  --taxonomy refs/hgt_candidate_donor_taxonomy.tsv \
+  --rank genus \
+  --orthogroups Orthogroups.tsv \
+  --target-evidence target_family_work/Arabidopsis_thaliana.target_families.target_family_evidence.tsv \
+  --family-gain-loss family_evolution_work/family_gain_loss_summary.tsv
+```

@@ -22,7 +22,7 @@ Missing data must be recorded as `missing` or `not_tested`; it must not be inter
 05 genome features, introns, region context, methylation, and introner evidence
 06 functional annotation, COG/NOG summaries, and GO handoffs
 07 gene families, target-family discovery, expression evidence, and phylogeny helpers
-08 gene-family evolution with Count and CAFE
+08 gene-family evolution with Count, CAFE, and target-family integration
 09 synteny and Circos links
 10 HGT candidate screening and validation handoff
 11 visualization and final evidence tables
@@ -306,9 +306,9 @@ bash scripts/07_gene_family/run_target_family_workflow.sh \
 
 Target-family rule tables should record rule IDs, family IDs, evidence types, source fields, patterns, and match modes. Use `extract_orthogroup_members.py`, alignment tools, and tree helpers only after the family or orthogroup set is defined. `root_tree.py` is a rooting handoff helper only; it does not reroot topology. Use validated external tree tools for real rerooting.
 
-## 08 Gene-family evolution: Count and CAFE
+## 08 Gene-family evolution: Count, CAFE, and target-family integration
 
-Use Count and CAFE after OrthoFinder has produced a species-by-family count matrix and the species tree has been checked against the same species names. Use `scripts/08_gene_family_evolution/run_gene_family_evolution_workflow.sh` as the primary stage driver for Count input preparation, optional Count parsing, and CAFE filtering.
+Use Count and CAFE after OrthoFinder has produced a species-by-family count matrix and the species tree has been checked against the same species names. Use `scripts/08_gene_family_evolution/run_gene_family_evolution_workflow.sh` as the primary stage driver for Count input preparation, optional Count parsing, and CAFE filtering. Use `integrate_target_family_evolution.py` to connect Stage 07 target-family evidence to orthogroup gain/loss and expansion/contraction results.
 
 ```bash
 python3 scripts/08_gene_family_evolution/prepare_count_input.py \
@@ -333,6 +333,17 @@ python3 scripts/08_gene_family_evolution/summarize_family_gain_loss.py \
   --family-summary orthofinder_gene_family_summary.tsv \
   --out family_gain_loss_summary.tsv \
   --node-summary node_gain_loss_summary.tsv
+```
+
+Integrate target-family evidence with family-evolution calls:
+
+```bash
+python3 scripts/08_gene_family_evolution/integrate_target_family_evolution.py \
+  --target-evidence target_family_work/Arabidopsis_thaliana.target_families.target_family_evidence.tsv \
+  --orthogroups Orthogroups.tsv \
+  --family-gain-loss family_gain_loss_summary.tsv \
+  --out target_family_evolution.tsv \
+  --summary target_family_evolution_summary.tsv
 ```
 
 For CAFE handoff:
@@ -400,6 +411,18 @@ bash scripts/10_hgt/run_hgt_blast2hgt_workflow.sh \
 ```
 
 The driver can also create taxon-group DIAMOND outputs when supplied with `--diamond-db-dir` and repeated `--taxon` values. It then runs the blast2hgt handoff, filters `.rp.tsv` candidates, adds genome context when GFF is supplied, and prepares validation files.
+
+After HGT candidates exist, use `scripts/10_hgt/run_hgt_family_integration_workflow.sh` to refine donor taxonomy and join candidates with orthogroups, target-family evidence, and family-evolution calls:
+
+```bash
+bash scripts/10_hgt/run_hgt_family_integration_workflow.sh \
+  --candidates hgt_work/Arabidopsis_thaliana.protein.primary.fa.hgt.candidates.tsv \
+  --outdir hgt_family_integration \
+  --taxonomy refs/hgt_candidate_donor_taxonomy.tsv \
+  --orthogroups Orthogroups.tsv \
+  --target-evidence target_family_work/Arabidopsis_thaliana.target_families.target_family_evidence.tsv \
+  --family-gain-loss family_gain_loss_summary.tsv
+```
 
 Interpretation rules:
 

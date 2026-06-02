@@ -65,12 +65,16 @@ Status labels match [`../scripts/SCRIPT_SOURCES.md`](../scripts/SCRIPT_SOURCES.m
 | 08 gene-family evolution | `scripts/08_gene_family_evolution/prepare_count_input.py` | Implemented and CLI verified | OrthoFinder count table, species tree | Count-ready family matrix and rejected-family report |
 | 08 gene-family evolution | `scripts/08_gene_family_evolution/parse_count_gain_loss.py` | Implemented and CLI verified | Count gain/loss output | Normalized family-node gain/loss table |
 | 08 gene-family evolution | `scripts/08_gene_family_evolution/summarize_family_gain_loss.py` | Implemented and CLI verified | Parsed Count gain/loss table and optional family summary | Family-level and node-level gain/loss summaries |
+| 08 gene-family evolution | `scripts/08_gene_family_evolution/integrate_target_family_evolution.py` | Implemented and CLI verified | Target-family evidence, orthogroups, family gain/loss table | Target-family evolution detail and summary tables |
 | 08 gene-family evolution | `scripts/08_gene_family_evolution/prepare_cafe_input.py` | Implemented and CLI verified | OrthoFinder count table, species tree | CAFE input table |
 | 08 gene-family evolution | `scripts/08_gene_family_evolution/filter_cafe_families.py` | Implemented and CLI verified | CAFE input table | Filtered and removed-family tables |
 | 09 synteny | `scripts/09_synteny/anchors_to_circos_links.py` | Implemented and CLI verified | Anchor/simple file and BED maps | Circos link file |
 | 10 HGT | `scripts/10_hgt/run_hgt_blast2hgt_workflow.sh` | Implemented and CLI verified | Query FASTA, NR BLAST/DIAMOND outputs or taxon-group DIAMOND databases, external blast2hgt directory | Chained HGT candidate, context, and validation outputs |
+| 10 HGT | `scripts/10_hgt/run_hgt_family_integration_workflow.sh` | Implemented and CLI verified | HGT candidates, optional donor taxonomy, orthogroups, target-family evidence, family gain/loss table | Refined donor and HGT-family evolution support summaries |
 | 10 HGT | `scripts/10_hgt/00_run_blast2hgt_handoff.sh` | Reference-derived; cleaned wrapper | Query FASTA, NR BLAST/DIAMOND outfmt 6 outputs, external blast2hgt directory | Blast2hgt `.rp.bls`, `.rp.taxid`, `.rp.lin`, and `.rp.tsv` files |
 | 10 HGT | `scripts/10_hgt/filter_blast2hgt_candidates.py` | Implemented and CLI verified | Blast2hgt `.rp.tsv` table | Candidate and rejected HGT tables |
+| 10 HGT | `scripts/10_hgt/refine_hgt_donor_taxonomy.py` | Implemented and CLI verified | HGT candidates and optional local donor taxonomy table | Refined donor table and donor-taxonomy summary |
+| 10 HGT | `scripts/10_hgt/integrate_hgt_family_evolution.py` | Implemented and CLI verified | HGT candidates, refined donors, orthogroups, target-family evidence, family gain/loss table | HGT-family evolution support table |
 | 10 HGT | `scripts/10_hgt/01_classify_hgt_hits.py` | Implemented and CLI verified | Hits and local taxonomy table | Classified HGT hit table |
 | 10 HGT | `scripts/10_hgt/02_score_hgt_candidates.py` | Implemented and CLI verified | Classified hits | Candidate and rejected HGT tables |
 | 10 HGT | `scripts/10_hgt/03_add_hgt_context.py` | Implemented and CLI verified | Candidates, GFF, optional context | HGT context table and BED |

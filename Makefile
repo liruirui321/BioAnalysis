@@ -65,9 +65,13 @@ check-doc-links:
 	@test -f scripts/08_gene_family_evolution/prepare_count_input.py
 	@test -f scripts/08_gene_family_evolution/parse_count_gain_loss.py
 	@test -f scripts/08_gene_family_evolution/summarize_family_gain_loss.py
+	@test -f scripts/08_gene_family_evolution/integrate_target_family_evolution.py
 	@test -f scripts/10_hgt/run_hgt_blast2hgt_workflow.sh
+	@test -f scripts/10_hgt/run_hgt_family_integration_workflow.sh
 	@test -f scripts/10_hgt/00_run_blast2hgt_handoff.sh
 	@test -f scripts/10_hgt/filter_blast2hgt_candidates.py
+	@test -f scripts/10_hgt/refine_hgt_donor_taxonomy.py
+	@test -f scripts/10_hgt/integrate_hgt_family_evolution.py
 	@test -f scripts/10_hgt/01_classify_hgt_hits.py
 	@test -f scripts/10_hgt/02_score_hgt_candidates.py
 	@test -f scripts/10_hgt/03_add_hgt_context.py
@@ -149,11 +153,15 @@ check-script-help:
 	@python3 scripts/08_gene_family_evolution/prepare_count_input.py --help >/dev/null
 	@python3 scripts/08_gene_family_evolution/parse_count_gain_loss.py --help >/dev/null
 	@python3 scripts/08_gene_family_evolution/summarize_family_gain_loss.py --help >/dev/null
+	@python3 scripts/08_gene_family_evolution/integrate_target_family_evolution.py --help >/dev/null
 	@python3 scripts/08_gene_family_evolution/prepare_cafe_input.py --help >/dev/null
 	@python3 scripts/08_gene_family_evolution/filter_cafe_families.py --help >/dev/null
 	@bash scripts/10_hgt/run_hgt_blast2hgt_workflow.sh --help >/dev/null
+	@bash scripts/10_hgt/run_hgt_family_integration_workflow.sh --help >/dev/null
 	@bash scripts/10_hgt/00_run_blast2hgt_handoff.sh --help >/dev/null
 	@python3 scripts/10_hgt/filter_blast2hgt_candidates.py --help >/dev/null
+	@python3 scripts/10_hgt/refine_hgt_donor_taxonomy.py --help >/dev/null
+	@python3 scripts/10_hgt/integrate_hgt_family_evolution.py --help >/dev/null
 	@python3 scripts/10_hgt/01_classify_hgt_hits.py --help >/dev/null
 	@python3 scripts/10_hgt/02_score_hgt_candidates.py --help >/dev/null
 	@python3 scripts/10_hgt/03_add_hgt_context.py --help >/dev/null

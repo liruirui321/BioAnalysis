@@ -36,12 +36,13 @@ This document lists external tools, databases, and maintained helper scripts use
 | 07 gene family | `scripts/07_gene_family/run_gene_family_workflow.sh`, `scripts/07_gene_family/run_target_family_workflow.sh`, `scripts/07_gene_family/*.py` | Chain ID mapping, family summaries, target-family evidence, expression summaries, member extraction, and tree handoffs | `root_tree.py` is a handoff helper only; target-family rules are project-supplied. |
 | 08 gene-family evolution | Count | Gene-family gain/loss inference from count matrices and species trees | Validate Count output format before parsing. |
 | 08 gene-family evolution | CAFE/CAFE5 | Expansion/contraction analysis | Requires matching species tree and count matrix. |
-| 08 gene-family evolution | `scripts/08_gene_family_evolution/run_gene_family_evolution_workflow.sh`, `scripts/08_gene_family_evolution/*.py` | Chain Count input preparation, gain/loss parsing, CAFE input preparation, and filtering | Rejected or removed-family reasons are required. |
+| 08 gene-family evolution | `scripts/08_gene_family_evolution/run_gene_family_evolution_workflow.sh`, `scripts/08_gene_family_evolution/*.py` | Chain Count input preparation, gain/loss parsing, CAFE input preparation, filtering, and target-family integration | Rejected or removed-family reasons are required; target-family orthogroup links must be traceable. |
 | 09 synteny | minimap2, WGDI, MCScanX, JCVI | Genome/protein synteny and dotplots | IDs must match between protein, GFF, and FASTA files. |
 | 09 synteny | `scripts/09_synteny/anchors_to_circos_links.py` | Convert anchors/blocks to Circos links | Validate coordinates against chromosome lengths. |
 | 10 HGT | DIAMOND/BLASTP against NR or another broad local database | HGT similarity-search input generation | Use BLAST outfmt 6 with e-value and bitscore columns. |
 | 10 HGT | blast2hgt with configured accession/taxonomy database | HGT candidate screening and taxonomy-group signal table | External tool; first `--define` group is treated as self/vertical lineage. Database credentials and private paths stay outside the repository. |
-| 10 HGT | `scripts/10_hgt/*.sh`, `scripts/10_hgt/*.py` | Run blast2hgt handoff, filter candidates, add context, prepare validation | No remote database access; all inputs are local files. |
+| 10 HGT | donor taxonomy or lineage tables | Donor refinement for candidate interpretation | Optional local tables; record source and rank used. |
+| 10 HGT | `scripts/10_hgt/*.sh`, `scripts/10_hgt/*.py` | Run blast2hgt handoff, filter candidates, add context, prepare validation, refine donors, and integrate family-evolution evidence | No remote database access; all inputs are local files. |
 | 11 visualization | Circos, plotting tools, reference Perl helpers | Figures and tracks | Legacy helpers are review-required. |
 
 ## Version record template
