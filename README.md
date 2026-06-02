@@ -64,7 +64,7 @@ Read the repository in this order:
 08 gene-family evolution with Count, CAFE, and target-family integration
 09 synteny context, MCScan/JCVI summaries, heatmaps, and Circos links
 10 HGT candidate screening and validation handoff
-11 visualization reference helpers
+11 visualization matrices and handoff helpers
 ```
 
 ## Extension policy

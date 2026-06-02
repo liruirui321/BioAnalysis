@@ -43,7 +43,8 @@ This document lists external tools, databases, and maintained helper scripts use
 | 10 HGT | blast2hgt with configured accession/taxonomy database | HGT candidate screening and taxonomy-group signal table | External tool; first `--define` group is treated as self/vertical lineage. Database credentials and private paths stay outside the repository. |
 | 10 HGT | donor taxonomy or lineage tables | Donor refinement for candidate interpretation | Optional local tables; record source and rank used. |
 | 10 HGT | `scripts/10_hgt/*.sh`, `scripts/10_hgt/*.py` | Run blast2hgt handoff, filter candidates, add context, prepare validation, refine donors, and integrate family-evolution evidence | No remote database access; all inputs are local files. |
-| 11 visualization | Circos, plotting tools, reference Perl helpers | Figures and tracks | Legacy helpers are review-required. |
+| 11 visualization | `scripts/11_visualization/run_visualization_handoff_workflow.sh`, `scripts/11_visualization/*.py` | Plot-ready gene-set, target-family, HGT, expression, and evolution matrices | Matrix manifests must trace every source table. |
+| 11 visualization | Circos, plotting tools, reference Perl helpers | Figures and tracks | Legacy helpers are review-required; external plotting tools are installed separately. |
 
 ## Version record template
 

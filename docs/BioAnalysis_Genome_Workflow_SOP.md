@@ -25,7 +25,7 @@ Missing data must be recorded as `missing` or `not_tested`; it must not be inter
 08 gene-family evolution with Count, CAFE, and target-family integration
 09 synteny context, MCScan/JCVI summaries, heatmaps, and Circos links
 10 HGT candidate screening and validation handoff
-11 visualization and final evidence tables
+11 visualization matrices and final evidence tables
 ```
 
 ## 01 Preprocessing and NT-based decontamination
@@ -442,6 +442,19 @@ Interpretation rules:
 - Mark missing context data as `missing` or `not_tested`.
 - Do not treat lack of synteny or missing introns alone as HGT evidence.
 
-## 11 Visualization and final evidence tables
+## 11 Visualization matrices and final evidence tables
 
-Use visualization scripts and external plotting tools only after coordinates and IDs have been validated. Final evidence tables should link every claim back to source files, command templates, and QC outputs.
+Use `scripts/11_visualization/run_visualization_handoff_workflow.sh` after coordinates, IDs, target-family evidence, HGT candidates, and family-evolution tables have been validated. This stage writes plot-ready TSV matrices and manifests for external plotting tools; plotting dependencies are not vendored.
+
+```bash
+bash scripts/11_visualization/run_visualization_handoff_workflow.sh \
+  --outdir visualization_handoff \
+  --prefix Arabidopsis_thaliana.summary \
+  --gene-set HGT=hgt_candidate_genes.ids \
+  --gene-set target_family=target_family_genes.ids \
+  --expression-summary target_family_expression_summary.tsv \
+  --target-evolution target_family_evolution.tsv \
+  --hgt-family hgt_family_evolution.tsv
+```
+
+Final evidence tables should link every claim back to source files, command templates, QC outputs, and matrix manifest rows.

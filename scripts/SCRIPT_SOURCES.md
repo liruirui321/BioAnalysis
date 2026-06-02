@@ -92,6 +92,9 @@ Reusable repository files must use anonymized examples such as `Arabidopsis_thal
 | `10_hgt/02_score_hgt_candidates.py` | Implemented and CLI verified | Score conservative HGT candidates from classified hits. |
 | `10_hgt/03_add_hgt_context.py` | Implemented and CLI verified | Merge HGT candidates with coordinate, annotation, intron, and synteny context. |
 | `10_hgt/04_prepare_hgt_validation.py` | Implemented and CLI verified | Prepare candidate and donor ID lists for phylogenetic validation. |
+| `11_visualization/run_visualization_handoff_workflow.sh` | Implemented and CLI verified | Chain gene-set and family visualization matrix handoffs. |
+| `11_visualization/build_gene_set_matrix.py` | Implemented and CLI verified | Build UpSet/Venn-style gene-set membership matrices from multiple ID lists. |
+| `11_visualization/prepare_family_visualization_matrices.py` | Implemented and CLI verified | Prepare expression, target-evolution, and HGT-family matrices plus a manifest. |
 
 ## Reference-derived or legacy scripts
 

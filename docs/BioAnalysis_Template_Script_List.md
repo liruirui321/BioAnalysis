@@ -83,6 +83,9 @@ Status labels match [`../scripts/SCRIPT_SOURCES.md`](../scripts/SCRIPT_SOURCES.m
 | 10 HGT | `scripts/10_hgt/02_score_hgt_candidates.py` | Implemented and CLI verified | Classified hits | Candidate and rejected HGT tables |
 | 10 HGT | `scripts/10_hgt/03_add_hgt_context.py` | Implemented and CLI verified | Candidates, GFF, optional context | HGT context table and BED |
 | 10 HGT | `scripts/10_hgt/04_prepare_hgt_validation.py` | Implemented and CLI verified | Context and classified hits | Validation manifest and ID lists |
+| 11 visualization | `scripts/11_visualization/run_visualization_handoff_workflow.sh` | Implemented and CLI verified | Gene sets, expression summaries, target evolution tables, HGT-family tables | Plot-ready matrices and matrix manifests |
+| 11 visualization | `scripts/11_visualization/build_gene_set_matrix.py` | Implemented and CLI verified | Multiple gene ID sets | UpSet/Venn-style membership matrix |
+| 11 visualization | `scripts/11_visualization/prepare_family_visualization_matrices.py` | Implemented and CLI verified | Expression, target-evolution, and HGT-family tables | Family visualization matrices and manifest |
 | 11 visualization | `scripts/11_visualization/circos/*` | Reference-derived; review before use | Track-specific inputs | Circos helper outputs |
 
 ## Deprecated or legacy notes

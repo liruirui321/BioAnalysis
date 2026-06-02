@@ -16,7 +16,7 @@ common/              shared FASTA/GFF/TSV helpers
 08_gene_family_evolution/ Count/CAFE gene-family gain, loss, expansion, contraction, and target-family integration
 09_synteny/          synteny context, MCScan/JCVI summaries, heatmaps, and Circos links
 10_hgt/              HGT candidate screening and validation handoff
-11_visualization/    reference-derived visualization helpers
+11_visualization/    visualization matrices, handoff helpers, and legacy Circos scripts
 ```
 
 ## Script policy

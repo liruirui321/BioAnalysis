@@ -81,6 +81,9 @@ check-doc-links:
 	@test -f scripts/10_hgt/02_score_hgt_candidates.py
 	@test -f scripts/10_hgt/03_add_hgt_context.py
 	@test -f scripts/10_hgt/04_prepare_hgt_validation.py
+	@test -f scripts/11_visualization/run_visualization_handoff_workflow.sh
+	@test -f scripts/11_visualization/build_gene_set_matrix.py
+	@test -f scripts/11_visualization/prepare_family_visualization_matrices.py
 
 check-hardcoded-paths:
 	@! grep -R -n -E '/media/desk1[0-9]/|/Files/|/opt/software|/home/|liuruoyu|chenxiayi|Cyanoptyche' README.md docs scripts config --exclude='SCRIPT_SOURCES.md'
@@ -89,7 +92,7 @@ check-cli-docs:
 	@! grep -R -n -E -- '--input_dir|--species_list|--out_fasta|--out_phylip|--max_copy|--min_species|--orthofinder_count|--species_tree' docs scripts
 
 check-english:
-	@! grep -R -n -P '[\x{4e00}-\x{9fff}]' README.md Makefile config docs scripts/README.md scripts/SCRIPT_SOURCES.md scripts/01_preprocessing scripts/02_assembly scripts/03_repeat scripts/04_gff scripts/05_genome_features scripts/06_annotation scripts/07_gene_family scripts/08_gene_family_evolution scripts/09_synteny scripts/10_hgt --exclude-dir='__pycache__' --exclude='*.pl'
+	@! grep -R -n -P '[\x{4e00}-\x{9fff}]' README.md Makefile config docs scripts/README.md scripts/SCRIPT_SOURCES.md scripts/01_preprocessing scripts/02_assembly scripts/03_repeat scripts/04_gff scripts/05_genome_features scripts/06_annotation scripts/07_gene_family scripts/08_gene_family_evolution scripts/09_synteny scripts/10_hgt scripts/11_visualization --exclude-dir='__pycache__' --exclude='*.pl'
 
 check-numbered-layout:
 	@test -d scripts/common
@@ -176,5 +179,8 @@ check-script-help:
 	@python3 scripts/10_hgt/02_score_hgt_candidates.py --help >/dev/null
 	@python3 scripts/10_hgt/03_add_hgt_context.py --help >/dev/null
 	@python3 scripts/10_hgt/04_prepare_hgt_validation.py --help >/dev/null
+	@bash scripts/11_visualization/run_visualization_handoff_workflow.sh --help >/dev/null
+	@python3 scripts/11_visualization/build_gene_set_matrix.py --help >/dev/null
+	@python3 scripts/11_visualization/prepare_family_visualization_matrices.py --help >/dev/null
 
 check-all: check-python check-shell check-perl check-doc-links check-hardcoded-paths check-cli-docs check-english check-numbered-layout check-script-help

@@ -254,3 +254,19 @@ bash scripts/10_hgt/run_hgt_family_integration_workflow.sh \
   --target-evidence target_family_work/Arabidopsis_thaliana.target_families.target_family_evidence.tsv \
   --family-gain-loss family_evolution_work/family_gain_loss_summary.tsv
 ```
+
+## 11 Visualization matrices and handoff utilities
+
+```bash
+bash scripts/11_visualization/run_visualization_handoff_workflow.sh \
+  --outdir visualization_handoff \
+  --prefix Arabidopsis_thaliana.summary \
+  --gene-set HGT=hgt_candidate_genes.ids \
+  --gene-set target_family=target_family_work/Arabidopsis_thaliana.target_families.target_gene_ids.txt \
+  --gene-set gained=gained_family_genes.ids \
+  --expression-summary target_family_work/Arabidopsis_thaliana.target_families.expression_family_summary.tsv \
+  --target-evolution target_family_evolution.tsv \
+  --hgt-family hgt_family_integration/Arabidopsis_thaliana.hgt.hgt_family_evolution.tsv
+```
+
+This stage writes plot-ready TSV matrices and manifests for external plotting tools; it does not vendor plotting dependencies.
