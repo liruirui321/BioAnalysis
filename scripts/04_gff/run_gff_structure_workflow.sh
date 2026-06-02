@@ -122,15 +122,15 @@ if [[ "$skip_plot_handoff" -eq 0 ]]; then
   "$python_cmd" "$script_dir/prepare_gff_structure_plot_handoff.py" \
     --metrics "$out_prefix.metrics.tsv" \
     --distributions "$out_prefix.distributions.tsv" \
+    --reference-distribution "$out_prefix.reference_distribution.tsv" \
     --out-prefix "$out_prefix.plot_handoff"
 fi
 
 if [[ "$skip_r_plots" -eq 0 ]]; then
   if command -v "$rscript_cmd" >/dev/null 2>&1; then
     "$rscript_cmd" "$script_dir/plot_gff_structure.R" \
-      --metrics "$out_prefix.metrics.tsv" \
-      --distributions "$out_prefix.distributions.tsv" \
-      --out-prefix "$out_prefix.plots"
+      --reference-distribution "$out_prefix.reference_distribution.tsv" \
+      --out-prefix "$out_prefix"
   else
     echo "Rscript executable not found; skipped PDF plots" >&2
   fi

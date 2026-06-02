@@ -158,7 +158,10 @@ gff_structure/*.distributions.tsv
 gff_structure/*.feature_summary.tsv
 gff_structure/*.chrom_summary.tsv
 gff_structure/*.qc.tsv
+gff_structure/*.reference_distribution.tsv
 gff_structure/*.plot_handoff.*.tsv
+gff_structure/*.gene_length_distribution.pdf
+gff_structure/*.exon_number.pdf
 ```
 
 QC requires matching FASTA/GFF seqids, reviewed CDS check tables, no unresolved duplicate IDs, valid Parent links, no out-of-bound coordinates when genome FASTA is supplied, and documented comparison-species GFF versions.

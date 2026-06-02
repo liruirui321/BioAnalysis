@@ -36,9 +36,9 @@ Reusable repository files must use anonymized examples such as `Arabidopsis_thal
 | `03_repeat/repeat_stat.sh` | Reference-derived; review before use | Summarize RepeatMasker coverage by repeat class. |
 | `04_gff/gff_cds_pep.py` | Implemented and CLI verified | Extract clean GFF/CDS/PEP files and CDS QC tables. |
 | `04_gff/run_gff_structure_workflow.sh` | Implemented and CLI verified | Chain GFF structure statistics, multi-species comparison, plot-ready handoffs, and optional base-R plots. |
-| `04_gff/summarize_gff_structure.py` | Implemented and CLI verified | Summarize gene, transcript, exon, CDS, intron, isoform, chromosome, feature, and QC metrics from GFF/GFF3. |
+| `04_gff/summarize_gff_structure.py` | Implemented and CLI verified | Summarize gene, transcript, exon, CDS, intron, isoform, chromosome, feature, QC metrics, and reference-style binned percent distributions from GFF/GFF3. |
 | `04_gff/prepare_gff_structure_plot_handoff.py` | Implemented and CLI verified | Prepare plot-ready metric matrices and long distribution tables from GFF structure summaries. |
-| `04_gff/plot_gff_structure.R` | Implemented and CLI verified | Create optional base-R PDF plots for GFF feature counts and structure distributions. |
+| `04_gff/plot_gff_structure.R` | Implemented and CLI verified | Create reference-style base-R PDF plots for mRNA/CDS/exon/intron length distributions and exon-number distributions. |
 | `05_genome_features/run_genome_features_workflow.sh` | Implemented and CLI verified | Chain intron extraction outputs and optional Introner-elements execution. |
 | `05_genome_features/run_region_context_workflow.sh` | Implemented and CLI verified | Chain target-region feature enrichment and optional Bismark CX methylation summaries. |
 | `05_genome_features/compare_region_feature_enrichment.py` | Implemented and CLI verified | Compare target and optional background region overlap against BED or GFF feature tracks. |

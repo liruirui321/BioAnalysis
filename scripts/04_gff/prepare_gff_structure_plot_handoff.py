@@ -11,12 +11,14 @@ from common.bioio import read_tsv, write_tsv
 
 METRIC_MATRIX_FIELDS_BASE = ["metric"]
 PLOT_FIELDS = ["species", "plot_group", "x", "y", "value", "source_category"]
+REFERENCE_PLOT_FIELDS = ["species", "plot_group", "bin_start", "percent", "raw_count", "total_count", "bin_size"]
 
 
 def main():
     ap = argparse.ArgumentParser(description="Prepare plot-ready handoff tables from GFF structure summary outputs.")
     ap.add_argument("--metrics", required=True)
     ap.add_argument("--distributions", required=True)
+    ap.add_argument("--reference-distribution", default=None)
     ap.add_argument("--out-prefix", required=True)
     args = ap.parse_args()
 
@@ -48,6 +50,20 @@ def main():
             "source_category": category,
         })
     write_tsv(f"{args.out_prefix}.distribution_plot_long.tsv", PLOT_FIELDS, plot_rows)
+
+    if args.reference_distribution:
+        reference_rows = []
+        for row in read_tsv(args.reference_distribution):
+            reference_rows.append({
+                "species": row.get("species", "NA"),
+                "plot_group": row.get("category", "NA"),
+                "bin_start": row.get("bin_start", "NA"),
+                "percent": row.get("percent", "NA"),
+                "raw_count": row.get("raw_count", "NA"),
+                "total_count": row.get("total_count", "NA"),
+                "bin_size": row.get("bin_size", "NA"),
+            })
+        write_tsv(f"{args.out_prefix}.reference_distribution_plot_long.tsv", REFERENCE_PLOT_FIELDS, reference_rows)
 
 
 if __name__ == "__main__":

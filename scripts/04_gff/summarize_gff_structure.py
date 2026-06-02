@@ -15,6 +15,7 @@ DISTRIBUTION_FIELDS = ["species", "category", "feature_id", "parent_id", "seqid"
 CHROM_FIELDS = ["species", "seqid", "gene_count", "transcript_count", "gene_bp", "mean_gene_length", "gene_density_per_mb"]
 FEATURE_FIELDS = ["species", "feature_type", "count", "total_bp", "mean_length", "median_length"]
 QC_FIELDS = ["species", "check", "status", "details"]
+REFERENCE_DISTRIBUTION_FIELDS = ["species", "category", "bin_start", "percent", "raw_count", "total_count", "bin_size"]
 
 
 def to_int(value, default=None):
@@ -103,6 +104,28 @@ def length_stats(values):
         "mean_length": f"{statistics.mean(values):.6f}",
         "median_length": f"{statistics.median(values):.6f}",
     }
+
+
+def binned_distribution(species, category, values, bin_size, add_zero=False):
+    values = [int(value) for value in values if value is not None]
+    total = len(values)
+    rows = []
+    if add_zero:
+        rows.append({"species": species, "category": category, "bin_start": 0, "percent": "0.00000", "raw_count": 0, "total_count": total, "bin_size": bin_size})
+    if total == 0:
+        return rows
+    counts = Counter(int(value / bin_size) for value in values)
+    for bucket in sorted(counts):
+        rows.append({
+            "species": species,
+            "category": category,
+            "bin_start": bucket * bin_size,
+            "percent": f"{counts[bucket] / total * 100:.5f}",
+            "raw_count": counts[bucket],
+            "total_count": total,
+            "bin_size": bin_size,
+        })
+    return rows
 
 
 def representative_gene_id(feature, transcript_to_gene):
@@ -217,13 +240,24 @@ def summarize_species(species, gff_path, genome_path=None):
     ]:
         metrics.append({"species": species, "metric": metric, "value": number(value)})
 
+    reference_distribution = []
+    reference_distribution.extend(binned_distribution(species, "mRNA_length", tx_lengths, 50))
+    reference_distribution.extend(binned_distribution(species, "CDS_length", cds_lengths, 50))
+    reference_distribution.extend(binned_distribution(species, "exon_length", exon_lengths, 10))
+    reference_distribution.extend(binned_distribution(species, "intron_length", intron_lengths, 10))
+    reference_distribution.extend(binned_distribution(species, "exon_number", exon_counts, 1, add_zero=True))
+
     distribution = []
     for gid, feature in sorted(genes.items()):
         distribution.append({"species": species, "category": "gene_length", "feature_id": gid, "parent_id": "NA", "seqid": feature["seqid"], "length": feature["length"], "count": "NA", "note": "NA"})
     for tx, feature in sorted(transcripts.items()):
-        distribution.append({"species": species, "category": "transcript_length", "feature_id": tx, "parent_id": feature["gene_id"], "seqid": feature["seqid"], "length": feature["length"], "count": "NA", "note": "NA"})
+        distribution.append({"species": species, "category": "mRNA_length", "feature_id": tx, "parent_id": feature["gene_id"], "seqid": feature["seqid"], "length": feature["length"], "count": "NA", "note": "NA"})
+        distribution.append({"species": species, "category": "transcript_length", "feature_id": tx, "parent_id": feature["gene_id"], "seqid": feature["seqid"], "length": feature["length"], "count": "NA", "note": "alias_of_mRNA_length"})
         distribution.append({"species": species, "category": "exons_per_transcript", "feature_id": tx, "parent_id": feature["gene_id"], "seqid": feature["seqid"], "length": "NA", "count": exon_count_by_tx.get(tx, 0), "note": "NA"})
         distribution.append({"species": species, "category": "cds_features_per_transcript", "feature_id": tx, "parent_id": feature["gene_id"], "seqid": feature["seqid"], "length": "NA", "count": cds_count_by_tx.get(tx, 0), "note": "NA"})
+    for feature in features:
+        if feature["type"] in {"exon", "CDS"}:
+            distribution.append({"species": species, "category": f"{feature['type']}_length", "feature_id": feature["id"], "parent_id": ";".join(feature["parents"]) or "NA", "seqid": feature["seqid"], "length": feature["length"], "count": "NA", "note": "NA"})
     for row in introns:
         distribution.append({"species": species, "category": "intron_length", "feature_id": row["transcript_id"], "parent_id": row["gene_id"], "seqid": row["seqid"], "length": row["length"], "count": "NA", "note": "NA"})
     for gid, txs in sorted(isoforms_by_gene.items()):
@@ -262,7 +296,7 @@ def summarize_species(species, gff_path, genome_path=None):
         {"species": species, "check": "missing_parent_references", "status": "fail" if missing_parent_refs else "pass", "details": ";".join(missing_parent_refs[:50]) or "none"},
         {"species": species, "check": "seqids_in_genome", "status": "pass" if not genome_path or out_of_bounds == 0 else "fail", "details": str(out_of_bounds) if genome_path else "not_tested"},
     ]
-    return metrics, distribution, chrom, feature_summary, qc
+    return metrics, distribution, chrom, feature_summary, qc, reference_distribution
 
 
 def read_manifest(path):
@@ -303,19 +337,22 @@ def main():
     all_chrom = []
     all_features = []
     all_qc = []
+    all_reference_distribution = []
     for species, gff, genome in inputs:
-        metrics, distribution, chrom, feature_summary, qc = summarize_species(species, gff, genome)
+        metrics, distribution, chrom, feature_summary, qc, reference_distribution = summarize_species(species, gff, genome)
         all_metrics.extend(metrics)
         all_distribution.extend(distribution)
         all_chrom.extend(chrom)
         all_features.extend(feature_summary)
         all_qc.extend(qc)
+        all_reference_distribution.extend(reference_distribution)
 
     write_tsv(f"{args.out_prefix}.metrics.tsv", METRIC_FIELDS, all_metrics)
     write_tsv(f"{args.out_prefix}.distributions.tsv", DISTRIBUTION_FIELDS, all_distribution)
     write_tsv(f"{args.out_prefix}.chrom_summary.tsv", CHROM_FIELDS, all_chrom)
     write_tsv(f"{args.out_prefix}.feature_summary.tsv", FEATURE_FIELDS, all_features)
     write_tsv(f"{args.out_prefix}.qc.tsv", QC_FIELDS, all_qc)
+    write_tsv(f"{args.out_prefix}.reference_distribution.tsv", REFERENCE_DISTRIBUTION_FIELDS, all_reference_distribution)
 
 
 if __name__ == "__main__":
