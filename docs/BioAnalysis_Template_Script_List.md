@@ -26,6 +26,9 @@ Status labels match [`../scripts/SCRIPT_SOURCES.md`](../scripts/SCRIPT_SOURCES.m
 | 03 repeat | `scripts/03_repeat/trf.sh` | Reference-derived; cleaned wrapper | Genome FASTA | TRF `.dat` and optional GFF3 |
 | 04 GFF | `scripts/04_gff/gff_cds_pep.py` | Implemented and CLI verified | Genome FASTA, annotation GFF, manifest | Clean GFF/CDS/PEP and CDS QC tables |
 | 05 genome features | `scripts/05_genome_features/run_genome_features_workflow.sh` | Implemented and CLI verified | Annotation GFF, genome FASTA, optional Introner-elements inputs | Chained intron outputs and optional introner candidate workflow |
+| 05 genome features | `scripts/05_genome_features/run_region_context_workflow.sh` | Implemented and CLI verified | Target BED, optional feature track, optional Bismark CX report | Feature enrichment and methylation metaprofile handoff tables |
+| 05 genome features | `scripts/05_genome_features/compare_region_feature_enrichment.py` | Implemented and CLI verified | Target/background BED and feature BED/GFF | Feature overlap, coverage, and enrichment summary |
+| 05 genome features | `scripts/05_genome_features/summarize_bismark_cx_regions.py` | Implemented and CLI verified | Bismark CX report and target BED | CG/CHG/CHH methylation bin and context summaries |
 | 05 genome features | `scripts/05_genome_features/extract_introns.py` | Implemented and CLI verified | Annotation GFF, optional genome FASTA | Intron BED/TSV, unique loci, short introns, AT-rich summaries |
 | 05 genome features | `scripts/05_genome_features/run_introner_elements.sh` | Reference-derived; cleaned wrapper | GFF, directory list, external Introner-elements path | Introner candidate workflow outputs |
 | 06 annotation | `scripts/06_annotation/run_functional_annotation_workflow.sh` | Implemented and CLI verified | GFF and optional database annotation outputs | Chained parsed, merged, term-summary, domain, and enrichment outputs |

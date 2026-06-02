@@ -19,7 +19,7 @@ Missing data must be recorded as `missing` or `not_tested`; it must not be inter
 02 assembly and assembly QC
 03 repeat annotation, TE post-processing, and EVE/GEVE region handoffs
 04 GFF/CDS/PEP extraction
-05 genome features, introns, and introner evidence
+05 genome features, introns, region context, methylation, and introner evidence
 06 functional annotation and downstream term summaries
 07 gene families, orthogroups, and phylogeny helpers
 08 gene-family evolution with Count and CAFE
@@ -148,9 +148,14 @@ Arabidopsis_thaliana.protein.primary.fa
 
 QC requires matching FASTA/GFF seqids and reviewed CDS check tables.
 
-## 05 Genome features, introns, and introner evidence
+## 05 Genome features, introns, region context, methylation, and introner evidence
 
-Primary workflow driver: `scripts/05_genome_features/run_genome_features_workflow.sh`.
+Primary workflow drivers:
+
+```text
+scripts/05_genome_features/run_genome_features_workflow.sh
+scripts/05_genome_features/run_region_context_workflow.sh
+```
 
 ### Intron extraction
 
@@ -169,6 +174,25 @@ python3 scripts/05_genome_features/extract_introns.py \
   --summary Arabidopsis_thaliana.introns.summary.tsv
 ```
 
+### Region context and methylation metaprofiles
+
+Use `scripts/05_genome_features/run_region_context_workflow.sh` when a target BED, such as standardized EVE/GEVE regions, needs feature enrichment and optional methylation summaries.
+
+```bash
+bash scripts/05_genome_features/run_region_context_workflow.sh \
+  --target-bed Arabidopsis_thaliana.eve_geve_regions.bed \
+  --outdir region_context \
+  --prefix Arabidopsis_thaliana.eve_geve \
+  --features Arabidopsis_thaliana.annotation.primary.gff3 \
+  --feature-format gff \
+  --feature-types gene,exon,CDS \
+  --background-bed Arabidopsis_thaliana.callable_windows.bed \
+  --cx Arabidopsis_thaliana.bismark.CX_report.txt.gz \
+  --bins 25,100,25
+```
+
+The region-context workflow reports feature overlap counts, covered bp, coverage fractions, fold enrichment versus background when supplied, long methylation bin tables, and CG/CHG/CHH context summaries.
+
 ### Introner-elements workflow
 
 Use `scripts/05_genome_features/run_introner_elements.sh` as an anonymized wrapper for an external Introner-elements installation. Supply tool paths at runtime.
@@ -183,7 +207,7 @@ The abstract method is:
 5. Remove duplicate candidate calls.
 ```
 
-QC requires tool-version notes, candidate-count summaries, and manual review of high-confidence introner candidates.
+QC requires valid BED coordinate systems, comparable target/background region definitions, Bismark CX coverage thresholds, tool-version notes, candidate-count summaries, and manual review of high-confidence introner candidates.
 
 ## 06 Functional annotation and downstream term summaries
 

@@ -10,7 +10,7 @@ common/              shared FASTA/GFF/TSV helpers
 02_assembly/         assembly statistics and QC helpers
 03_repeat/           repeat annotation, TE post-processing, and EVE/GEVE handoffs
 04_gff/              GFF/CDS/PEP extraction and QC
-05_genome_features/  intron, introner, and genome-feature evidence tracks
+05_genome_features/  intron, introner, region-context, and methylation evidence tracks
 06_annotation/       functional annotation parsing, merging, and KEGG helpers
 07_gene_family/      gene-family analysis, orthogroups, alignments, and tree helpers
 08_gene_family_evolution/ Count/CAFE gene-family gain, loss, expansion, and contraction

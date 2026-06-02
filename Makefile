@@ -41,7 +41,10 @@ check-doc-links:
 	@test -f scripts/03_repeat/summarize_te_divergence.py
 	@test -f scripts/03_repeat/standardize_eve_geve_regions.py
 	@test -f scripts/05_genome_features/run_genome_features_workflow.sh
+	@test -f scripts/05_genome_features/run_region_context_workflow.sh
 	@test -f scripts/05_genome_features/extract_introns.py
+	@test -f scripts/05_genome_features/compare_region_feature_enrichment.py
+	@test -f scripts/05_genome_features/summarize_bismark_cx_regions.py
 	@test -f scripts/05_genome_features/run_introner_elements.sh
 	@test -f scripts/06_annotation/summarize_go_terms.py
 	@test -f scripts/06_annotation/summarize_kegg_pathways.py
@@ -109,7 +112,10 @@ check-script-help:
 	@python3 scripts/03_repeat/summarize_te_divergence.py --help >/dev/null
 	@python3 scripts/03_repeat/standardize_eve_geve_regions.py --help >/dev/null
 	@bash scripts/05_genome_features/run_genome_features_workflow.sh --help >/dev/null
+	@bash scripts/05_genome_features/run_region_context_workflow.sh --help >/dev/null
 	@python3 scripts/05_genome_features/extract_introns.py --help >/dev/null
+	@python3 scripts/05_genome_features/compare_region_feature_enrichment.py --help >/dev/null
+	@python3 scripts/05_genome_features/summarize_bismark_cx_regions.py --help >/dev/null
 	@bash scripts/05_genome_features/run_introner_elements.sh --help >/dev/null
 	@python3 scripts/06_annotation/parse_interproscan_tsv.py --help >/dev/null
 	@python3 scripts/06_annotation/parse_kofam_detail.py --help >/dev/null

@@ -21,8 +21,9 @@ This document lists external tools, databases, and maintained helper scripts use
 | 04 GFF | BRAKER3, AUGUSTUS, GeneMark, gffread | Gene structure annotation and checks | GFF seqids must match genome FASTA. |
 | 04 GFF | `scripts/04_gff/gff_cds_pep.py` | Clean GFF/CDS/PEP extraction | Produces CDS QC tables. |
 | 05 genome features | bedtools, samtools | Window and coordinate operations | Track coordinate systems carefully. |
+| 05 genome features | Bismark | Cytosine methylation CX reports | BioAnalysis summarizes local CX reports; alignment and methylation extraction happen outside the helper scripts. |
 | 05 genome features | Introner-elements | Introner candidate workflow | External tool; provide local path at runtime. |
-| 05 genome features | `scripts/05_genome_features/run_genome_features_workflow.sh`, `extract_introns.py` | Chained intron and optional introner workflow outputs | BED output is 0-based half-open. |
+| 05 genome features | `scripts/05_genome_features/run_genome_features_workflow.sh`, `scripts/05_genome_features/run_region_context_workflow.sh`, `scripts/05_genome_features/*.py` | Chained intron, region-context, methylation, and optional introner workflow outputs | BED output is 0-based half-open; CX coverage thresholds must be recorded. |
 | 06 annotation | InterProScan, eggNOG-mapper, KofamScan | Functional annotation | Keep database versions and thresholds. |
 | 06 annotation | DIAMOND, BLASTP | SwissProt/NR/HGT similarity searches | Use explicit output fields and sorting rules. |
 | 06 annotation | GO, KEGG, Pfam, and pathway mapping tables | Downstream term summaries and enrichment | Record term-map source and version in project notes. |
@@ -55,6 +56,7 @@ This document lists external tools, databases, and maintained helper scripts use
 | InterProScan databases | NA | NA | Fill per project. |
 | eggNOG database | NA | NA | Fill per project. |
 | Kofam profiles | NA | NA | Fill per project. |
+| Bismark | NA | NA | Required when Stage 05 methylation CX summaries are used. |
 | GO ontology or GO mapping source | NA | NA | Fill per project. |
 | KEGG KO-to-pathway map | NA | NA | Fill per project. |
 | Pfam database | NA | NA | Fill per project. |

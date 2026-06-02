@@ -76,6 +76,25 @@ bash scripts/05_genome_features/run_genome_features_workflow.sh \
   --directory-list directory_list.tsv
 ```
 
+### Region context and methylation metaprofiles
+
+```bash
+bash scripts/05_genome_features/run_region_context_workflow.sh \
+  --target-bed Arabidopsis_thaliana.eve_geve_regions.bed \
+  --outdir region_context \
+  --prefix Arabidopsis_thaliana.eve_geve \
+  --features Arabidopsis_thaliana.annotation.primary.gff3 \
+  --feature-format gff \
+  --feature-types gene,exon,CDS \
+  --background-bed Arabidopsis_thaliana.callable_windows.bed \
+  --cx Arabidopsis_thaliana.bismark.CX_report.txt.gz \
+  --bins 25,100,25 \
+  --flank-bp 2000 \
+  --min-coverage 3
+```
+
+Use `--skip-feature-enrichment` or `--skip-methylation` when only one branch of the region-context workflow is needed.
+
 ## 06 Functional annotation and downstream term summaries
 
 ```bash

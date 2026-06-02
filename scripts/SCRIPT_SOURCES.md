@@ -36,6 +36,9 @@ Reusable repository files must use anonymized examples such as `Arabidopsis_thal
 | `03_repeat/repeat_stat.sh` | Reference-derived; review before use | Summarize RepeatMasker coverage by repeat class. |
 | `04_gff/gff_cds_pep.py` | Implemented and CLI verified | Extract clean GFF/CDS/PEP files and CDS QC tables. |
 | `05_genome_features/run_genome_features_workflow.sh` | Implemented and CLI verified | Chain intron extraction outputs and optional Introner-elements execution. |
+| `05_genome_features/run_region_context_workflow.sh` | Implemented and CLI verified | Chain target-region feature enrichment and optional Bismark CX methylation summaries. |
+| `05_genome_features/compare_region_feature_enrichment.py` | Implemented and CLI verified | Compare target and optional background region overlap against BED or GFF feature tracks. |
+| `05_genome_features/summarize_bismark_cx_regions.py` | Implemented and CLI verified | Summarize Bismark CX methylation over target regions using upstream/body/downstream bins. |
 | `05_genome_features/extract_introns.py` | Implemented and CLI verified | Infer introns, unique intron loci, short introns, and AT-rich intron summaries. |
 | `05_genome_features/run_introner_elements.sh` | Reference-derived; cleaned wrapper | Run an external Introner-elements workflow using user-supplied tool paths. |
 | `06_annotation/run_functional_annotation_workflow.sh` | Implemented and CLI verified | Chain annotation parsing, merging, downstream term summaries, domain architecture summaries, and optional enrichment. |
@@ -98,6 +101,7 @@ Reusable repository files must use anonymized examples such as `Arabidopsis_thal
 | BUSCO, compleasm, Merqury | Assembly and annotation QC. |
 | LTR_FINDER_parallel, GenomeTools, LTR_retriever, RepeatModeler, RepeatMasker, TRF, TEsorter | Repeat annotation, TE-domain parsing, and divergence summaries. |
 | Introner-elements | Introner candidate discovery and filtering. |
+| Bismark | Cytosine methylation CX reports for region metaprofiles. |
 | BRAKER3, AUGUSTUS, GeneMark, gffread | Gene structure annotation. |
 | InterProScan, eggNOG-mapper, KofamScan, DIAMOND, BLASTP | Functional annotation and HGT hit generation. |
 | blast2hgt | HGT candidate screening from BLAST hits and taxonomy-group lineages. |
