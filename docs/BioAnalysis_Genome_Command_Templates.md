@@ -77,7 +77,7 @@ bash scripts/04_gff/run_gff_structure_workflow.sh \
   --prefix Arabidopsis_thaliana.gff_structure
 ```
 
-Add `--run-r-plots` when base-R PDF plots are needed. Without that flag, the workflow writes TSV statistics and plot-ready handoff tables only.
+When `Rscript` is available, the workflow also writes base-R PDF plots. Add `--skip-r-plots` to produce only TSV statistics and plot-ready handoff tables.
 
 ## 05 Intron and introner workflows
 

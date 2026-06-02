@@ -9,7 +9,7 @@ Chain the Stage 04 GFF structure-statistics workflow:
   1. Summarize gene, transcript, exon, CDS, intron, isoform, chromosome, and feature statistics.
   2. Optionally compare multiple species through a manifest or repeated comparison inputs.
   3. Prepare plot-ready handoff tables for external plotting tools.
-  4. Optionally create base-R PDF plots.
+  4. Create base-R PDF plots when Rscript is available.
 
 Input modes:
   --gff FILE --species NAME       Main species GFF/GFF3
@@ -23,7 +23,7 @@ Options:
   --prefix NAME                   Output prefix [gff_structure]
   --python CMD                    Python executable [python3]
   --rscript CMD                   Rscript executable [Rscript]
-  --run-r-plots                   Create base-R PDF plots from summary tables
+  --skip-r-plots                  Skip base-R PDF plots
   --skip-plot-handoff             Skip plot-ready handoff tables
   -h, --help                      Show this help
 USAGE
@@ -37,7 +37,7 @@ outdir=""
 prefix="gff_structure"
 python_cmd="python3"
 rscript_cmd="Rscript"
-run_r_plots=0
+skip_r_plots=0
 skip_plot_handoff=0
 compare_species=()
 compare_gff=()
@@ -54,7 +54,7 @@ while [[ $# -gt 0 ]]; do
     --prefix) prefix=${2:?"Missing value for --prefix"}; shift 2 ;;
     --python) python_cmd=${2:?"Missing value for --python"}; shift 2 ;;
     --rscript) rscript_cmd=${2:?"Missing value for --rscript"}; shift 2 ;;
-    --run-r-plots) run_r_plots=1; shift ;;
+    --skip-r-plots) skip_r_plots=1; shift ;;
     --skip-plot-handoff) skip_plot_handoff=1; shift ;;
     -h|--help) usage; exit 0 ;;
     *) echo "Unknown argument: $1" >&2; usage >&2; exit 1 ;;
@@ -97,11 +97,6 @@ for file in "${compare_gff[@]}"; do
     exit 1
   fi
 done
-if [[ "$run_r_plots" -eq 1 ]] && ! command -v "$rscript_cmd" >/dev/null 2>&1; then
-  echo "Rscript executable not found: $rscript_cmd" >&2
-  exit 1
-fi
-
 script_dir=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 outdir_abs=$(mkdir -p "$outdir" && readlink -f "$outdir")
 work_manifest="$outdir_abs/${prefix}.manifest.tsv"
@@ -130,9 +125,13 @@ if [[ "$skip_plot_handoff" -eq 0 ]]; then
     --out-prefix "$out_prefix.plot_handoff"
 fi
 
-if [[ "$run_r_plots" -eq 1 ]]; then
-  "$rscript_cmd" "$script_dir/plot_gff_structure.R" \
-    --metrics "$out_prefix.metrics.tsv" \
-    --distributions "$out_prefix.distributions.tsv" \
-    --out-prefix "$out_prefix.plots"
+if [[ "$skip_r_plots" -eq 0 ]]; then
+  if command -v "$rscript_cmd" >/dev/null 2>&1; then
+    "$rscript_cmd" "$script_dir/plot_gff_structure.R" \
+      --metrics "$out_prefix.metrics.tsv" \
+      --distributions "$out_prefix.distributions.tsv" \
+      --out-prefix "$out_prefix.plots"
+  else
+    echo "Rscript executable not found; skipped PDF plots" >&2
+  fi
 fi
