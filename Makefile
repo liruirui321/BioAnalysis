@@ -35,6 +35,8 @@ check-doc-links:
 	@test -f scripts/SCRIPT_SOURCES.md
 	@test -f scripts/01_preprocessing/01_nt_decontaminate_contigs.sh
 	@test -f scripts/02_assembly/assembly_stats.py
+	@test -f scripts/02_assembly/run_genome_survey_workflow.sh
+	@test -f scripts/02_assembly/run_ploidyngs_workflow.sh
 	@test -f scripts/02_assembly/run_hifiasm_assembly.sh
 	@test -f scripts/02_assembly/run_nextdenovo_assembly.sh
 	@test -f scripts/02_assembly/run_spades_assembly.sh
@@ -142,6 +144,8 @@ check-numbered-layout:
 check-script-help:
 	@bash scripts/01_preprocessing/01_nt_decontaminate_contigs.sh --help >/dev/null
 	@python3 scripts/02_assembly/assembly_stats.py --help >/dev/null
+	@bash scripts/02_assembly/run_genome_survey_workflow.sh --help >/dev/null
+	@bash scripts/02_assembly/run_ploidyngs_workflow.sh --help >/dev/null
 	@bash scripts/02_assembly/run_hifiasm_assembly.sh --help >/dev/null
 	@bash scripts/02_assembly/run_nextdenovo_assembly.sh --help >/dev/null
 	@bash scripts/02_assembly/run_spades_assembly.sh --help >/dev/null

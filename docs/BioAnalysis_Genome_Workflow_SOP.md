@@ -16,7 +16,7 @@ Missing data must be recorded as `missing` or `not_tested`; it must not be inter
 
 ```text
 01 preprocessing and contamination screening
-02 independent assembly, Hi-C scaffolding, statistics, and QC assessments
+02 genome survey, independent assembly, Hi-C scaffolding, statistics, and QC assessments
 03 repeat annotation, TE post-processing, and EVE/GEVE region handoffs
 04 GFF/CDS/PEP extraction and structure statistics
 05 genome features, introns, region context, methylation, and introner evidence
@@ -65,13 +65,15 @@ Arabidopsis_thaliana_rm/Arabidopsis_thaliana.nt.fa.n50
 - Inspect removed contigs before treating the filtered FASTA as final.
 - Do not commit private database paths or real sample IDs to this repository.
 
-## 02 Independent assembly, Hi-C scaffolding, statistics, and QC assessments
+## 02 Genome survey, ploidy estimation, independent assembly, Hi-C scaffolding, statistics, and QC assessments
 
-Run one assembler wrapper per method. Hi-C scaffolding wrappers consume an existing assembly FASTA and should stay separate from assembler runs. Use `scripts/02_assembly/assembly_stats.py`, BUSCO, LAI, and Merqury QV as independent QC and assessment steps.
+Run genome survey, ploidy estimation, assembly, scaffolding, and assessment wrappers independently. Hi-C scaffolding wrappers consume an existing assembly FASTA and should stay separate from assembler runs. Use `scripts/02_assembly/assembly_stats.py`, BUSCO, LAI, and Merqury QV as independent QC and assessment steps.
 
-Maintained assembly wrappers:
+Maintained genome survey and assembly wrappers:
 
 ```text
+scripts/02_assembly/run_genome_survey_workflow.sh
+scripts/02_assembly/run_ploidyngs_workflow.sh
 scripts/02_assembly/run_hifiasm_assembly.sh
 scripts/02_assembly/run_nextdenovo_assembly.sh
 scripts/02_assembly/run_spades_assembly.sh
@@ -90,6 +92,21 @@ scripts/02_assembly/run_haphic_scaffolding.sh
 Representative commands:
 
 ```bash
+bash scripts/02_assembly/run_genome_survey_workflow.sh \
+  --read Arabidopsis_thaliana.reads_1.fq.gz \
+  --read Arabidopsis_thaliana.reads_2.fq.gz \
+  --outdir genome_survey \
+  --prefix Arabidopsis_thaliana \
+  --kmer 21 \
+  --ploidy 2 \
+  --run-smudgeplot
+
+bash scripts/02_assembly/run_ploidyngs_workflow.sh \
+  --bam Arabidopsis_thaliana.sorted.bam \
+  --outdir ploidy_ngs \
+  --prefix Arabidopsis_thaliana \
+  --guess-ploidy
+
 bash scripts/02_assembly/run_hifiasm_assembly.sh \
   --hifi Arabidopsis_thaliana.hifi.fa.gz \
   --outdir hifiasm_assembly \
@@ -185,6 +202,14 @@ bash scripts/02_assembly/run_merqury_qv_workflow.sh \
 Expected handoff files:
 
 ```text
+genome_survey/*.genome_survey_manifest.tsv
+genome_survey/results/*.hist
+genome_survey/results/*.GenomeScopeResults/
+genome_survey/results/*.SmudgePlotResults*
+ploidy_ngs/*.ploidyNGS_manifest.tsv
+ploidy_ngs/*.ploidyNGS_running_time.txt
+ploidy_ngs/*.ploidyNGS.pdf
+ploidy_ngs/*.ploidyNGS_MaxDepth100_MinCov0.tab
 *.<method>.assembly.fa
 *.<method>.assembly_stats.tsv
 *.<method>.assembly_lengths.tsv
@@ -197,7 +222,7 @@ lai_qc/*.lai_summary.tsv
 merqury_qv/*.merqury_qv_summary.tsv
 ```
 
-QC requires non-empty FASTA, unique sequence IDs, plausible total length, retained assembler/scaffolder logs, documented read technology, documented genome-size estimates, documented Hi-C pairing when used, documented BUSCO lineage, documented LAI parameter thresholds, documented Merqury k-mer choice, and local tool/database versions recorded in project run notes.
+QC requires non-empty FASTA/read/BAM inputs, unique sequence IDs where FASTA is produced, plausible genome survey and ploidy estimates, retained GenomeScope/Smudgeplot/ploidyNGS outputs when run, retained assembler/scaffolder logs, documented read technology, documented k-mer/ploidy/hash-size choices, documented genome-size estimates, documented Hi-C pairing when used, documented BUSCO lineage, documented LAI parameter thresholds, documented Merqury k-mer choice, and local tool/database versions recorded in project run notes.
 
 ## 03 Repeat annotation, TE post-processing, and EVE/GEVE handoffs
 

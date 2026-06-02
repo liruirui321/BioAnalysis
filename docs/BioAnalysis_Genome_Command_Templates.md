@@ -16,9 +16,36 @@ bash scripts/01_preprocessing/01_nt_decontaminate_contigs.sh \
   --threshold 0.5
 ```
 
-## 02 Assembly, Hi-C scaffolding, QC, and assessment
+## 02 Genome survey, ploidy estimation, assembly, Hi-C scaffolding, QC, and assessment
 
-Run one assembly method at a time; do not combine these wrappers into a single assembly driver.
+Run genome survey, assembly, scaffolding, and assessment scripts independently; do not combine these wrappers into a single driver.
+
+### Genome survey with Jellyfish and GenomeScope2
+
+```bash
+bash scripts/02_assembly/run_genome_survey_workflow.sh \
+  --read Arabidopsis_thaliana.reads_1.fq.gz \
+  --read Arabidopsis_thaliana.reads_2.fq.gz \
+  --outdir genome_survey \
+  --prefix Arabidopsis_thaliana \
+  --kmer 21 \
+  --hash-size 10G \
+  --threads 20 \
+  --histo-high 100000 \
+  --ploidy 2 \
+  --run-smudgeplot
+```
+
+### WGS/BAM ploidy estimation with ploidyNGS
+
+```bash
+bash scripts/02_assembly/run_ploidyngs_workflow.sh \
+  --bam Arabidopsis_thaliana.sorted.bam \
+  --outdir ploidy_ngs \
+  --prefix Arabidopsis_thaliana \
+  --guess-ploidy \
+  --option "--max_depth 100"
+```
 
 ### hifiasm assembly
 
