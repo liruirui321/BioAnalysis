@@ -1,6 +1,6 @@
 # BioAnalysis
 
-BioAnalysis is an English-first genome-analysis workflow and helper-script toolkit. It turns common genome project tasks into reusable SOPs, command templates, validation checks, and portable local scripts.
+BioAnalysis is an English-first genome-analysis workflow and helper-script toolkit. It turns common genome project tasks into reusable SOPs, command templates, validation checks, portable local scripts, and stage-level workflow drivers.
 
 The repository is designed for continuous extension. New workflows can be added as numbered script stages, documented in the SOP and command templates, and validated with `make check-all`.
 
@@ -56,7 +56,7 @@ Read the repository in this order:
 ```text
 01 preprocessing and contamination screening
 02 assembly statistics and QC helpers
-03 repeat annotation
+03 repeat annotation, TE post-processing, and EVE/GEVE region handoffs
 04 GFF/CDS/PEP extraction
 05 genome features and intron workflows
 06 functional annotation and KEGG reference helpers

@@ -35,6 +35,11 @@ check-doc-links:
 	@test -f scripts/SCRIPT_SOURCES.md
 	@test -f scripts/01_preprocessing/01_nt_decontaminate_contigs.sh
 	@test -f scripts/03_repeat/run_repeat_annotation_workflow.sh
+	@test -f scripts/03_repeat/run_te_eve_postprocessing_workflow.sh
+	@test -f scripts/03_repeat/parse_tesorter_domains.py
+	@test -f scripts/03_repeat/summarize_tesorter_regions.py
+	@test -f scripts/03_repeat/summarize_te_divergence.py
+	@test -f scripts/03_repeat/standardize_eve_geve_regions.py
 	@test -f scripts/05_genome_features/run_genome_features_workflow.sh
 	@test -f scripts/05_genome_features/extract_introns.py
 	@test -f scripts/05_genome_features/run_introner_elements.sh
@@ -98,6 +103,11 @@ check-script-help:
 	@bash scripts/03_repeat/LTR_Finder.sh --help >/dev/null
 	@bash scripts/03_repeat/LTR_harvest.sh --help >/dev/null
 	@bash scripts/03_repeat/run_repeat_annotation_workflow.sh --help >/dev/null
+	@bash scripts/03_repeat/run_te_eve_postprocessing_workflow.sh --help >/dev/null
+	@python3 scripts/03_repeat/parse_tesorter_domains.py --help >/dev/null
+	@python3 scripts/03_repeat/summarize_tesorter_regions.py --help >/dev/null
+	@python3 scripts/03_repeat/summarize_te_divergence.py --help >/dev/null
+	@python3 scripts/03_repeat/standardize_eve_geve_regions.py --help >/dev/null
 	@bash scripts/05_genome_features/run_genome_features_workflow.sh --help >/dev/null
 	@python3 scripts/05_genome_features/extract_introns.py --help >/dev/null
 	@bash scripts/05_genome_features/run_introner_elements.sh --help >/dev/null

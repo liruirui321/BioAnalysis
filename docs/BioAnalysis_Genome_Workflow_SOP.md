@@ -17,7 +17,7 @@ Missing data must be recorded as `missing` or `not_tested`; it must not be inter
 ```text
 01 preprocessing and contamination screening
 02 assembly and assembly QC
-03 repeat annotation
+03 repeat annotation, TE post-processing, and EVE/GEVE region handoffs
 04 GFF/CDS/PEP extraction
 05 genome features, introns, and introner evidence
 06 functional annotation and downstream term summaries
@@ -78,14 +78,15 @@ python3 scripts/02_assembly/assembly_stats.py \
 
 QC requires non-empty FASTA, unique sequence IDs, plausible total length, and retained assembly logs.
 
-## 03 Repeat annotation
+## 03 Repeat annotation, TE post-processing, and EVE/GEVE handoffs
 
-Repeat annotation uses portable wrappers around external tools available on `PATH`.
+Repeat annotation uses portable wrappers around external tools available on `PATH`. Downstream TE/EVE post-processing standardizes external EVE/GEVE calls, summarizes TEsorter domains over target regions, and estimates RepeatMasker divergence summaries.
 
-Primary workflow driver:
+Primary workflow drivers:
 
 ```text
 scripts/03_repeat/run_repeat_annotation_workflow.sh
+scripts/03_repeat/run_te_eve_postprocessing_workflow.sh
 ```
 
 Key helper scripts:
@@ -98,15 +99,34 @@ scripts/03_repeat/work.sh
 scripts/03_repeat/rmout2gff.sh
 scripts/03_repeat/repeat_stat.sh
 scripts/03_repeat/trf.sh
+scripts/03_repeat/parse_tesorter_domains.py
+scripts/03_repeat/summarize_tesorter_regions.py
+scripts/03_repeat/summarize_te_divergence.py
+scripts/03_repeat/standardize_eve_geve_regions.py
 ```
 
-Recommended handoff:
+Recommended handoffs:
 
 ```text
 uppercase genome FASTA -> LTR_FINDER/LTRharvest/RepeatModeler -> LTR_retriever -> RepeatMasker -> GFF3 and summary tables
+external EVE/GEVE calls + TEsorter domains + RepeatMasker .out -> standardized region BED/TSV, target-region TE-domain summaries, divergence summaries
 ```
 
-QC requires non-empty LTR candidate files, repeat libraries, RepeatMasker `.out`, repeat GFF3, and repeat coverage summaries.
+Post-processing example:
+
+```bash
+bash scripts/03_repeat/run_te_eve_postprocessing_workflow.sh \
+  --outdir repeat_postprocess \
+  --prefix Arabidopsis_thaliana \
+  --tesorter-domains Arabidopsis_thaliana.rexdb.dom.faa \
+  --eve-input Arabidopsis_thaliana.eve_geve.raw.gff3 \
+  --eve-format gff \
+  --eve-feature-types region,match \
+  --background-bed Arabidopsis_thaliana.callable_windows.bed \
+  --repeatmasker-out Arabidopsis_thaliana.repeatmasker.all.out
+```
+
+QC requires non-empty LTR candidate files, repeat libraries, RepeatMasker `.out`, repeat GFF3, repeat coverage summaries, valid target/background BED coordinates, documented EVE/GEVE caller provenance, and TEsorter/RepeatMasker database-version notes.
 
 ## 04 GFF/CDS/PEP extraction
 

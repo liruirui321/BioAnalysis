@@ -22,6 +22,11 @@ Reusable repository files must use anonymized examples such as `Arabidopsis_thal
 | `01_preprocessing/01_nt_decontaminate_contigs.sh` | Reference-derived; cleaned wrapper | Run local NT-based contig decontamination using user-supplied BLAST database and helper scripts. |
 | `02_assembly/assembly_stats.py` | Implemented and CLI verified | Compute assembly length, N50/L50, N90/L90, GC, and N statistics. |
 | `03_repeat/run_repeat_annotation_workflow.sh` | Implemented and CLI verified | Chain uppercase genome preparation, LTR discovery, RepeatModeler, LTR_retriever, TRF, and optional RepeatMasker summaries. |
+| `03_repeat/run_te_eve_postprocessing_workflow.sh` | Implemented and CLI verified | Chain TEsorter parsing, target-region TE summaries, RepeatMasker divergence summaries, and EVE/GEVE region standardization. |
+| `03_repeat/parse_tesorter_domains.py` | Implemented and CLI verified | Parse TEsorter domain FASTA headers into normalized domain and class summary tables. |
+| `03_repeat/summarize_tesorter_regions.py` | Implemented and CLI verified | Label parsed TEsorter domains by overlap with target EVE/GEVE regions and optional background regions. |
+| `03_repeat/summarize_te_divergence.py` | Implemented and CLI verified | Summarize RepeatMasker divergence and optional insertion-time estimates by repeat class and family. |
+| `03_repeat/standardize_eve_geve_regions.py` | Implemented and CLI verified | Standardize external EVE/GEVE region calls from BED, GFF, or TSV into BED and TSV handoffs. |
 | `03_repeat/LTR_Finder.sh` | Reference-derived; cleaned wrapper | Run `LTR_FINDER_parallel` from `PATH`. |
 | `03_repeat/LTR_harvest.sh` | Reference-derived; cleaned wrapper | Run GenomeTools suffixerator and LTRharvest from `PATH`. |
 | `03_repeat/work.sh` | Reference-derived; cleaned wrapper | Merge LTR candidates and run `LTR_retriever`. |
@@ -91,7 +96,7 @@ Reusable repository files must use anonymized examples such as `Arabidopsis_thal
 | purge_dups, NextPolish | Redundancy removal and polishing. |
 | HiC-Pro, chromap, HapHiC | Hi-C scaffolding. |
 | BUSCO, compleasm, Merqury | Assembly and annotation QC. |
-| LTR_FINDER_parallel, GenomeTools, LTR_retriever, RepeatModeler, RepeatMasker, TRF | Repeat annotation. |
+| LTR_FINDER_parallel, GenomeTools, LTR_retriever, RepeatModeler, RepeatMasker, TRF, TEsorter | Repeat annotation, TE-domain parsing, and divergence summaries. |
 | Introner-elements | Introner candidate discovery and filtering. |
 | BRAKER3, AUGUSTUS, GeneMark, gffread | Gene structure annotation. |
 | InterProScan, eggNOG-mapper, KofamScan, DIAMOND, BLASTP | Functional annotation and HGT hit generation. |

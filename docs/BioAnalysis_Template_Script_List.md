@@ -12,6 +12,11 @@ Status labels match [`../scripts/SCRIPT_SOURCES.md`](../scripts/SCRIPT_SOURCES.m
 | 01 preprocessing | `scripts/01_preprocessing/01_nt_decontaminate_contigs.sh` | Reference-derived; cleaned wrapper | Assembly FASTA, local NT database, taxonomy files, helper script directory | NT-filtered FASTA and N50 reports |
 | 02 assembly | `scripts/02_assembly/assembly_stats.py` | Implemented and CLI verified | Genome FASTA | Assembly stats TSV and optional per-sequence lengths |
 | 03 repeat | `scripts/03_repeat/run_repeat_annotation_workflow.sh` | Implemented and CLI verified | Genome FASTA and optional RepeatMasker output | Chained repeat annotation outputs and summaries |
+| 03 repeat | `scripts/03_repeat/run_te_eve_postprocessing_workflow.sh` | Implemented and CLI verified | TEsorter domains, target/EVE regions, RepeatMasker `.out` | Chained TE-domain, EVE/GEVE region, and divergence handoff tables |
+| 03 repeat | `scripts/03_repeat/parse_tesorter_domains.py` | Implemented and CLI verified | TEsorter domain FASTA | Normalized TE-domain table and domain summary |
+| 03 repeat | `scripts/03_repeat/summarize_tesorter_regions.py` | Implemented and CLI verified | Parsed TEsorter domains and target/background BED | Region-labeled TE-domain summary and details |
+| 03 repeat | `scripts/03_repeat/summarize_te_divergence.py` | Implemented and CLI verified | RepeatMasker `.out` | Per-repeat divergence table and class/family summary |
+| 03 repeat | `scripts/03_repeat/standardize_eve_geve_regions.py` | Implemented and CLI verified | External EVE/GEVE BED, GFF, or TSV | Standardized EVE/GEVE BED and TSV |
 | 03 repeat | `scripts/03_repeat/LTR_Finder.sh` | Reference-derived; cleaned wrapper | Uppercase genome FASTA | LTR_FINDER candidate file |
 | 03 repeat | `scripts/03_repeat/LTR_harvest.sh` | Reference-derived; cleaned wrapper | Uppercase genome FASTA | LTRharvest candidate file |
 | 03 repeat | `scripts/03_repeat/repeatmodeler.sh` | Reference-derived; cleaned wrapper | Uppercase genome FASTA | RepeatModeler libraries |

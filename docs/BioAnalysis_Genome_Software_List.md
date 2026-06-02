@@ -14,8 +14,10 @@ This document lists external tools, databases, and maintained helper scripts use
 | 02 assembly | BUSCO, compleasm, meryl, Merqury | Assembly and annotation QC | Record lineage/database versions. |
 | 02 assembly | `scripts/02_assembly/assembly_stats.py` | FASTA statistics | Produces summary and optional per-sequence length tables. |
 | 03 repeat | LTR_FINDER_parallel, GenomeTools, LTR_retriever | LTR discovery and curation | Use the same uppercase genome FASTA throughout. |
-| 03 repeat | RepeatModeler, RepeatMasker, TRF | Repeat library construction and masking | Keep known/unknown outputs traceable. |
-| 03 repeat | `scripts/03_repeat/run_repeat_annotation_workflow.sh`, `scripts/03_repeat/*.sh` | Chained repeat workflow and portable repeat wrappers | Tools must be available on `PATH`. |
+| 03 repeat | RepeatModeler, RepeatMasker, TRF | Repeat library construction, masking, and divergence summaries | Keep known/unknown outputs traceable. |
+| 03 repeat | TEsorter | TE protein-domain classification | Domain FASTA headers are parsed into stable BioAnalysis tables. |
+| 03 repeat | External EVE/GEVE callers | EVE/GEVE candidate region discovery | Installed separately; BioAnalysis standardizes BED/GFF/TSV handoff files only. |
+| 03 repeat | `scripts/03_repeat/run_repeat_annotation_workflow.sh`, `scripts/03_repeat/run_te_eve_postprocessing_workflow.sh`, `scripts/03_repeat/*.sh`, `scripts/03_repeat/*.py` | Chained repeat workflow, TE post-processing, and portable repeat wrappers | Tools must be available on `PATH`; external EVE/GEVE caller provenance stays in project notes. |
 | 04 GFF | BRAKER3, AUGUSTUS, GeneMark, gffread | Gene structure annotation and checks | GFF seqids must match genome FASTA. |
 | 04 GFF | `scripts/04_gff/gff_cds_pep.py` | Clean GFF/CDS/PEP extraction | Produces CDS QC tables. |
 | 05 genome features | bedtools, samtools | Window and coordinate operations | Track coordinate systems carefully. |
@@ -47,6 +49,8 @@ This document lists external tools, databases, and maintained helper scripts use
 | NT database | NA | NA | Required for decontamination. |
 | NCBI taxonomy tables | NA | NA | Required for NT/HGT taxonomy interpretation. |
 | blast2hgt accession/taxonomy database | NA | NA | Required for blast2hgt HGT screening. |
+| TEsorter and repeat-domain database | NA | NA | Required for Stage 03 TE-domain summaries. |
+| External EVE/GEVE caller | NA | NA | Record method, version, and filtering thresholds for standardized region handoffs. |
 | BUSCO lineage | embryophyta_odb10 | NA | Replace if needed. |
 | InterProScan databases | NA | NA | Fill per project. |
 | eggNOG database | NA | NA | Fill per project. |
