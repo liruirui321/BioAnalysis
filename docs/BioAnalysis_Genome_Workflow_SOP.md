@@ -23,7 +23,7 @@ Missing data must be recorded as `missing` or `not_tested`; it must not be inter
 06 functional annotation, COG/NOG summaries, and GO handoffs
 07 gene families, target-family discovery, expression evidence, and phylogeny helpers
 08 gene-family evolution with Count, CAFE, and target-family integration
-09 synteny and Circos links
+09 synteny context, MCScan/JCVI summaries, heatmaps, and Circos links
 10 HGT candidate screening and validation handoff
 11 visualization and final evidence tables
 ```
@@ -365,11 +365,22 @@ python3 scripts/08_gene_family_evolution/filter_cafe_families.py \
 
 QC requires tree tips to match count-matrix columns, rejected or filtered families to retain reasons, and Count/CAFE model assumptions to be recorded.
 
-## 09 Synteny and Circos links
+## 09 Synteny context, MCScan/JCVI summaries, heatmaps, and Circos links
 
-Use minimap2, WGDI/MCScanX/JCVI, and `scripts/09_synteny/anchors_to_circos_links.py`.
+Use minimap2, WGDI/MCScanX/JCVI, and `scripts/09_synteny/run_synteny_context_workflow.sh` to normalize synteny outputs, build heatmap-ready matrices, and compare synteny support in target regions versus background regions. Use `anchors_to_circos_links.py` when Circos link files are needed.
 
-QC requires chromosome ID consistency and in-bound coordinates across FASTA, GFF, BED, and link files.
+```bash
+bash scripts/09_synteny/run_synteny_context_workflow.sh \
+  --input Arabidopsis_thaliana.Arabidopsis_lyrata.anchors \
+  --format anchor \
+  --outdir synteny_context \
+  --pair-label Arabidopsis_thaliana.Arabidopsis_lyrata \
+  --gene-bed Arabidopsis_thaliana.gene.bed \
+  --target-bed Arabidopsis_thaliana.eve_geve_regions.bed \
+  --background-bed Arabidopsis_thaliana.callable_windows.bed
+```
+
+QC requires chromosome ID consistency, in-bound coordinates across FASTA/GFF/BED/link files, traceable MCScan/JCVI input format, and documented target/background region definitions.
 
 ## 10 HGT candidate screening and validation handoff
 

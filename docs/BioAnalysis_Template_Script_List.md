@@ -68,6 +68,10 @@ Status labels match [`../scripts/SCRIPT_SOURCES.md`](../scripts/SCRIPT_SOURCES.m
 | 08 gene-family evolution | `scripts/08_gene_family_evolution/integrate_target_family_evolution.py` | Implemented and CLI verified | Target-family evidence, orthogroups, family gain/loss table | Target-family evolution detail and summary tables |
 | 08 gene-family evolution | `scripts/08_gene_family_evolution/prepare_cafe_input.py` | Implemented and CLI verified | OrthoFinder count table, species tree | CAFE input table |
 | 08 gene-family evolution | `scripts/08_gene_family_evolution/filter_cafe_families.py` | Implemented and CLI verified | CAFE input table | Filtered and removed-family tables |
+| 09 synteny | `scripts/09_synteny/run_synteny_context_workflow.sh` | Implemented and CLI verified | MCScanX/JCVI synteny file, optional gene and region BED | Normalized synteny tables, heatmap matrix, and region synteny summaries |
+| 09 synteny | `scripts/09_synteny/summarize_mcscan_jcvi_synteny.py` | Implemented and CLI verified | Anchor/simple/table synteny file | Normalized synteny detail and pair summary tables |
+| 09 synteny | `scripts/09_synteny/build_synteny_heatmap_matrix.py` | Implemented and CLI verified | Synteny pair summary table | Heatmap-ready pairwise matrix |
+| 09 synteny | `scripts/09_synteny/compare_region_synteny.py` | Implemented and CLI verified | Normalized synteny table, gene BED, target/background BED | Target/background synteny support summary |
 | 09 synteny | `scripts/09_synteny/anchors_to_circos_links.py` | Implemented and CLI verified | Anchor/simple file and BED maps | Circos link file |
 | 10 HGT | `scripts/10_hgt/run_hgt_blast2hgt_workflow.sh` | Implemented and CLI verified | Query FASTA, NR BLAST/DIAMOND outputs or taxon-group DIAMOND databases, external blast2hgt directory | Chained HGT candidate, context, and validation outputs |
 | 10 HGT | `scripts/10_hgt/run_hgt_family_integration_workflow.sh` | Implemented and CLI verified | HGT candidates, optional donor taxonomy, orthogroups, target-family evidence, family gain/loss table | Refined donor and HGT-family evolution support summaries |

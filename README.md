@@ -62,7 +62,7 @@ Read the repository in this order:
 06 functional annotation, COG/NOG summaries, and GO handoffs
 07 gene families, target-family discovery, expression evidence, and phylogeny helpers
 08 gene-family evolution with Count, CAFE, and target-family integration
-09 synteny and Circos links
+09 synteny context, MCScan/JCVI summaries, heatmaps, and Circos links
 10 HGT candidate screening and validation handoff
 11 visualization reference helpers
 ```

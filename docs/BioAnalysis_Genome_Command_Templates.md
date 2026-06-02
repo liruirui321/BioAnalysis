@@ -191,7 +191,21 @@ python3 scripts/08_gene_family_evolution/integrate_target_family_evolution.py \
   --summary target_family_evolution_summary.tsv
 ```
 
-## 09 Synteny
+## 09 Synteny context, MCScan/JCVI summaries, and heatmap matrices
+
+```bash
+bash scripts/09_synteny/run_synteny_context_workflow.sh \
+  --input Arabidopsis_thaliana.Arabidopsis_lyrata.anchors \
+  --format anchor \
+  --outdir synteny_context \
+  --prefix Arabidopsis_thaliana.Arabidopsis_lyrata \
+  --pair-label Arabidopsis_thaliana.Arabidopsis_lyrata \
+  --matrix-metric blocks \
+  --symmetric \
+  --gene-bed Arabidopsis_thaliana.gene.bed \
+  --target-bed Arabidopsis_thaliana.eve_geve_regions.bed \
+  --background-bed Arabidopsis_thaliana.callable_windows.bed
+```
 
 ```bash
 python3 scripts/09_synteny/anchors_to_circos_links.py \

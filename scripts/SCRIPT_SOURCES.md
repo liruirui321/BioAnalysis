@@ -77,6 +77,10 @@ Reusable repository files must use anonymized examples such as `Arabidopsis_thal
 | `08_gene_family_evolution/integrate_target_family_evolution.py` | Implemented and CLI verified | Integrate target-family evidence with orthogroups and Count/CAFE gain-loss outputs. |
 | `08_gene_family_evolution/prepare_cafe_input.py` | Implemented and CLI verified | Convert OrthoFinder count tables to CAFE input. |
 | `08_gene_family_evolution/filter_cafe_families.py` | Implemented and CLI verified | Filter CAFE families and record removed-family reasons. |
+| `09_synteny/run_synteny_context_workflow.sh` | Implemented and CLI verified | Chain synteny normalization, heatmap matrix generation, and optional target/background region comparison. |
+| `09_synteny/summarize_mcscan_jcvi_synteny.py` | Implemented and CLI verified | Normalize MCScanX/JCVI anchor, simple, or table outputs into stable synteny summaries. |
+| `09_synteny/build_synteny_heatmap_matrix.py` | Implemented and CLI verified | Build pairwise heatmap-ready matrices from synteny summaries. |
+| `09_synteny/compare_region_synteny.py` | Implemented and CLI verified | Compare synteny support in target regions versus optional background regions. |
 | `09_synteny/anchors_to_circos_links.py` | Implemented and CLI verified | Convert synteny anchors/blocks to Circos links. |
 | `10_hgt/run_hgt_blast2hgt_workflow.sh` | Implemented and CLI verified | Chain NR hit input, blast2hgt handoff, candidate filtering, context annotation, and validation preparation. |
 | `10_hgt/run_hgt_family_integration_workflow.sh` | Implemented and CLI verified | Chain donor-taxonomy refinement and HGT-family evolution integration. |

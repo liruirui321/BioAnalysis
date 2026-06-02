@@ -66,6 +66,11 @@ check-doc-links:
 	@test -f scripts/08_gene_family_evolution/parse_count_gain_loss.py
 	@test -f scripts/08_gene_family_evolution/summarize_family_gain_loss.py
 	@test -f scripts/08_gene_family_evolution/integrate_target_family_evolution.py
+	@test -f scripts/09_synteny/run_synteny_context_workflow.sh
+	@test -f scripts/09_synteny/summarize_mcscan_jcvi_synteny.py
+	@test -f scripts/09_synteny/build_synteny_heatmap_matrix.py
+	@test -f scripts/09_synteny/compare_region_synteny.py
+	@test -f scripts/09_synteny/anchors_to_circos_links.py
 	@test -f scripts/10_hgt/run_hgt_blast2hgt_workflow.sh
 	@test -f scripts/10_hgt/run_hgt_family_integration_workflow.sh
 	@test -f scripts/10_hgt/00_run_blast2hgt_handoff.sh
@@ -156,6 +161,11 @@ check-script-help:
 	@python3 scripts/08_gene_family_evolution/integrate_target_family_evolution.py --help >/dev/null
 	@python3 scripts/08_gene_family_evolution/prepare_cafe_input.py --help >/dev/null
 	@python3 scripts/08_gene_family_evolution/filter_cafe_families.py --help >/dev/null
+	@bash scripts/09_synteny/run_synteny_context_workflow.sh --help >/dev/null
+	@python3 scripts/09_synteny/summarize_mcscan_jcvi_synteny.py --help >/dev/null
+	@python3 scripts/09_synteny/build_synteny_heatmap_matrix.py --help >/dev/null
+	@python3 scripts/09_synteny/compare_region_synteny.py --help >/dev/null
+	@python3 scripts/09_synteny/anchors_to_circos_links.py --help >/dev/null
 	@bash scripts/10_hgt/run_hgt_blast2hgt_workflow.sh --help >/dev/null
 	@bash scripts/10_hgt/run_hgt_family_integration_workflow.sh --help >/dev/null
 	@bash scripts/10_hgt/00_run_blast2hgt_handoff.sh --help >/dev/null

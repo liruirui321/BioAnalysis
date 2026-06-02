@@ -37,8 +37,8 @@ This document lists external tools, databases, and maintained helper scripts use
 | 08 gene-family evolution | Count | Gene-family gain/loss inference from count matrices and species trees | Validate Count output format before parsing. |
 | 08 gene-family evolution | CAFE/CAFE5 | Expansion/contraction analysis | Requires matching species tree and count matrix. |
 | 08 gene-family evolution | `scripts/08_gene_family_evolution/run_gene_family_evolution_workflow.sh`, `scripts/08_gene_family_evolution/*.py` | Chain Count input preparation, gain/loss parsing, CAFE input preparation, filtering, and target-family integration | Rejected or removed-family reasons are required; target-family orthogroup links must be traceable. |
-| 09 synteny | minimap2, WGDI, MCScanX, JCVI | Genome/protein synteny and dotplots | IDs must match between protein, GFF, and FASTA files. |
-| 09 synteny | `scripts/09_synteny/anchors_to_circos_links.py` | Convert anchors/blocks to Circos links | Validate coordinates against chromosome lengths. |
+| 09 synteny | minimap2, WGDI, MCScanX, JCVI | Genome/protein synteny, dotplots, and anchor/block files | IDs must match between protein, GFF, and FASTA files. |
+| 09 synteny | `scripts/09_synteny/run_synteny_context_workflow.sh`, `scripts/09_synteny/*.py` | Normalize anchors/blocks, build heatmap matrices, compare target/background regions, and convert Circos links | Validate coordinates against chromosome lengths and document source format. |
 | 10 HGT | DIAMOND/BLASTP against NR or another broad local database | HGT similarity-search input generation | Use BLAST outfmt 6 with e-value and bitscore columns. |
 | 10 HGT | blast2hgt with configured accession/taxonomy database | HGT candidate screening and taxonomy-group signal table | External tool; first `--define` group is treated as self/vertical lineage. Database credentials and private paths stay outside the repository. |
 | 10 HGT | donor taxonomy or lineage tables | Donor refinement for candidate interpretation | Optional local tables; record source and rank used. |

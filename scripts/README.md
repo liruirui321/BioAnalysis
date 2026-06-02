@@ -14,7 +14,7 @@ common/              shared FASTA/GFF/TSV helpers
 06_annotation/       functional annotation parsing, COG/NOG summaries, and GO handoffs
 07_gene_family/      gene-family analysis, target-family discovery, expression, alignments, and tree helpers
 08_gene_family_evolution/ Count/CAFE gene-family gain, loss, expansion, contraction, and target-family integration
-09_synteny/          synteny and Circos link conversion
+09_synteny/          synteny context, MCScan/JCVI summaries, heatmaps, and Circos links
 10_hgt/              HGT candidate screening and validation handoff
 11_visualization/    reference-derived visualization helpers
 ```
