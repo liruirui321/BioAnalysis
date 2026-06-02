@@ -16,7 +16,7 @@ Missing data must be recorded as `missing` or `not_tested`; it must not be inter
 
 ```text
 01 preprocessing and contamination screening
-02 assembly and assembly QC
+02 assembly QC and independent BUSCO/LAI/Merqury QV assessments
 03 repeat annotation, TE post-processing, and EVE/GEVE region handoffs
 04 GFF/CDS/PEP extraction and structure statistics
 05 genome features, introns, region context, methylation, and introner evidence
@@ -65,18 +65,57 @@ Arabidopsis_thaliana_rm/Arabidopsis_thaliana.nt.fa.n50
 - Inspect removed contigs before treating the filtered FASTA as final.
 - Do not commit private database paths or real sample IDs to this repository.
 
-## 02 Assembly and assembly QC
+## 02 Assembly QC and independent BUSCO/LAI/Merqury QV assessments
 
-Use external assemblers such as hifiasm, NextDenovo, SPAdes, or Canu. Use `scripts/02_assembly/assembly_stats.py` to produce standardized assembly statistics.
+Use external assemblers such as hifiasm, NextDenovo, SPAdes, or Canu. Use `scripts/02_assembly/assembly_stats.py` to produce standardized assembly statistics. Run BUSCO, LAI, and Merqury QV as separate assessment scripts so each result can be rerun, skipped, or summarized independently.
 
 ```bash
 python3 scripts/02_assembly/assembly_stats.py \
   --fasta Arabidopsis_thaliana.genome.fa \
   --out Arabidopsis_thaliana.assembly.stats.tsv \
   --lengths Arabidopsis_thaliana.assembly.lengths.tsv
+
+bash scripts/02_assembly/run_busco_qc_workflow.sh \
+  --input Arabidopsis_thaliana.genome.fa \
+  --lineage embryophyta_odb10 \
+  --outdir busco_qc \
+  --sample Arabidopsis_thaliana \
+  --mode genome \
+  --threads 20 \
+  --offline \
+  --force
+
+bash scripts/02_assembly/run_lai_qc_workflow.sh \
+  --genome Arabidopsis_thaliana.genome.fa \
+  --outdir lai_qc \
+  --prefix Arabidopsis_thaliana \
+  --threads 20 \
+  --max-length 7000 \
+  --min-length 100 \
+  --min-similarity 85
+
+bash scripts/02_assembly/run_merqury_qv_workflow.sh \
+  --genome Arabidopsis_thaliana.genome.fa \
+  --read Arabidopsis_thaliana.reads_1.fq.gz \
+  --read Arabidopsis_thaliana.reads_2.fq.gz \
+  --outdir merqury_qv \
+  --prefix Arabidopsis_thaliana \
+  --kmer 21 \
+  --best-k
 ```
 
-QC requires non-empty FASTA, unique sequence IDs, plausible total length, and retained assembly logs.
+Expected handoff files:
+
+```text
+*.assembly.stats.tsv
+*.assembly.lengths.tsv
+busco_qc/*.busco_summary.tsv
+busco_qc/*.assembly_stats.tsv
+lai_qc/*.lai_summary.tsv
+merqury_qv/*.merqury_qv_summary.tsv
+```
+
+QC requires non-empty FASTA, unique sequence IDs, plausible total length, retained assembly logs, documented BUSCO lineage, documented LAI parameter thresholds, documented Merqury k-mer choice, and local database/tool versions recorded in project run notes.
 
 ## 03 Repeat annotation, TE post-processing, and EVE/GEVE handoffs
 

@@ -11,8 +11,11 @@ This document lists external tools, databases, and maintained helper scripts use
 | 01 preprocessing | `scripts/01_preprocessing/01_nt_decontaminate_contigs.sh` | Portable wrapper for NT-based contig filtering | Requires local helper scripts supplied with `--script-dir`. |
 | 02 assembly | hifiasm, NextDenovo, SPAdes, Canu | Genome assembly | Choose based on sequencing technology and project design. |
 | 02 assembly | purge_dups, NextPolish, HiC-Pro, chromap, HapHiC | Purging, polishing, and scaffolding | Record assembly version after every major change. |
-| 02 assembly | BUSCO, compleasm, meryl, Merqury | Assembly and annotation QC | Record lineage/database versions. |
-| 02 assembly | `scripts/02_assembly/assembly_stats.py` | FASTA statistics | Produces summary and optional per-sequence length tables. |
+| 02 assembly | BUSCO and BUSCO lineage datasets | Genome/protein/transcript completeness assessment | Run with `run_busco_qc_workflow.sh`; record lineage and BUSCO database version. |
+| 02 assembly | GenomeTools, LTR_FINDER_parallel, LTR_retriever | LAI assessment | Run with `run_lai_qc_workflow.sh`; record LTR length and similarity thresholds. |
+| 02 assembly | meryl, Merqury, read FASTQ/FASTA files | Assembly k-mer QV and completeness assessment | Run with `run_merqury_qv_workflow.sh`; record k-mer choice and read sources. |
+| 02 assembly | compleasm | Optional assembly and annotation QC | Installed separately; record lineage/database versions when used. |
+| 02 assembly | `scripts/02_assembly/assembly_stats.py`, `scripts/02_assembly/run_busco_qc_workflow.sh`, `scripts/02_assembly/run_lai_qc_workflow.sh`, `scripts/02_assembly/run_merqury_qv_workflow.sh`, `scripts/02_assembly/*.py` | FASTA statistics and independent assembly assessment summaries | BUSCO, LAI, and Merqury QV are separate scripts, not one combined driver. |
 | 03 repeat | LTR_FINDER_parallel, GenomeTools, LTR_retriever | LTR discovery and curation | Use the same uppercase genome FASTA throughout. |
 | 03 repeat | RepeatModeler, RepeatMasker, TRF | Repeat library construction, masking, and divergence summaries | Keep known/unknown outputs traceable. |
 | 03 repeat | TEsorter | TE protein-domain classification | Domain FASTA headers are parsed into stable BioAnalysis tables. |
@@ -58,6 +61,8 @@ This document lists external tools, databases, and maintained helper scripts use
 | TEsorter and repeat-domain database | NA | NA | Required for Stage 03 TE-domain summaries. |
 | External EVE/GEVE caller | NA | NA | Record method, version, and filtering thresholds for standardized region handoffs. |
 | BUSCO lineage | embryophyta_odb10 | NA | Replace if needed. |
+| LAI toolchain | NA | NA | Record GenomeTools, LTR_FINDER_parallel, and LTR_retriever versions. |
+| Merqury and meryl | NA | NA | Required when Stage 02 Merqury QV summaries are used. |
 | InterProScan databases | NA | NA | Fill per project. |
 | eggNOG database | NA | NA | Fill per project. |
 | Kofam profiles | NA | NA | Fill per project. |

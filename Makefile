@@ -34,6 +34,13 @@ check-doc-links:
 	@test -f scripts/README.md
 	@test -f scripts/SCRIPT_SOURCES.md
 	@test -f scripts/01_preprocessing/01_nt_decontaminate_contigs.sh
+	@test -f scripts/02_assembly/assembly_stats.py
+	@test -f scripts/02_assembly/run_busco_qc_workflow.sh
+	@test -f scripts/02_assembly/run_lai_qc_workflow.sh
+	@test -f scripts/02_assembly/run_merqury_qv_workflow.sh
+	@test -f scripts/02_assembly/summarize_busco_results.py
+	@test -f scripts/02_assembly/summarize_lai_results.py
+	@test -f scripts/02_assembly/summarize_merqury_qv.py
 	@test -f scripts/03_repeat/run_repeat_annotation_workflow.sh
 	@test -f scripts/03_repeat/run_te_eve_postprocessing_workflow.sh
 	@test -f scripts/03_repeat/parse_tesorter_domains.py
@@ -127,6 +134,12 @@ check-numbered-layout:
 check-script-help:
 	@bash scripts/01_preprocessing/01_nt_decontaminate_contigs.sh --help >/dev/null
 	@python3 scripts/02_assembly/assembly_stats.py --help >/dev/null
+	@bash scripts/02_assembly/run_busco_qc_workflow.sh --help >/dev/null
+	@bash scripts/02_assembly/run_lai_qc_workflow.sh --help >/dev/null
+	@bash scripts/02_assembly/run_merqury_qv_workflow.sh --help >/dev/null
+	@python3 scripts/02_assembly/summarize_busco_results.py --help >/dev/null
+	@python3 scripts/02_assembly/summarize_lai_results.py --help >/dev/null
+	@python3 scripts/02_assembly/summarize_merqury_qv.py --help >/dev/null
 	@bash scripts/03_repeat/LTR_Finder.sh --help >/dev/null
 	@bash scripts/03_repeat/LTR_harvest.sh --help >/dev/null
 	@bash scripts/03_repeat/run_repeat_annotation_workflow.sh --help >/dev/null

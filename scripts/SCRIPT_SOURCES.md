@@ -21,6 +21,12 @@ Reusable repository files must use anonymized examples such as `Arabidopsis_thal
 |---|---|---|
 | `01_preprocessing/01_nt_decontaminate_contigs.sh` | Reference-derived; cleaned wrapper | Run local NT-based contig decontamination using user-supplied BLAST database and helper scripts. |
 | `02_assembly/assembly_stats.py` | Implemented and CLI verified | Compute assembly length, N50/L50, N90/L90, GC, and N statistics. |
+| `02_assembly/run_busco_qc_workflow.sh` | Implemented and CLI verified | Run or summarize BUSCO assessment independently and optionally write assembly/N50 stats. |
+| `02_assembly/summarize_busco_results.py` | Implemented and CLI verified | Summarize BUSCO short_summary JSON/TXT outputs into a stable TSV. |
+| `02_assembly/run_lai_qc_workflow.sh` | Implemented and CLI verified | Run or summarize LAI assessment independently using GenomeTools, LTR_FINDER_parallel, and LTR_retriever. |
+| `02_assembly/summarize_lai_results.py` | Implemented and CLI verified | Summarize LTR_retriever LAI output files into a stable TSV. |
+| `02_assembly/run_merqury_qv_workflow.sh` | Implemented and CLI verified | Run or summarize Merqury QV assessment independently using meryl and merqury.sh. |
+| `02_assembly/summarize_merqury_qv.py` | Implemented and CLI verified | Summarize Merqury QV and completeness outputs into a stable TSV. |
 | `03_repeat/run_repeat_annotation_workflow.sh` | Implemented and CLI verified | Chain uppercase genome preparation, LTR discovery, RepeatModeler, LTR_retriever, TRF, and optional RepeatMasker summaries. |
 | `03_repeat/run_te_eve_postprocessing_workflow.sh` | Implemented and CLI verified | Chain TEsorter parsing, target-region TE summaries, RepeatMasker divergence summaries, and EVE/GEVE region standardization. |
 | `03_repeat/parse_tesorter_domains.py` | Implemented and CLI verified | Parse TEsorter domain FASTA headers into normalized domain and class summary tables. |

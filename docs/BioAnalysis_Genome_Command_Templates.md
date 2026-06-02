@@ -16,7 +16,7 @@ bash scripts/01_preprocessing/01_nt_decontaminate_contigs.sh \
   --threshold 0.5
 ```
 
-## 02 Assembly QC
+## 02 Assembly QC and assessment
 
 ```bash
 python3 scripts/02_assembly/assembly_stats.py \
@@ -24,6 +24,48 @@ python3 scripts/02_assembly/assembly_stats.py \
   --out Arabidopsis_thaliana.assembly.stats.tsv \
   --lengths Arabidopsis_thaliana.assembly.lengths.tsv
 ```
+
+### BUSCO genome assessment
+
+```bash
+bash scripts/02_assembly/run_busco_qc_workflow.sh \
+  --input Arabidopsis_thaliana.genome.fa \
+  --lineage embryophyta_odb10 \
+  --outdir busco_qc \
+  --sample Arabidopsis_thaliana \
+  --mode genome \
+  --threads 20 \
+  --offline \
+  --force
+```
+
+### LAI assessment
+
+```bash
+bash scripts/02_assembly/run_lai_qc_workflow.sh \
+  --genome Arabidopsis_thaliana.genome.fa \
+  --outdir lai_qc \
+  --prefix Arabidopsis_thaliana \
+  --threads 20 \
+  --max-length 7000 \
+  --min-length 100 \
+  --min-similarity 85
+```
+
+### Merqury QV assessment
+
+```bash
+bash scripts/02_assembly/run_merqury_qv_workflow.sh \
+  --genome Arabidopsis_thaliana.genome.fa \
+  --read Arabidopsis_thaliana.reads_1.fq.gz \
+  --read Arabidopsis_thaliana.reads_2.fq.gz \
+  --outdir merqury_qv \
+  --prefix Arabidopsis_thaliana \
+  --kmer 21 \
+  --best-k
+```
+
+Use each assessment script independently; do not chain BUSCO, LAI, and Merqury QV into a single driver.
 
 ## 03 Repeat annotation
 

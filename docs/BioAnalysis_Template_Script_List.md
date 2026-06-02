@@ -11,6 +11,12 @@ Status labels match [`../scripts/SCRIPT_SOURCES.md`](../scripts/SCRIPT_SOURCES.m
 | common | `scripts/common/bioio.py` | Maintained helper library | FASTA/GFF/TSV paths | Shared IO functions for Python scripts |
 | 01 preprocessing | `scripts/01_preprocessing/01_nt_decontaminate_contigs.sh` | Reference-derived; cleaned wrapper | Assembly FASTA, local NT database, taxonomy files, helper script directory | NT-filtered FASTA and N50 reports |
 | 02 assembly | `scripts/02_assembly/assembly_stats.py` | Implemented and CLI verified | Genome FASTA | Assembly stats TSV and optional per-sequence lengths |
+| 02 assembly | `scripts/02_assembly/run_busco_qc_workflow.sh` | Implemented and CLI verified | Genome/protein/transcript FASTA or BUSCO short summaries | BUSCO summary TSV and optional assembly stats |
+| 02 assembly | `scripts/02_assembly/summarize_busco_results.py` | Implemented and CLI verified | BUSCO short_summary JSON/TXT | Stable BUSCO summary TSV |
+| 02 assembly | `scripts/02_assembly/run_lai_qc_workflow.sh` | Implemented and CLI verified | Genome FASTA or existing LAI outputs | LAI work directory and summary TSV |
+| 02 assembly | `scripts/02_assembly/summarize_lai_results.py` | Implemented and CLI verified | LTR_retriever LAI output files | Stable LAI summary TSV |
+| 02 assembly | `scripts/02_assembly/run_merqury_qv_workflow.sh` | Implemented and CLI verified | Genome FASTA plus read files, or existing Merqury outputs | Merqury work directory and QV summary TSV |
+| 02 assembly | `scripts/02_assembly/summarize_merqury_qv.py` | Implemented and CLI verified | Merqury QV/completeness output files | Stable Merqury QV summary TSV |
 | 03 repeat | `scripts/03_repeat/run_repeat_annotation_workflow.sh` | Implemented and CLI verified | Genome FASTA and optional RepeatMasker output | Chained repeat annotation outputs and summaries |
 | 03 repeat | `scripts/03_repeat/run_te_eve_postprocessing_workflow.sh` | Implemented and CLI verified | TEsorter domains, target/EVE regions, RepeatMasker `.out` | Chained TE-domain, EVE/GEVE region, and divergence handoff tables |
 | 03 repeat | `scripts/03_repeat/parse_tesorter_domains.py` | Implemented and CLI verified | TEsorter domain FASTA | Normalized TE-domain table and domain summary |
