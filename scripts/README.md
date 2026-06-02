@@ -9,7 +9,7 @@ common/              shared FASTA/GFF/TSV helpers
 01_preprocessing/    input QC and NT-based contamination-screening wrappers
 02_assembly/         assembly statistics and QC helpers
 03_repeat/           repeat annotation, TE post-processing, and EVE/GEVE handoffs
-04_gff/              GFF/CDS/PEP extraction and QC
+04_gff/              GFF/CDS/PEP extraction, structure statistics, QC, and plot handoffs
 05_genome_features/  intron, introner, region-context, and methylation evidence tracks
 06_annotation/       functional annotation parsing, COG/NOG summaries, and GO handoffs
 07_gene_family/      gene-family analysis, target-family discovery, expression, alignments, and tree helpers

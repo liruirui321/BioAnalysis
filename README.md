@@ -57,7 +57,7 @@ Read the repository in this order:
 01 preprocessing and contamination screening
 02 assembly statistics and QC helpers
 03 repeat annotation, TE post-processing, and EVE/GEVE region handoffs
-04 GFF/CDS/PEP extraction
+04 GFF/CDS/PEP extraction and structure statistics
 05 genome features, introns, region context, and methylation workflows
 06 functional annotation, COG/NOG summaries, and GO handoffs
 07 gene families, target-family discovery, expression evidence, and phylogeny helpers

@@ -18,7 +18,7 @@ Missing data must be recorded as `missing` or `not_tested`; it must not be inter
 01 preprocessing and contamination screening
 02 assembly and assembly QC
 03 repeat annotation, TE post-processing, and EVE/GEVE region handoffs
-04 GFF/CDS/PEP extraction
+04 GFF/CDS/PEP extraction and structure statistics
 05 genome features, introns, region context, methylation, and introner evidence
 06 functional annotation, COG/NOG summaries, and GO handoffs
 07 gene families, target-family discovery, expression evidence, and phylogeny helpers
@@ -128,14 +128,23 @@ bash scripts/03_repeat/run_te_eve_postprocessing_workflow.sh \
 
 QC requires non-empty LTR candidate files, repeat libraries, RepeatMasker `.out`, repeat GFF3, repeat coverage summaries, valid target/background BED coordinates, documented EVE/GEVE caller provenance, and TEsorter/RepeatMasker database-version notes.
 
-## 04 GFF/CDS/PEP extraction
+## 04 GFF/CDS/PEP extraction and structure statistics
 
-Use `scripts/04_gff/gff_cds_pep.py` after gene structure annotation to produce clean downstream files.
+Use `scripts/04_gff/gff_cds_pep.py` after gene structure annotation to produce clean downstream files. Use `scripts/04_gff/run_gff_structure_workflow.sh` to summarize gene-structure distributions and prepare plot-ready handoff tables across one or more species.
 
 ```bash
 python3 scripts/04_gff/gff_cds_pep.py \
   --manifest manifest.tsv \
   --outdir gff_cds_pep_outputs
+
+bash scripts/04_gff/run_gff_structure_workflow.sh \
+  --gff Arabidopsis_thaliana.annotation.primary.gff3 \
+  --species Arabidopsis_thaliana \
+  --genome Arabidopsis_thaliana.genome.fa \
+  --compare-species Arabidopsis_lyrata \
+  --compare-gff Arabidopsis_lyrata.annotation.primary.gff3 \
+  --outdir gff_structure \
+  --prefix Arabidopsis_thaliana.gff_structure
 ```
 
 Expected handoff files:
@@ -144,9 +153,15 @@ Expected handoff files:
 Arabidopsis_thaliana.annotation.primary.gff3
 Arabidopsis_thaliana.cds.primary.fa
 Arabidopsis_thaliana.protein.primary.fa
+gff_structure/*.metrics.tsv
+gff_structure/*.distributions.tsv
+gff_structure/*.feature_summary.tsv
+gff_structure/*.chrom_summary.tsv
+gff_structure/*.qc.tsv
+gff_structure/*.plot_handoff.*.tsv
 ```
 
-QC requires matching FASTA/GFF seqids and reviewed CDS check tables.
+QC requires matching FASTA/GFF seqids, reviewed CDS check tables, no unresolved duplicate IDs, valid Parent links, no out-of-bound coordinates when genome FASTA is supplied, and documented comparison-species GFF versions.
 
 ## 05 Genome features, introns, region context, methylation, and introner evidence
 

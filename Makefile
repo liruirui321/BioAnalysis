@@ -40,6 +40,11 @@ check-doc-links:
 	@test -f scripts/03_repeat/summarize_tesorter_regions.py
 	@test -f scripts/03_repeat/summarize_te_divergence.py
 	@test -f scripts/03_repeat/standardize_eve_geve_regions.py
+	@test -f scripts/04_gff/gff_cds_pep.py
+	@test -f scripts/04_gff/run_gff_structure_workflow.sh
+	@test -f scripts/04_gff/summarize_gff_structure.py
+	@test -f scripts/04_gff/prepare_gff_structure_plot_handoff.py
+	@test -f scripts/04_gff/plot_gff_structure.R
 	@test -f scripts/05_genome_features/run_genome_features_workflow.sh
 	@test -f scripts/05_genome_features/run_region_context_workflow.sh
 	@test -f scripts/05_genome_features/extract_introns.py
@@ -130,6 +135,11 @@ check-script-help:
 	@python3 scripts/03_repeat/summarize_tesorter_regions.py --help >/dev/null
 	@python3 scripts/03_repeat/summarize_te_divergence.py --help >/dev/null
 	@python3 scripts/03_repeat/standardize_eve_geve_regions.py --help >/dev/null
+	@python3 scripts/04_gff/gff_cds_pep.py --help >/dev/null
+	@bash scripts/04_gff/run_gff_structure_workflow.sh --help >/dev/null
+	@python3 scripts/04_gff/summarize_gff_structure.py --help >/dev/null
+	@python3 scripts/04_gff/prepare_gff_structure_plot_handoff.py --help >/dev/null
+	@Rscript scripts/04_gff/plot_gff_structure.R --help >/dev/null
 	@bash scripts/05_genome_features/run_genome_features_workflow.sh --help >/dev/null
 	@bash scripts/05_genome_features/run_region_context_workflow.sh --help >/dev/null
 	@python3 scripts/05_genome_features/extract_introns.py --help >/dev/null

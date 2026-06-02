@@ -25,6 +25,10 @@ Status labels match [`../scripts/SCRIPT_SOURCES.md`](../scripts/SCRIPT_SOURCES.m
 | 03 repeat | `scripts/03_repeat/repeat_stat.sh` | Reference-derived; review before use | RepeatMasker `.out`, genome size | Repeat coverage summary |
 | 03 repeat | `scripts/03_repeat/trf.sh` | Reference-derived; cleaned wrapper | Genome FASTA | TRF `.dat` and optional GFF3 |
 | 04 GFF | `scripts/04_gff/gff_cds_pep.py` | Implemented and CLI verified | Genome FASTA, annotation GFF, manifest | Clean GFF/CDS/PEP and CDS QC tables |
+| 04 GFF | `scripts/04_gff/run_gff_structure_workflow.sh` | Implemented and CLI verified | Main GFF and optional comparison GFFs or manifest | Chained GFF structure statistics, QC tables, plot handoff tables, and optional R plots |
+| 04 GFF | `scripts/04_gff/summarize_gff_structure.py` | Implemented and CLI verified | GFF/GFF3 and optional genome FASTA | Gene/transcript/exon/CDS/intron/isoform metrics, distributions, chromosome summaries, feature summaries, and QC |
+| 04 GFF | `scripts/04_gff/prepare_gff_structure_plot_handoff.py` | Implemented and CLI verified | GFF structure metrics and distributions | Plot-ready metric matrix and long distribution table |
+| 04 GFF | `scripts/04_gff/plot_gff_structure.R` | Implemented and CLI verified | GFF structure metrics and distributions | Optional base-R PDF feature-count and distribution plots |
 | 05 genome features | `scripts/05_genome_features/run_genome_features_workflow.sh` | Implemented and CLI verified | Annotation GFF, genome FASTA, optional Introner-elements inputs | Chained intron outputs and optional introner candidate workflow |
 | 05 genome features | `scripts/05_genome_features/run_region_context_workflow.sh` | Implemented and CLI verified | Target BED, optional feature track, optional Bismark CX report | Feature enrichment and methylation metaprofile handoff tables |
 | 05 genome features | `scripts/05_genome_features/compare_region_feature_enrichment.py` | Implemented and CLI verified | Target/background BED and feature BED/GFF | Feature overlap, coverage, and enrichment summary |

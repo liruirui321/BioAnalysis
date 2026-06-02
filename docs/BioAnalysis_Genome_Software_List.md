@@ -19,7 +19,8 @@ This document lists external tools, databases, and maintained helper scripts use
 | 03 repeat | External EVE/GEVE callers | EVE/GEVE candidate region discovery | Installed separately; BioAnalysis standardizes BED/GFF/TSV handoff files only. |
 | 03 repeat | `scripts/03_repeat/run_repeat_annotation_workflow.sh`, `scripts/03_repeat/run_te_eve_postprocessing_workflow.sh`, `scripts/03_repeat/*.sh`, `scripts/03_repeat/*.py` | Chained repeat workflow, TE post-processing, and portable repeat wrappers | Tools must be available on `PATH`; external EVE/GEVE caller provenance stays in project notes. |
 | 04 GFF | BRAKER3, AUGUSTUS, GeneMark, gffread | Gene structure annotation and checks | GFF seqids must match genome FASTA. |
-| 04 GFF | `scripts/04_gff/gff_cds_pep.py` | Clean GFF/CDS/PEP extraction | Produces CDS QC tables. |
+| 04 GFF | Rscript | Optional base-R GFF structure plots | TSV handoff tables are produced without R; PDF plotting is optional. |
+| 04 GFF | `scripts/04_gff/gff_cds_pep.py`, `scripts/04_gff/run_gff_structure_workflow.sh`, `scripts/04_gff/*.py`, `scripts/04_gff/*.R` | Clean GFF/CDS/PEP extraction, structure statistics, QC, plot-ready handoffs, and optional R plots | Produces CDS QC tables plus gene/transcript/exon/CDS/intron/isoform summaries. |
 | 05 genome features | bedtools, samtools | Window and coordinate operations | Track coordinate systems carefully. |
 | 05 genome features | Bismark | Cytosine methylation CX reports | BioAnalysis summarizes local CX reports; alignment and methylation extraction happen outside the helper scripts. |
 | 05 genome features | Introner-elements | Introner candidate workflow | External tool; provide local path at runtime. |
