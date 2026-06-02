@@ -49,7 +49,10 @@ Reusable repository files must use anonymized examples such as `Arabidopsis_thal
 | `06_annotation/summarize_kegg_pathways.py` | Implemented and CLI verified | Map KO annotations to pathways and report pathway counts and unmapped KOs. |
 | `06_annotation/summarize_pfam_domains.py` | Implemented and CLI verified | Produce long gene-to-Pfam and Pfam count tables. |
 | `06_annotation/summarize_domain_architecture.py` | Implemented and CLI verified | Summarize ordered Pfam domain architectures from parsed InterProScan output. |
+| `06_annotation/summarize_eggnog_categories.py` | Implemented and CLI verified | Summarize eggNOG-mapper COG/NOG category assignments into gene-level and category-level tables. |
 | `06_annotation/enrich_annotation_terms.py` | Implemented and CLI verified | Run GO, KEGG, or Pfam overrepresentation tests for foreground gene sets. |
+| `06_annotation/prepare_go_semantic_handoff.py` | Implemented and CLI verified | Prepare GO enrichment results for external semantic-space visualization tools. |
+| `06_annotation/run_go_enrichment_plot_handoff.sh` | Implemented and CLI verified | Chain GO enrichment and semantic-visualization handoff table preparation. |
 | `07_gene_family/run_gene_family_workflow.sh` | Implemented and CLI verified | Chain optional FASTA prefixing, OrthoFinder handoff, family summaries, member extraction, and supermatrix handoff. |
 | `07_gene_family/prefix_fasta_ids.py` | Implemented and CLI verified | Prefix FASTA IDs and write an ID map. |
 | `07_gene_family/summarize_orthofinder_gene_families.py` | Implemented and CLI verified | Summarize OrthoFinder families by copy number, occupancy, and selected family classes. |
@@ -103,7 +106,8 @@ Reusable repository files must use anonymized examples such as `Arabidopsis_thal
 | Introner-elements | Introner candidate discovery and filtering. |
 | Bismark | Cytosine methylation CX reports for region metaprofiles. |
 | BRAKER3, AUGUSTUS, GeneMark, gffread | Gene structure annotation. |
-| InterProScan, eggNOG-mapper, KofamScan, DIAMOND, BLASTP | Functional annotation and HGT hit generation. |
+| InterProScan, eggNOG-mapper, KofamScan, DIAMOND, BLASTP | Functional annotation, COG/NOG summaries, and HGT hit generation. |
+| Semantic GO plotting tools | Optional external visualization from GO handoff tables. |
 | blast2hgt | HGT candidate screening from BLAST hits and taxonomy-group lineages. |
 | GO, KEGG, Pfam, and pathway mapping tables | Downstream annotation summaries and enrichment. |
 | OrthoFinder | Orthogroups and gene-family count matrices. |

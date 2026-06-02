@@ -39,7 +39,10 @@ Status labels match [`../scripts/SCRIPT_SOURCES.md`](../scripts/SCRIPT_SOURCES.m
 | 06 annotation | `scripts/06_annotation/summarize_kegg_pathways.py` | Implemented and CLI verified | Functional annotation table and KO-to-pathway map | Gene-to-pathway table, pathway counts, unmapped KO report |
 | 06 annotation | `scripts/06_annotation/summarize_pfam_domains.py` | Implemented and CLI verified | Functional annotation table | Gene-to-Pfam table and Pfam count summary |
 | 06 annotation | `scripts/06_annotation/summarize_domain_architecture.py` | Implemented and CLI verified | Parsed InterProScan table | Per-query Pfam architecture and architecture summary |
+| 06 annotation | `scripts/06_annotation/summarize_eggnog_categories.py` | Implemented and CLI verified | eggNOG-mapper/emapper output | Gene-to-category and COG/NOG category summary tables |
 | 06 annotation | `scripts/06_annotation/enrich_annotation_terms.py` | Implemented and CLI verified | Functional annotation table and foreground gene IDs | GO/KEGG/Pfam enrichment table |
+| 06 annotation | `scripts/06_annotation/prepare_go_semantic_handoff.py` | Implemented and CLI verified | GO enrichment results | Plot-ready GO semantic handoff table |
+| 06 annotation | `scripts/06_annotation/run_go_enrichment_plot_handoff.sh` | Implemented and CLI verified | Functional annotation table and foreground IDs | GO enrichment and semantic-plot handoff outputs |
 | 06 annotation | `scripts/06_annotation/kegg/*.pl` | Reference-derived; review before use | KEGG/pathway inputs | KEGG helper outputs |
 | 07 gene family | `scripts/07_gene_family/run_gene_family_workflow.sh` | Implemented and CLI verified | OrthoFinder count table and optional protein/alignment inputs | Chained gene-family summary, member extraction, and supermatrix handoffs |
 | 07 gene family | `scripts/07_gene_family/prefix_fasta_ids.py` | Implemented and CLI verified | Protein FASTA | Prefixed FASTA and ID map |

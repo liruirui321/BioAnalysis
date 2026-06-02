@@ -20,7 +20,7 @@ Missing data must be recorded as `missing` or `not_tested`; it must not be inter
 03 repeat annotation, TE post-processing, and EVE/GEVE region handoffs
 04 GFF/CDS/PEP extraction
 05 genome features, introns, region context, methylation, and introner evidence
-06 functional annotation and downstream term summaries
+06 functional annotation, COG/NOG summaries, and GO handoffs
 07 gene families, orthogroups, and phylogeny helpers
 08 gene-family evolution with Count and CAFE
 09 synteny and Circos links
@@ -209,9 +209,9 @@ The abstract method is:
 
 QC requires valid BED coordinate systems, comparable target/background region definitions, Bismark CX coverage thresholds, tool-version notes, candidate-count summaries, and manual review of high-confidence introner candidates.
 
-## 06 Functional annotation and downstream term summaries
+## 06 Functional annotation, COG/NOG summaries, and GO handoffs
 
-Functional annotation combines InterProScan, eggNOG, KofamScan, DIAMOND/BLASTP, and maintained parser scripts. Use `scripts/06_annotation/run_functional_annotation_workflow.sh` as the primary stage driver when multiple annotation inputs are available.
+Functional annotation combines InterProScan, eggNOG, KofamScan, DIAMOND/BLASTP, and maintained parser scripts. Use `scripts/06_annotation/run_functional_annotation_workflow.sh` as the primary stage driver when multiple annotation inputs are available. Use `scripts/06_annotation/run_go_enrichment_plot_handoff.sh` when a foreground gene set needs GO enrichment plus a semantic-plot handoff table.
 
 ```bash
 python3 scripts/06_annotation/parse_interproscan_tsv.py --input Arabidopsis_thaliana.interproscan.tsv --out Arabidopsis_thaliana.iprscan.xls
@@ -240,15 +240,29 @@ python3 scripts/06_annotation/summarize_kegg_pathways.py \
   --gene2pathway Arabidopsis_thaliana.gene2pathway.tsv \
   --unmapped Arabidopsis_thaliana.kegg.unmapped_ko.tsv
 
+python3 scripts/06_annotation/summarize_eggnog_categories.py \
+  --eggnog Arabidopsis_thaliana.eggnog.tsv \
+  --out Arabidopsis_thaliana.eggnog_category_summary.tsv \
+  --gene2category Arabidopsis_thaliana.gene2eggnog_category.tsv
+
 python3 scripts/06_annotation/summarize_domain_architecture.py \
   --iprscan Arabidopsis_thaliana.iprscan.xls \
   --out Arabidopsis_thaliana.domain_architecture.tsv \
   --summary Arabidopsis_thaliana.domain_architecture_summary.tsv
 ```
 
-Use `scripts/06_annotation/enrich_annotation_terms.py` for simple foreground-vs-background overrepresentation tests when a target gene list is already defined.
+Use `scripts/06_annotation/enrich_annotation_terms.py` for simple foreground-vs-background overrepresentation tests when a target gene list is already defined. Use the GO handoff driver when downstream semantic-space plotting is planned:
 
-Unannotated genes should remain in merged tables with `NA` fields. Term-map sources and foreground/background gene lists must be recorded in project run notes.
+```bash
+bash scripts/06_annotation/run_go_enrichment_plot_handoff.sh \
+  --annotation Arabidopsis_thaliana.functional_annotation.tsv \
+  --foreground gained_family_genes.ids \
+  --background all_tested_genes.ids \
+  --outdir go_plot_handoff \
+  --go-names refs/go_term_names.tsv
+```
+
+Unannotated genes should remain in merged tables with `NA` fields. Term-map sources, eggNOG database versions, foreground/background gene lists, and external GO visualization tools must be recorded in project run notes.
 
 ## 07 Gene families, orthogroups, and phylogeny helpers
 

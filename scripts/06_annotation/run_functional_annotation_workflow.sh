@@ -8,7 +8,7 @@ Usage: run_functional_annotation_workflow.sh --gff annotation.gff3 --outdir anno
 Chain the Stage 06 functional-annotation workflow:
   1. Parse InterProScan and KofamScan outputs when supplied.
   2. Merge structural, CDS QC, InterPro/Pfam, eggNOG, Kofam, SwissProt, and NR annotations.
-  3. Summarize GO, Pfam, KEGG pathway, and Pfam domain-architecture outputs when inputs are available.
+  3. Summarize GO, Pfam, KEGG pathway, eggNOG COG/NOG category, and Pfam domain-architecture outputs when inputs are available.
   4. Optionally run GO/KEGG/Pfam enrichment for a foreground gene list.
 
 Required:
@@ -140,6 +140,13 @@ if [[ -n "$ko_map" ]]; then
   kegg_args=(--annotation "$annotation" --ko-map "$ko_map" --out "$outdir_abs/${prefix}.kegg.pathway_counts.tsv" --gene2pathway "$outdir_abs/${prefix}.gene2pathway.tsv" --unmapped "$outdir_abs/${prefix}.kegg.unmapped_ko.tsv")
   [[ -n "$pathway_names" ]] && kegg_args+=(--pathway-names "$pathway_names")
   "$python_cmd" "$script_dir/summarize_kegg_pathways.py" "${kegg_args[@]}"
+fi
+
+if [[ -n "$eggnog" ]]; then
+  "$python_cmd" "$script_dir/summarize_eggnog_categories.py" \
+    --eggnog "$eggnog" \
+    --out "$outdir_abs/${prefix}.eggnog_category_summary.tsv" \
+    --gene2category "$outdir_abs/${prefix}.gene2eggnog_category.tsv"
 fi
 
 if [[ -n "$iprscan_parsed" ]]; then

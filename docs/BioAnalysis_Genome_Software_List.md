@@ -24,10 +24,11 @@ This document lists external tools, databases, and maintained helper scripts use
 | 05 genome features | Bismark | Cytosine methylation CX reports | BioAnalysis summarizes local CX reports; alignment and methylation extraction happen outside the helper scripts. |
 | 05 genome features | Introner-elements | Introner candidate workflow | External tool; provide local path at runtime. |
 | 05 genome features | `scripts/05_genome_features/run_genome_features_workflow.sh`, `scripts/05_genome_features/run_region_context_workflow.sh`, `scripts/05_genome_features/*.py` | Chained intron, region-context, methylation, and optional introner workflow outputs | BED output is 0-based half-open; CX coverage thresholds must be recorded. |
-| 06 annotation | InterProScan, eggNOG-mapper, KofamScan | Functional annotation | Keep database versions and thresholds. |
+| 06 annotation | InterProScan, eggNOG-mapper, KofamScan | Functional annotation and COG/NOG category summaries | Keep database versions and thresholds. |
 | 06 annotation | DIAMOND, BLASTP | SwissProt/NR/HGT similarity searches | Use explicit output fields and sorting rules. |
 | 06 annotation | GO, KEGG, Pfam, and pathway mapping tables | Downstream term summaries and enrichment | Record term-map source and version in project notes. |
-| 06 annotation | `scripts/06_annotation/run_functional_annotation_workflow.sh`, `scripts/06_annotation/*.py` | Chain parsing, merging, summaries, and enrichment for annotation tables | Missing annotations remain `NA`. |
+| 06 annotation | Optional semantic GO plotting tools | GO enrichment visualization | BioAnalysis writes handoff tables only; plotting tools are installed separately. |
+| 06 annotation | `scripts/06_annotation/run_functional_annotation_workflow.sh`, `scripts/06_annotation/run_go_enrichment_plot_handoff.sh`, `scripts/06_annotation/*.py` | Chain parsing, merging, summaries, enrichment, and GO plot handoffs for annotation tables | Missing annotations remain `NA`; external plotting dependencies are not vendored. |
 | 06 annotation | `scripts/06_annotation/kegg/*.pl` | Reference KEGG/pathway helpers | Review input formats before use. |
 | 07 gene family | OrthoFinder | Orthogroups and gene-family count matrices | Run before alignment and tree-building helpers. |
 | 07 gene family | MAFFT, trimAl, RAxML, IQ-TREE, MrBayes | Alignment trimming and phylogenetic inference | Preserve logs, models, support values, and failed-family records. |
@@ -58,6 +59,7 @@ This document lists external tools, databases, and maintained helper scripts use
 | Kofam profiles | NA | NA | Fill per project. |
 | Bismark | NA | NA | Required when Stage 05 methylation CX summaries are used. |
 | GO ontology or GO mapping source | NA | NA | Fill per project. |
+| Semantic GO plotting tool | NA | NA | Optional external handoff for GO enrichment visualization. |
 | KEGG KO-to-pathway map | NA | NA | Fill per project. |
 | Pfam database | NA | NA | Fill per project. |
 | OrthoFinder | NA | NA | Fill per project. |

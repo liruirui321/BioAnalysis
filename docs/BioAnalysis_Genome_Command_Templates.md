@@ -112,6 +112,22 @@ bash scripts/06_annotation/run_functional_annotation_workflow.sh \
   --enrichment-term-column KEGG_ko
 ```
 
+### GO enrichment plot handoff
+
+```bash
+bash scripts/06_annotation/run_go_enrichment_plot_handoff.sh \
+  --annotation annotation_work/Arabidopsis_thaliana.functional_annotation.tsv \
+  --foreground gained_family_genes.ids \
+  --background all_tested_genes.ids \
+  --outdir go_plot_handoff \
+  --prefix Arabidopsis_thaliana.gained_families \
+  --go-names refs/go_term_names.tsv \
+  --q-value-cutoff 0.05 \
+  --max-terms 200
+```
+
+The handoff output is a plot-ready table for external semantic-space or enrichment-plot tools; plotting dependencies are not vendored.
+
 ## 07 Gene families, orthogroups, and phylogeny helpers
 
 ```bash

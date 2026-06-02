@@ -59,7 +59,7 @@ Read the repository in this order:
 03 repeat annotation, TE post-processing, and EVE/GEVE region handoffs
 04 GFF/CDS/PEP extraction
 05 genome features, introns, region context, and methylation workflows
-06 functional annotation and KEGG reference helpers
+06 functional annotation, COG/NOG summaries, and GO handoffs
 07 gene families, orthogroups, and phylogeny helpers
 08 gene-family evolution with Count and CAFE
 09 synteny and Circos links
