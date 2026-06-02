@@ -33,7 +33,14 @@ check-doc-links:
 	@test -f docs/BioAnalysis_Template_Script_List.md
 	@test -f scripts/README.md
 	@test -f scripts/SCRIPT_SOURCES.md
+	@test -f scripts/01_preprocessing/README.md
 	@test -f scripts/01_preprocessing/01_nt_decontaminate_contigs.sh
+	@test -f scripts/01_preprocessing/run_fastp_rna_read_filtering_workflow.sh
+	@test -f scripts/01_preprocessing/run_fastp_wgs_read_filtering_workflow.sh
+	@test -f scripts/01_preprocessing/run_trimmomatic_rna_read_filtering_workflow.sh
+	@test -f scripts/01_preprocessing/run_trimmomatic_wgs_read_filtering_workflow.sh
+	@test -f scripts/02_assembly/README.md
+	@test -f scripts/02_genome_survey/README.md
 	@test -f scripts/02_assembly/assembly_stats.py
 	@test -f scripts/02_genome_survey/run_genome_survey_workflow.sh
 	@test -f scripts/02_genome_survey/run_ploidyngs_workflow.sh
@@ -45,29 +52,38 @@ check-doc-links:
 	@test -f scripts/02_assembly/run_verkko_assembly.sh
 	@test -f scripts/02_assembly/run_yahs_scaffolding.sh
 	@test -f scripts/02_assembly/run_haphic_scaffolding.sh
+	@test -f scripts/02_assembly/run_pandepth_coverage_workflow.sh
+	@test -f scripts/02_assembly/run_gc_depth_workflow.sh
 	@test -f scripts/02_assembly/run_busco_qc_workflow.sh
 	@test -f scripts/02_assembly/run_lai_qc_workflow.sh
 	@test -f scripts/02_assembly/run_merqury_qv_workflow.sh
 	@test -f scripts/02_assembly/summarize_busco_results.py
 	@test -f scripts/02_assembly/summarize_lai_results.py
 	@test -f scripts/02_assembly/summarize_merqury_qv.py
+	@test -f scripts/03_repeat/README.md
 	@test -f scripts/03_repeat/run_repeat_annotation_workflow.sh
 	@test -f scripts/03_repeat/run_te_eve_postprocessing_workflow.sh
 	@test -f scripts/03_repeat/parse_tesorter_domains.py
 	@test -f scripts/03_repeat/summarize_tesorter_regions.py
 	@test -f scripts/03_repeat/summarize_te_divergence.py
 	@test -f scripts/03_repeat/standardize_eve_geve_regions.py
+	@test -f scripts/04_gene_prediction/README.md
+	@test -f scripts/04_gene_prediction/run_braker3_annotation_workflow.sh
+	@test -f scripts/04_gene_prediction/run_hisat2_rnaseq_alignment_workflow.sh
+	@test -f scripts/04_gff/README.md
 	@test -f scripts/04_gff/gff_cds_pep.py
 	@test -f scripts/04_gff/run_gff_structure_workflow.sh
 	@test -f scripts/04_gff/summarize_gff_structure.py
 	@test -f scripts/04_gff/prepare_gff_structure_plot_handoff.py
 	@test -f scripts/04_gff/plot_gff_structure.R
+	@test -f scripts/05_genome_features/README.md
 	@test -f scripts/05_genome_features/run_genome_features_workflow.sh
 	@test -f scripts/05_genome_features/run_region_context_workflow.sh
 	@test -f scripts/05_genome_features/extract_introns.py
 	@test -f scripts/05_genome_features/compare_region_feature_enrichment.py
 	@test -f scripts/05_genome_features/summarize_bismark_cx_regions.py
 	@test -f scripts/05_genome_features/run_introner_elements.sh
+	@test -f scripts/06_annotation/README.md
 	@test -f scripts/06_annotation/summarize_go_terms.py
 	@test -f scripts/06_annotation/summarize_kegg_pathways.py
 	@test -f scripts/06_annotation/summarize_pfam_domains.py
@@ -75,34 +91,47 @@ check-doc-links:
 	@test -f scripts/06_annotation/summarize_eggnog_categories.py
 	@test -f scripts/06_annotation/enrich_annotation_terms.py
 	@test -f scripts/06_annotation/prepare_go_semantic_handoff.py
+	@test -f scripts/06_annotation/run_kofam_annotation_workflow.sh
+	@test -f scripts/06_annotation/run_enrichpipeline_enrichment_workflow.sh
 	@test -f scripts/06_annotation/run_functional_annotation_workflow.sh
 	@test -f scripts/06_annotation/run_go_enrichment_plot_handoff.sh
+	@test -f scripts/07_gene_family/README.md
 	@test -f scripts/07_gene_family/run_gene_family_workflow.sh
 	@test -f scripts/07_gene_family/run_target_family_workflow.sh
 	@test -f scripts/07_gene_family/merge_target_family_evidence.py
 	@test -f scripts/07_gene_family/build_target_family_inputs.py
 	@test -f scripts/07_gene_family/summarize_gene_set_expression.py
 	@test -f scripts/07_gene_family/summarize_orthofinder_gene_families.py
+	@test -f scripts/08_gene_family_evolution/README.md
 	@test -f scripts/08_gene_family_evolution/run_gene_family_evolution_workflow.sh
 	@test -f scripts/08_gene_family_evolution/prepare_count_input.py
 	@test -f scripts/08_gene_family_evolution/parse_count_gain_loss.py
 	@test -f scripts/08_gene_family_evolution/summarize_family_gain_loss.py
 	@test -f scripts/08_gene_family_evolution/integrate_target_family_evolution.py
+	@test -f scripts/09_synteny/README.md
 	@test -f scripts/09_synteny/run_synteny_context_workflow.sh
 	@test -f scripts/09_synteny/summarize_mcscan_jcvi_synteny.py
 	@test -f scripts/09_synteny/build_synteny_heatmap_matrix.py
 	@test -f scripts/09_synteny/compare_region_synteny.py
 	@test -f scripts/09_synteny/anchors_to_circos_links.py
+	@test -f scripts/10_hgt/README.md
 	@test -f scripts/10_hgt/run_hgt_blast2hgt_workflow.sh
 	@test -f scripts/10_hgt/run_hgt_family_integration_workflow.sh
+	@test -f scripts/10_hgt/run_hgt_nr_taxonlist_workflow.sh
+	@test -f scripts/10_hgt/run_hgt_full_method_workflow.sh
 	@test -f scripts/10_hgt/00_run_blast2hgt_handoff.sh
 	@test -f scripts/10_hgt/filter_blast2hgt_candidates.py
+	@test -f scripts/10_hgt/build_hgt_condition_matrices.py
+	@test -f scripts/10_hgt/prepare_hgt_orthogroup_inputs.py
+	@test -f scripts/10_hgt/summarize_hgt_family_events.py
+	@test -f scripts/10_hgt/prepare_hgt_visualization_handoff.py
 	@test -f scripts/10_hgt/refine_hgt_donor_taxonomy.py
 	@test -f scripts/10_hgt/integrate_hgt_family_evolution.py
 	@test -f scripts/10_hgt/01_classify_hgt_hits.py
 	@test -f scripts/10_hgt/02_score_hgt_candidates.py
 	@test -f scripts/10_hgt/03_add_hgt_context.py
 	@test -f scripts/10_hgt/04_prepare_hgt_validation.py
+	@test -f scripts/11_visualization/README.md
 	@test -f scripts/11_visualization/run_visualization_handoff_workflow.sh
 	@test -f scripts/11_visualization/build_gene_set_matrix.py
 	@test -f scripts/11_visualization/prepare_family_visualization_matrices.py
@@ -114,7 +143,7 @@ check-cli-docs:
 	@! grep -R -n -E -- '--input_dir|--species_list|--out_fasta|--out_phylip|--max_copy|--min_species|--orthofinder_count|--species_tree' docs scripts
 
 check-english:
-	@! grep -R -n -P '[\x{4e00}-\x{9fff}]' README.md Makefile config docs scripts/README.md scripts/SCRIPT_SOURCES.md scripts/01_preprocessing scripts/02_assembly scripts/03_repeat scripts/04_gff scripts/05_genome_features scripts/06_annotation scripts/07_gene_family scripts/08_gene_family_evolution scripts/09_synteny scripts/10_hgt scripts/11_visualization --exclude-dir='__pycache__' --exclude='*.pl'
+	@! grep -R -n -P '[\x{4e00}-\x{9fff}]' README.md Makefile config docs scripts/README.md scripts/SCRIPT_SOURCES.md scripts/01_preprocessing scripts/02_genome_survey scripts/02_assembly scripts/03_repeat scripts/04_gene_prediction scripts/04_gff scripts/05_genome_features scripts/06_annotation scripts/07_gene_family scripts/08_gene_family_evolution scripts/09_synteny scripts/10_hgt scripts/11_visualization --exclude-dir='__pycache__' --exclude='*.pl'
 
 check-numbered-layout:
 	@test -d scripts/common
@@ -122,6 +151,7 @@ check-numbered-layout:
 	@test -d scripts/02_genome_survey
 	@test -d scripts/02_assembly
 	@test -d scripts/03_repeat
+	@test -d scripts/04_gene_prediction
 	@test -d scripts/04_gff
 	@test -d scripts/05_genome_features
 	@test -d scripts/06_annotation
@@ -144,6 +174,10 @@ check-numbered-layout:
 
 check-script-help:
 	@bash scripts/01_preprocessing/01_nt_decontaminate_contigs.sh --help >/dev/null
+	@bash scripts/01_preprocessing/run_fastp_rna_read_filtering_workflow.sh --help >/dev/null
+	@bash scripts/01_preprocessing/run_fastp_wgs_read_filtering_workflow.sh --help >/dev/null
+	@bash scripts/01_preprocessing/run_trimmomatic_rna_read_filtering_workflow.sh --help >/dev/null
+	@bash scripts/01_preprocessing/run_trimmomatic_wgs_read_filtering_workflow.sh --help >/dev/null
 	@python3 scripts/02_assembly/assembly_stats.py --help >/dev/null
 	@bash scripts/02_genome_survey/run_genome_survey_workflow.sh --help >/dev/null
 	@bash scripts/02_genome_survey/run_ploidyngs_workflow.sh --help >/dev/null
@@ -155,6 +189,8 @@ check-script-help:
 	@bash scripts/02_assembly/run_verkko_assembly.sh --help >/dev/null
 	@bash scripts/02_assembly/run_yahs_scaffolding.sh --help >/dev/null
 	@bash scripts/02_assembly/run_haphic_scaffolding.sh --help >/dev/null
+	@bash scripts/02_assembly/run_pandepth_coverage_workflow.sh --help >/dev/null
+	@bash scripts/02_assembly/run_gc_depth_workflow.sh --help >/dev/null
 	@bash scripts/02_assembly/run_busco_qc_workflow.sh --help >/dev/null
 	@bash scripts/02_assembly/run_lai_qc_workflow.sh --help >/dev/null
 	@bash scripts/02_assembly/run_merqury_qv_workflow.sh --help >/dev/null
@@ -169,6 +205,8 @@ check-script-help:
 	@python3 scripts/03_repeat/summarize_tesorter_regions.py --help >/dev/null
 	@python3 scripts/03_repeat/summarize_te_divergence.py --help >/dev/null
 	@python3 scripts/03_repeat/standardize_eve_geve_regions.py --help >/dev/null
+	@bash scripts/04_gene_prediction/run_braker3_annotation_workflow.sh --help >/dev/null
+	@bash scripts/04_gene_prediction/run_hisat2_rnaseq_alignment_workflow.sh --help >/dev/null
 	@python3 scripts/04_gff/gff_cds_pep.py --help >/dev/null
 	@bash scripts/04_gff/run_gff_structure_workflow.sh --help >/dev/null
 	@python3 scripts/04_gff/summarize_gff_structure.py --help >/dev/null
@@ -190,6 +228,8 @@ check-script-help:
 	@python3 scripts/06_annotation/summarize_eggnog_categories.py --help >/dev/null
 	@python3 scripts/06_annotation/enrich_annotation_terms.py --help >/dev/null
 	@python3 scripts/06_annotation/prepare_go_semantic_handoff.py --help >/dev/null
+	@bash scripts/06_annotation/run_kofam_annotation_workflow.sh --help >/dev/null
+	@bash scripts/06_annotation/run_enrichpipeline_enrichment_workflow.sh --help >/dev/null
 	@bash scripts/06_annotation/run_functional_annotation_workflow.sh --help >/dev/null
 	@bash scripts/06_annotation/run_go_enrichment_plot_handoff.sh --help >/dev/null
 	@bash scripts/07_gene_family/run_gene_family_workflow.sh --help >/dev/null
@@ -215,8 +255,14 @@ check-script-help:
 	@python3 scripts/09_synteny/anchors_to_circos_links.py --help >/dev/null
 	@bash scripts/10_hgt/run_hgt_blast2hgt_workflow.sh --help >/dev/null
 	@bash scripts/10_hgt/run_hgt_family_integration_workflow.sh --help >/dev/null
+	@bash scripts/10_hgt/run_hgt_nr_taxonlist_workflow.sh --help >/dev/null
+	@bash scripts/10_hgt/run_hgt_full_method_workflow.sh --help >/dev/null
 	@bash scripts/10_hgt/00_run_blast2hgt_handoff.sh --help >/dev/null
 	@python3 scripts/10_hgt/filter_blast2hgt_candidates.py --help >/dev/null
+	@python3 scripts/10_hgt/build_hgt_condition_matrices.py --help >/dev/null
+	@python3 scripts/10_hgt/prepare_hgt_orthogroup_inputs.py --help >/dev/null
+	@python3 scripts/10_hgt/summarize_hgt_family_events.py --help >/dev/null
+	@python3 scripts/10_hgt/prepare_hgt_visualization_handoff.py --help >/dev/null
 	@python3 scripts/10_hgt/refine_hgt_donor_taxonomy.py --help >/dev/null
 	@python3 scripts/10_hgt/integrate_hgt_family_evolution.py --help >/dev/null
 	@python3 scripts/10_hgt/01_classify_hgt_hits.py --help >/dev/null

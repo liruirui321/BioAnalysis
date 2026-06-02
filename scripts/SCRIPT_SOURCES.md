@@ -19,6 +19,10 @@ Reusable repository files must use anonymized examples such as `Arabidopsis_thal
 
 | Script | Status | Purpose |
 |---|---|---|
+| `01_preprocessing/run_fastp_rna_read_filtering_workflow.sh` | Reference-derived; cleaned wrapper | Run fastp filtering and optional FastQC on RNA-seq raw reads. |
+| `01_preprocessing/run_fastp_wgs_read_filtering_workflow.sh` | Reference-derived; cleaned wrapper | Run fastp filtering and optional FastQC on WGS raw reads. |
+| `01_preprocessing/run_trimmomatic_rna_read_filtering_workflow.sh` | Reference-derived; cleaned wrapper | Run Trimmomatic filtering on RNA-seq raw reads. |
+| `01_preprocessing/run_trimmomatic_wgs_read_filtering_workflow.sh` | Reference-derived; cleaned wrapper | Run Trimmomatic filtering on WGS raw reads. |
 | `01_preprocessing/01_nt_decontaminate_contigs.sh` | Reference-derived; cleaned wrapper | Run local NT-based contig decontamination using user-supplied BLAST database and helper scripts. |
 | `02_assembly/assembly_stats.py` | Implemented and CLI verified | Compute assembly length, N50/L50, N90/L90, GC, and N statistics. |
 | `02_genome_survey/run_genome_survey_workflow.sh` | Reference-derived; cleaned wrapper | Run independent Jellyfish, GenomeScope2, and optional Smudgeplot genome survey from read files. |
@@ -31,6 +35,8 @@ Reusable repository files must use anonymized examples such as `Arabidopsis_thal
 | `02_assembly/run_verkko_assembly.sh` | Reference-derived; cleaned wrapper | Run independent Verkko assembly from HiFi and optional ONT/Hi-C reads and expose stable FASTA/stat outputs. |
 | `02_assembly/run_yahs_scaffolding.sh` | Reference-derived; cleaned wrapper | Run independent YaHS Hi-C scaffolding from an existing assembly and Hi-C read pair. |
 | `02_assembly/run_haphic_scaffolding.sh` | Reference-derived; cleaned wrapper | Run independent HapHiC Hi-C scaffolding from an existing assembly and Hi-C read pair. |
+| `02_assembly/run_pandepth_coverage_workflow.sh` | Reference-derived; cleaned wrapper | Map WGS or long reads to an assembly and run PanDepth sliding-window coverage summaries. |
+| `02_assembly/run_gc_depth_workflow.sh` | Reference-derived; cleaned wrapper | Map WGS or long reads to an assembly and generate GC-depth coverage handoff files. |
 | `02_assembly/run_busco_qc_workflow.sh` | Implemented and CLI verified | Run or summarize BUSCO assessment independently and optionally write assembly/N50 stats. |
 | `02_assembly/summarize_busco_results.py` | Implemented and CLI verified | Summarize BUSCO short_summary JSON/TXT outputs into a stable TSV. |
 | `02_assembly/run_lai_qc_workflow.sh` | Implemented and CLI verified | Run or summarize LAI assessment independently using GenomeTools, LTR_FINDER_parallel, and LTR_retriever. |
@@ -50,6 +56,8 @@ Reusable repository files must use anonymized examples such as `Arabidopsis_thal
 | `03_repeat/trf.sh` | Reference-derived; cleaned wrapper | Run TRF and optional `trf2gff`. |
 | `03_repeat/rmout2gff.sh` | Reference-derived; review before use | Convert RepeatMasker `.out` to GFF3. |
 | `03_repeat/repeat_stat.sh` | Reference-derived; review before use | Summarize RepeatMasker coverage by repeat class. |
+| `04_gene_prediction/run_hisat2_rnaseq_alignment_workflow.sh` | Reference-derived; cleaned wrapper | Build RNA-seq BAM evidence with HISAT2 and samtools for gene prediction. |
+| `04_gene_prediction/run_braker3_annotation_workflow.sh` | Reference-derived; cleaned wrapper | Run BRAKER3 gene prediction from a soft-masked genome, protein evidence, and RNA-seq BAMs. |
 | `04_gff/gff_cds_pep.py` | Implemented and CLI verified | Extract clean GFF/CDS/PEP files and CDS QC tables. |
 | `04_gff/run_gff_structure_workflow.sh` | Implemented and CLI verified | Chain GFF structure statistics, multi-species comparison, plot-ready handoffs, and optional base-R plots. |
 | `04_gff/summarize_gff_structure.py` | Implemented and CLI verified | Summarize gene, transcript, exon, CDS, intron, isoform, chromosome, feature, QC metrics, and reference-style binned percent distributions from GFF/GFF3. |
@@ -61,6 +69,8 @@ Reusable repository files must use anonymized examples such as `Arabidopsis_thal
 | `05_genome_features/summarize_bismark_cx_regions.py` | Implemented and CLI verified | Summarize Bismark CX methylation over target regions using upstream/body/downstream bins. |
 | `05_genome_features/extract_introns.py` | Implemented and CLI verified | Infer introns, unique intron loci, short introns, and AT-rich intron summaries. |
 | `05_genome_features/run_introner_elements.sh` | Reference-derived; cleaned wrapper | Run an external Introner-elements workflow using user-supplied tool paths. |
+| `06_annotation/run_kofam_annotation_workflow.sh` | Reference-derived; cleaned wrapper | Run KofamScan exec_annotation, parse detail output, and write legacy KO aggregation. |
+| `06_annotation/run_enrichpipeline_enrichment_workflow.sh` | Reference-derived; cleaned wrapper | Run a user-supplied local EnrichPipeline installation for GO, KEGG, or IPR enrichment without vendoring the archive or databases. |
 | `06_annotation/run_functional_annotation_workflow.sh` | Implemented and CLI verified | Chain annotation parsing, merging, downstream term summaries, domain architecture summaries, and optional enrichment. |
 | `06_annotation/parse_interproscan_tsv.py` | Implemented and CLI verified | Parse InterProScan TSV into a compact annotation table. |
 | `06_annotation/parse_kofam_detail.py` | Implemented and CLI verified | Parse KofamScan detail output. |
@@ -102,7 +112,13 @@ Reusable repository files must use anonymized examples such as `Arabidopsis_thal
 | `09_synteny/build_synteny_heatmap_matrix.py` | Implemented and CLI verified | Build pairwise heatmap-ready matrices from synteny summaries. |
 | `09_synteny/compare_region_synteny.py` | Implemented and CLI verified | Compare synteny support in target regions versus optional background regions. |
 | `09_synteny/anchors_to_circos_links.py` | Implemented and CLI verified | Convert synteny anchors/blocks to Circos links. |
+| `10_hgt/run_hgt_nr_taxonlist_workflow.sh` | Reference-derived; cleaned wrapper | Run DIAMOND NR searches by taxonlist group for blast2hgt-compatible outfmt6 files. |
 | `10_hgt/run_hgt_blast2hgt_workflow.sh` | Implemented and CLI verified | Chain NR hit input, blast2hgt handoff, candidate filtering, context annotation, and validation preparation. |
+| `10_hgt/build_hgt_condition_matrices.py` | Implemented and CLI verified | Build comparable Condition1/Condition2 species HGT candidate tables and donor matrices from blast2hgt `.rp.tsv` inputs. |
+| `10_hgt/prepare_hgt_orthogroup_inputs.py` | Implemented and CLI verified | Prepare HGT gene-source IDs and optional HGT-only protein FASTA for HGT orthogroup clustering. |
+| `10_hgt/summarize_hgt_family_events.py` | Reference-derived; cleaned implementation | Summarize M1 gene-centric or M2 family-centric HGT-driven gain/expansion events from HGT/ALL orthogroups and count matrices. |
+| `10_hgt/prepare_hgt_visualization_handoff.py` | Implemented and CLI verified | Prepare plot-ready HGT species donor and node-event handoff tables. |
+| `10_hgt/run_hgt_full_method_workflow.sh` | Implemented and CLI verified | Chain HGT full-method handoffs from optional NR searches through Condition matrices, OG inputs, event summaries, and visualization tables. |
 | `10_hgt/run_hgt_family_integration_workflow.sh` | Implemented and CLI verified | Chain donor-taxonomy refinement and HGT-family evolution integration. |
 | `10_hgt/00_run_blast2hgt_handoff.sh` | Reference-derived; cleaned wrapper | Run a parameterized blast2hgt handoff from NR BLAST/DIAMOND outputs to taxonomy-group HGT tables. |
 | `10_hgt/filter_blast2hgt_candidates.py` | Implemented and CLI verified | Filter blast2hgt `.rp.tsv` output into candidate and rejected HGT tables. |
@@ -132,6 +148,7 @@ Reusable repository files must use anonymized examples such as `Arabidopsis_thal
 
 | Tool | Used for |
 |---|---|
+| fastp, FastQC, Trimmomatic, adapter FASTA files, Java | RNA/WGS raw-read filtering and QC. |
 | BLASTN, local NT database, accession-to-taxid table, lineage dump | Contig decontamination. |
 | Jellyfish, GenomeScope2, Smudgeplot | Genome survey and ploidy/heterozygosity estimation. |
 | ploidyNGS and Rscript | WGS/BAM ploidy estimation and histogram plotting. |
@@ -139,14 +156,16 @@ Reusable repository files must use anonymized examples such as `Arabidopsis_thal
 | seqkit | Optional read-length filtering before hifiasm. |
 | purge_dups, NextPolish | Redundancy removal and polishing. |
 | chromap, YaHS, HapHiC, samtools, bedtools | Hi-C scaffolding. |
+| BWA, minimap2, samtools, bedtools, PanDepth, GC-depth plotting script | Assembly coverage and GC-depth QC. |
 | BUSCO, compleasm, Merqury | Assembly and annotation QC. |
 | LTR_FINDER_parallel, GenomeTools, LTR_retriever, RepeatModeler, RepeatMasker, TRF, TEsorter | Repeat annotation, TE-domain parsing, and divergence summaries. |
 | Introner-elements | Introner candidate discovery and filtering. |
 | Bismark | Cytosine methylation CX reports for region metaprofiles. |
-| BRAKER3, AUGUSTUS, GeneMark, gffread | Gene structure annotation. |
-| InterProScan, eggNOG-mapper, KofamScan, DIAMOND, BLASTP | Functional annotation, COG/NOG summaries, and HGT hit generation. |
+| HISAT2, BRAKER3, AUGUSTUS, GeneMark, ProtHint, TSEBRA, gffread | RNA evidence alignment and gene structure annotation. |
+| InterProScan, eggNOG-mapper, KofamScan exec_annotation, DIAMOND, BLASTP | Functional annotation, COG/NOG summaries, KEGG/Kofam annotation, and HGT hit generation. |
+| Local EnrichPipeline installation and its GO/KEGG/IPR data resources | Optional GO, KEGG, and IPR enrichment execution from foreground gene lists. |
 | Semantic GO plotting tools | Optional external visualization from GO handoff tables. |
-| blast2hgt | HGT candidate screening from BLAST hits and taxonomy-group lineages. |
+| blast2hgt, local NR DIAMOND database, accession/taxonomy databases, HGT/ALL orthogroups, gene-count matrices, node/species parent lists | HGT candidate screening, comparable species matrices, and HGT-family gain/expansion event summaries. |
 | GO, KEGG, Pfam, and pathway mapping tables | Downstream annotation summaries and enrichment. |
 | OrthoFinder | Orthogroups and gene-family count matrices. |
 | RSEM or compatible TPM matrices | Expression evidence for target gene sets. |

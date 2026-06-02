@@ -9,6 +9,10 @@ Status labels match [`../scripts/SCRIPT_SOURCES.md`](../scripts/SCRIPT_SOURCES.m
 | Stage | Script | Status | Input | Output / handoff |
 |---|---|---|---|---|
 | common | `scripts/common/bioio.py` | Maintained helper library | FASTA/GFF/TSV paths | Shared IO functions for Python scripts |
+| 01 preprocessing | `scripts/01_preprocessing/run_fastp_rna_read_filtering_workflow.sh` | Reference-derived; cleaned wrapper | RNA-seq FASTQ and optional adapter FASTA | Clean RNA FASTQ, fastp reports, optional FastQC reports, manifest, and runtime log |
+| 01 preprocessing | `scripts/01_preprocessing/run_fastp_wgs_read_filtering_workflow.sh` | Reference-derived; cleaned wrapper | WGS FASTQ and optional adapter FASTA | Clean WGS FASTQ, fastp reports, optional FastQC reports, manifest, and runtime log |
+| 01 preprocessing | `scripts/01_preprocessing/run_trimmomatic_rna_read_filtering_workflow.sh` | Reference-derived; cleaned wrapper | RNA-seq FASTQ and optional adapter FASTA | Clean RNA FASTQ, Trimmomatic summary, work script, manifest, and runtime log |
+| 01 preprocessing | `scripts/01_preprocessing/run_trimmomatic_wgs_read_filtering_workflow.sh` | Reference-derived; cleaned wrapper | WGS FASTQ and optional adapter FASTA | Clean WGS FASTQ, Trimmomatic summary, work script, manifest, and runtime log |
 | 01 preprocessing | `scripts/01_preprocessing/01_nt_decontaminate_contigs.sh` | Reference-derived; cleaned wrapper | Assembly FASTA, local NT database, taxonomy files, helper script directory | NT-filtered FASTA and N50 reports |
 | 02 assembly | `scripts/02_assembly/assembly_stats.py` | Implemented and CLI verified | Genome FASTA | Assembly stats TSV and optional per-sequence lengths |
 | 02 genome survey | `scripts/02_genome_survey/run_genome_survey_workflow.sh` | Reference-derived; cleaned wrapper | Short-read FASTQ/FASTA files | Jellyfish k-mer database, histogram, GenomeScope2 output, optional Smudgeplot output, and manifest |
@@ -21,6 +25,8 @@ Status labels match [`../scripts/SCRIPT_SOURCES.md`](../scripts/SCRIPT_SOURCES.m
 | 02 assembly | `scripts/02_assembly/run_verkko_assembly.sh` | Reference-derived; cleaned wrapper | HiFi reads and optional ONT/Hi-C reads | Verkko assembly FASTA and assembly stats |
 | 02 assembly | `scripts/02_assembly/run_yahs_scaffolding.sh` | Reference-derived; cleaned wrapper | Assembly FASTA and Hi-C read pair | YaHS scaffold FASTA/AGP and scaffold stats |
 | 02 assembly | `scripts/02_assembly/run_haphic_scaffolding.sh` | Reference-derived; cleaned wrapper | Assembly FASTA, Hi-C read pair, and group count | HapHiC scaffold FASTA/AGP and scaffold stats |
+| 02 assembly | `scripts/02_assembly/run_pandepth_coverage_workflow.sh` | Reference-derived; cleaned wrapper | Genome FASTA plus WGS, HiFi, or ONT reads | PanDepth BAM, windows, coverage outputs, runtime log, and manifest |
+| 02 assembly | `scripts/02_assembly/run_gc_depth_workflow.sh` | Reference-derived; cleaned wrapper | Genome FASTA plus WGS, HiFi, or ONT reads | GC-depth BAM, coverage table, flagstat, plot, runtime log, and manifest |
 | 02 assembly | `scripts/02_assembly/run_busco_qc_workflow.sh` | Implemented and CLI verified | Genome/protein/transcript FASTA or BUSCO short summaries | BUSCO summary TSV and optional assembly stats |
 | 02 assembly | `scripts/02_assembly/summarize_busco_results.py` | Implemented and CLI verified | BUSCO short_summary JSON/TXT | Stable BUSCO summary TSV |
 | 02 assembly | `scripts/02_assembly/run_lai_qc_workflow.sh` | Implemented and CLI verified | Genome FASTA or existing LAI outputs | LAI work directory and summary TSV |
@@ -40,6 +46,8 @@ Status labels match [`../scripts/SCRIPT_SOURCES.md`](../scripts/SCRIPT_SOURCES.m
 | 03 repeat | `scripts/03_repeat/rmout2gff.sh` | Reference-derived; review before use | RepeatMasker `.out` | Repeat GFF3 |
 | 03 repeat | `scripts/03_repeat/repeat_stat.sh` | Reference-derived; review before use | RepeatMasker `.out`, genome size | Repeat coverage summary |
 | 03 repeat | `scripts/03_repeat/trf.sh` | Reference-derived; cleaned wrapper | Genome FASTA | TRF `.dat` and optional GFF3 |
+| 04 gene prediction | `scripts/04_gene_prediction/run_hisat2_rnaseq_alignment_workflow.sh` | Reference-derived; cleaned wrapper | Masked genome FASTA and paired RNA-seq reads | RNA evidence BAM/index, HISAT2 logs, runtime log, and manifest |
+| 04 gene prediction | `scripts/04_gene_prediction/run_braker3_annotation_workflow.sh` | Reference-derived; cleaned wrapper | Soft-masked genome FASTA, protein evidence, and RNA-seq BAMs | BRAKER3 GFF3/GTF/CDS/protein handoffs, runtime log, and manifest |
 | 04 GFF | `scripts/04_gff/gff_cds_pep.py` | Implemented and CLI verified | Genome FASTA, annotation GFF, manifest | Clean GFF/CDS/PEP and CDS QC tables |
 | 04 GFF | `scripts/04_gff/run_gff_structure_workflow.sh` | Implemented and CLI verified | Main GFF and optional comparison GFFs or manifest | Chained GFF structure statistics, QC tables, plot handoff tables, and optional R plots |
 | 04 GFF | `scripts/04_gff/summarize_gff_structure.py` | Implemented and CLI verified | GFF/GFF3 and optional genome FASTA | Gene/transcript/exon/CDS/intron/isoform metrics, raw distributions, reference-style binned percent distributions, chromosome summaries, feature summaries, and QC |
@@ -51,6 +59,8 @@ Status labels match [`../scripts/SCRIPT_SOURCES.md`](../scripts/SCRIPT_SOURCES.m
 | 05 genome features | `scripts/05_genome_features/summarize_bismark_cx_regions.py` | Implemented and CLI verified | Bismark CX report and target BED | CG/CHG/CHH methylation bin and context summaries |
 | 05 genome features | `scripts/05_genome_features/extract_introns.py` | Implemented and CLI verified | Annotation GFF, optional genome FASTA | Intron BED/TSV, unique loci, short introns, AT-rich summaries |
 | 05 genome features | `scripts/05_genome_features/run_introner_elements.sh` | Reference-derived; cleaned wrapper | GFF, directory list, external Introner-elements path | Introner candidate workflow outputs |
+| 06 annotation | `scripts/06_annotation/run_kofam_annotation_workflow.sh` | Reference-derived; cleaned wrapper | Protein FASTA and local KofamScan resources | Kofam detail output, parsed Kofam TSV, legacy KO aggregation, manifest, and runtime log |
+| 06 annotation | `scripts/06_annotation/run_enrichpipeline_enrichment_workflow.sh` | Reference-derived; cleaned wrapper | External EnrichPipeline directory, GO/KEGG/IPR mapping resources, and foreground gene list | Local GO/KEGG/IPR enrichment outputs, manifest, and runtime log |
 | 06 annotation | `scripts/06_annotation/run_functional_annotation_workflow.sh` | Implemented and CLI verified | GFF and optional database annotation outputs | Chained parsed, merged, term-summary, domain, and enrichment outputs |
 | 06 annotation | `scripts/06_annotation/parse_interproscan_tsv.py` | Implemented and CLI verified | InterProScan TSV | Parsed InterPro/Pfam table |
 | 06 annotation | `scripts/06_annotation/parse_kofam_detail.py` | Implemented and CLI verified | Kofam detail output | KO table |
@@ -93,7 +103,13 @@ Status labels match [`../scripts/SCRIPT_SOURCES.md`](../scripts/SCRIPT_SOURCES.m
 | 09 synteny | `scripts/09_synteny/build_synteny_heatmap_matrix.py` | Implemented and CLI verified | Synteny pair summary table | Heatmap-ready pairwise matrix |
 | 09 synteny | `scripts/09_synteny/compare_region_synteny.py` | Implemented and CLI verified | Normalized synteny table, gene BED, target/background BED | Target/background synteny support summary |
 | 09 synteny | `scripts/09_synteny/anchors_to_circos_links.py` | Implemented and CLI verified | Anchor/simple file and BED maps | Circos link file |
+| 10 HGT | `scripts/10_hgt/run_hgt_nr_taxonlist_workflow.sh` | Reference-derived; cleaned wrapper | Protein FASTA, local DIAMOND NR database, taxonlist groups | Taxon-group NR outfmt6 files, runtime log, and manifest |
 | 10 HGT | `scripts/10_hgt/run_hgt_blast2hgt_workflow.sh` | Implemented and CLI verified | Query FASTA, NR BLAST/DIAMOND outputs or taxon-group DIAMOND databases, external blast2hgt directory | Chained HGT candidate, context, and validation outputs |
+| 10 HGT | `scripts/10_hgt/build_hgt_condition_matrices.py` | Implemented and CLI verified | Species manifest of blast2hgt `.rp.tsv` inputs | Condition1/Condition2 candidates, donor matrices, ID lists, and summaries |
+| 10 HGT | `scripts/10_hgt/prepare_hgt_orthogroup_inputs.py` | Implemented and CLI verified | HGT candidates and optional protein FASTA | HGT gene-source lists, optional HGT-only protein FASTA, and manifest |
+| 10 HGT | `scripts/10_hgt/summarize_hgt_family_events.py` | Implemented and CLI verified | HGT/ALL orthogroups, count matrices, and node or species parent list | M1/M2 HGT-family event summaries, source breakdowns, and gain/expansion OG lists |
+| 10 HGT | `scripts/10_hgt/prepare_hgt_visualization_handoff.py` | Implemented and CLI verified | Condition donor matrix and optional M1/M2 node summaries | Plot-ready species donor and node-event handoff tables |
+| 10 HGT | `scripts/10_hgt/run_hgt_full_method_workflow.sh` | Implemented and CLI verified | Optional NR search inputs, species `.rp.tsv` manifest, HGT/ALL OG files, count matrices, and node list | Chained full-method HGT handoff outputs across screening, OG input, events, and visualization |
 | 10 HGT | `scripts/10_hgt/run_hgt_family_integration_workflow.sh` | Implemented and CLI verified | HGT candidates, optional donor taxonomy, orthogroups, target-family evidence, family gain/loss table | Refined donor and HGT-family evolution support summaries |
 | 10 HGT | `scripts/10_hgt/00_run_blast2hgt_handoff.sh` | Reference-derived; cleaned wrapper | Query FASTA, NR BLAST/DIAMOND outfmt 6 outputs, external blast2hgt directory | Blast2hgt `.rp.bls`, `.rp.taxid`, `.rp.lin`, and `.rp.tsv` files |
 | 10 HGT | `scripts/10_hgt/filter_blast2hgt_candidates.py` | Implemented and CLI verified | Blast2hgt `.rp.tsv` table | Candidate and rejected HGT tables |

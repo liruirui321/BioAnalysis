@@ -15,7 +15,7 @@ Missing data must be recorded as `missing` or `not_tested`; it must not be inter
 ## Workflow overview
 
 ```text
-01 preprocessing and contamination screening
+01 raw-read filtering, preprocessing, and contamination screening
 02 genome survey and ploidy estimation
 02 assembly, Hi-C scaffolding, statistics, and QC assessments
 03 repeat annotation, TE post-processing, and EVE/GEVE region handoffs
@@ -29,19 +29,41 @@ Missing data must be recorded as `missing` or `not_tested`; it must not be inter
 11 visualization matrices and final evidence tables
 ```
 
-## 01 Preprocessing and NT-based decontamination
+## 01 Raw-read filtering, preprocessing, and NT-based decontamination
 
 ### Purpose
 
-Screen assembly contigs against a local NT database and remove likely contaminant contigs using a local helper-script workflow. The repository stores only a portable wrapper; private database paths and helper-script locations must be supplied at runtime.
+Filter raw WGS and RNA-seq reads before downstream genome survey, assembly, coverage QC, RNA alignment, and gene prediction. Screen assembly contigs against a local NT database and remove likely contaminant contigs when a draft assembly is available. Private database paths, adapter FASTA files, and helper-script locations must be supplied at runtime.
 
-### Main script
+### Main scripts
 
 ```text
+scripts/01_preprocessing/run_fastp_rna_read_filtering_workflow.sh
+scripts/01_preprocessing/run_fastp_wgs_read_filtering_workflow.sh
+scripts/01_preprocessing/run_trimmomatic_rna_read_filtering_workflow.sh
+scripts/01_preprocessing/run_trimmomatic_wgs_read_filtering_workflow.sh
 scripts/01_preprocessing/01_nt_decontaminate_contigs.sh
 ```
 
-### Required inputs
+### Raw-read filtering examples
+
+```bash
+bash scripts/01_preprocessing/run_fastp_rna_read_filtering_workflow.sh \
+  --sample Arabidopsis_thaliana.flower \
+  --r1 Arabidopsis_thaliana.flower_R1.fq.gz \
+  --r2 Arabidopsis_thaliana.flower_R2.fq.gz \
+  --outdir rna_fastp \
+  --detect-adapter-for-pe
+
+bash scripts/01_preprocessing/run_trimmomatic_wgs_read_filtering_workflow.sh \
+  --sample Arabidopsis_thaliana.WGS \
+  --pe1 Arabidopsis_thaliana.WGS_R1.fq.gz \
+  --pe2 Arabidopsis_thaliana.WGS_R2.fq.gz \
+  --outdir wgs_trimmomatic \
+  --adapter-file refs/TruSeq3-PE.fa
+```
+
+### NT decontamination inputs
 
 ```text
 Arabidopsis_thaliana.assembly.fa
@@ -54,6 +76,16 @@ helper script directory containing cn50.py, length_by_seq.pl, get_cov_list_nt.pl
 ### Expected outputs
 
 ```text
+rna_fastp/*.rna.clean_R*.fastq.gz
+wgs_fastp/*.wgs.clean_R*.fastq.gz
+rna_trimmomatic/*.rna_*_paired.fq.gz
+wgs_trimmomatic/*.wgs_*_paired.fq.gz
+*/fastqc/*
+*.fastp.html
+*.fastp.json
+*.trimmomatic.summary
+*_manifest.tsv
+*_running_time.txt
 Arabidopsis_thaliana_rm/Arabidopsis_thaliana.n50
 Arabidopsis_thaliana_rm/Arabidopsis_thaliana.m6
 Arabidopsis_thaliana_rm/Arabidopsis_thaliana.nt.fa
@@ -62,9 +94,11 @@ Arabidopsis_thaliana_rm/Arabidopsis_thaliana.nt.fa.n50
 
 ### QC
 
+- Record raw-read source, adapter FASTA source, quality thresholds, and tool versions.
+- Confirm filtered read outputs are non-empty before passing WGS reads to Stage 02 or RNA reads to Stage 04 gene prediction.
 - Record NT database version and taxonomy-file versions in project run notes.
 - Inspect removed contigs before treating the filtered FASTA as final.
-- Do not commit private database paths or real sample IDs to this repository.
+- Do not commit private database paths, adapter paths, or real sample IDs to this repository.
 
 ## 02 Genome survey, ploidy estimation, assembly, Hi-C scaffolding, statistics, and QC assessments
 
@@ -88,11 +122,13 @@ scripts/02_assembly/run_canu_assembly.sh
 scripts/02_assembly/run_verkko_assembly.sh
 ```
 
-Maintained Hi-C scaffolding wrappers:
+Maintained Hi-C scaffolding and coverage wrappers:
 
 ```text
 scripts/02_assembly/run_yahs_scaffolding.sh
 scripts/02_assembly/run_haphic_scaffolding.sh
+scripts/02_assembly/run_pandepth_coverage_workflow.sh
+scripts/02_assembly/run_gc_depth_workflow.sh
 ```
 
 Representative commands:
@@ -166,6 +202,20 @@ bash scripts/02_assembly/run_haphic_scaffolding.sh \
   --groups 5 \
   --outdir haphic_scaffolding \
   --prefix Arabidopsis_thaliana
+
+bash scripts/02_assembly/run_pandepth_coverage_workflow.sh \
+  --genome Arabidopsis_thaliana.genome.fa \
+  --wgs-r1 Arabidopsis_thaliana.WGS_R1.fq.gz \
+  --wgs-r2 Arabidopsis_thaliana.WGS_R2.fq.gz \
+  --outdir pandepth_qc \
+  --output-name Arabidopsis_thaliana
+
+bash scripts/02_assembly/run_gc_depth_workflow.sh \
+  --genome Arabidopsis_thaliana.genome.fa \
+  --hifi Arabidopsis_thaliana.hifi.fa.gz \
+  --outdir gc_depth_qc \
+  --output-name Arabidopsis_thaliana \
+  --gc-depth-script gc_depth_analysis.py
 ```
 
 QC and assessment commands remain independent:
@@ -223,6 +273,13 @@ ploidy_ngs/*.ploidyNGS_MaxDepth100_MinCov0.tab
 *.yahs.agp
 *.haphic.scaffolds.fa
 *.haphic.agp
+*.pandepth.sorted.bam
+*.pandepth.windows.bed
+*.pandepth_manifest.tsv
+*.gc_depth.sorted.bam
+*.gc_depth.coverage.tsv
+*.gc_depth.png
+*.gc_depth_manifest.tsv
 busco_qc/*.busco_summary.tsv
 lai_qc/*.lai_summary.tsv
 merqury_qv/*.merqury_qv_summary.tsv
@@ -279,6 +336,48 @@ bash scripts/03_repeat/run_te_eve_postprocessing_workflow.sh \
 ```
 
 QC requires non-empty LTR candidate files, repeat libraries, RepeatMasker `.out`, repeat GFF3, repeat coverage summaries, valid target/background BED coordinates, documented EVE/GEVE caller provenance, and TEsorter/RepeatMasker database-version notes.
+
+## 04 Gene prediction and RNA evidence alignment
+
+Use `scripts/04_gene_prediction/run_hisat2_rnaseq_alignment_workflow.sh` to build RNA-seq BAM evidence for annotation. Use `scripts/04_gene_prediction/run_braker3_annotation_workflow.sh` to run BRAKER3 from a soft-masked genome, protein evidence, and RNA-seq BAMs. Keep tool paths, AUGUSTUS config, GeneMark, ProtHint, and TSEBRA locations as runtime arguments instead of committing local paths.
+
+```bash
+bash scripts/04_gene_prediction/run_hisat2_rnaseq_alignment_workflow.sh \
+  --masked-genome Arabidopsis_thaliana.genome.softmasked.fa \
+  --pe1 Arabidopsis_thaliana.flower_R1.fq.gz \
+  --pe2 Arabidopsis_thaliana.flower_R2.fq.gz \
+  --outdir rnaseq_alignment \
+  --output-name Arabidopsis_thaliana \
+  --threads 16 \
+  --dta
+
+bash scripts/04_gene_prediction/run_braker3_annotation_workflow.sh \
+  --genome Arabidopsis_thaliana.genome.softmasked.fa \
+  --proteins Arabidopsis_thaliana.related_species.proteins.fa \
+  --rnaseq-bam rnaseq_alignment/Arabidopsis_thaliana.rnaseq.sorted.bam \
+  --species Arabidopsis_thaliana \
+  --outdir braker3_annotation \
+  --prefix Arabidopsis_thaliana \
+  --rounds 20 \
+  --threads 20 \
+  --add-utr \
+  --augustus-config-source refs/augustus_config
+```
+
+Expected handoff files:
+
+```text
+rnaseq_alignment/*.rnaseq.sorted.bam
+rnaseq_alignment/*.rnaseq.sorted.bam.bai
+rnaseq_alignment/*.hisat2_rnaseq_manifest.tsv
+braker3_annotation/*.braker3.gff3
+braker3_annotation/*.braker3.gtf
+braker3_annotation/*.braker3.protein.fa
+braker3_annotation/*.braker3.cds.fa
+braker3_annotation/*.braker3_manifest.tsv
+```
+
+QC requires non-empty RNA evidence BAMs, matching genome and BAM reference names, documented RNA library sources, documented protein evidence source, writable AUGUSTUS config, retained BRAKER logs, and reviewed BRAKER GFF3 before downstream CDS/PEP extraction.
 
 ## 04 GFF/CDS/PEP extraction and structure statistics
 
@@ -381,12 +480,29 @@ QC requires valid BED coordinate systems, comparable target/background region de
 
 ## 06 Functional annotation, COG/NOG summaries, and GO handoffs
 
-Functional annotation combines InterProScan, eggNOG, KofamScan, DIAMOND/BLASTP, and maintained parser scripts. Use `scripts/06_annotation/run_functional_annotation_workflow.sh` as the primary stage driver when multiple annotation inputs are available. Use `scripts/06_annotation/run_go_enrichment_plot_handoff.sh` when a foreground gene set needs GO enrichment plus a semantic-plot handoff table.
+Functional annotation combines InterProScan, eggNOG, KofamScan, DIAMOND/BLASTP, optional local EnrichPipeline enrichment, and maintained parser scripts. Use `scripts/06_annotation/run_kofam_annotation_workflow.sh` to run KofamScan/KEGG annotation from protein FASTA when raw Kofam outputs are not already available. Use `scripts/06_annotation/run_functional_annotation_workflow.sh` as the primary stage driver when multiple annotation inputs are available. Use `scripts/06_annotation/run_enrichpipeline_enrichment_workflow.sh` only with a local external EnrichPipeline directory; do not commit the EnrichPipeline archive or extracted databases. Use `scripts/06_annotation/run_go_enrichment_plot_handoff.sh` when a foreground gene set needs GO enrichment plus a semantic-plot handoff table.
 
 ```bash
+bash scripts/06_annotation/run_kofam_annotation_workflow.sh \
+  --protein Arabidopsis_thaliana.protein.primary.fa \
+  --outdir kofam_annotation \
+  --prefix Arabidopsis_thaliana \
+  --exec-option "--profile refs/kofam/profiles" \
+  --exec-option "--ko-list refs/kofam/ko_list" \
+  --evalue 1e-5
+
 python3 scripts/06_annotation/parse_interproscan_tsv.py --input Arabidopsis_thaliana.interproscan.tsv --out Arabidopsis_thaliana.iprscan.xls
-python3 scripts/06_annotation/parse_kofam_detail.py --input Arabidopsis_thaliana.kofam.detail.txt --out Arabidopsis_thaliana.kofam.tsv
+python3 scripts/06_annotation/parse_kofam_detail.py --input kofam_annotation/Arabidopsis_thaliana.kofam.detail.txt --out Arabidopsis_thaliana.kofam.tsv
 python3 scripts/06_annotation/merge_function_annotations.py --gff Arabidopsis_thaliana.annotation.primary.gff3 --out Arabidopsis_thaliana.functional_annotation.tsv
+
+bash scripts/06_annotation/run_enrichpipeline_enrichment_workflow.sh \
+  --enrichpipeline-dir refs/EnrichPipeline \
+  --class KEGG \
+  --map-gene Arabidopsis_thaliana.KEGG.map.gene.txt \
+  --supply expanded_family_genes.ids \
+  --supply2 contracted_family_genes.ids \
+  --outdir enrichpipeline_kegg_exp_con \
+  --prefix Arabidopsis_thaliana.expansion_contraction
 ```
 
 After `functional_annotation.tsv` is available, summarize downstream terms for figures, enrichment tests, and family-level interpretation.
@@ -552,28 +668,44 @@ bash scripts/09_synteny/run_synteny_context_workflow.sh \
 
 QC requires chromosome ID consistency, in-bound coordinates across FASTA/GFF/BED/link files, traceable MCScan/JCVI input format, and documented target/background region definitions.
 
-## 10 HGT candidate screening and validation handoff
+## 10 HGT candidate screening, full-method event summaries, and validation handoff
 
-HGT screening starts by generating BLAST/DIAMOND similarity results against a broad local database such as NR, then uses the external `blast2hgt` workflow to convert those hits into taxonomy-group HGT candidate signals. BioAnalysis scripts then filter the `blast2hgt` table, add genome context, and prepare validation handoff files. The workflow does not download taxonomy or run remote services; the local `blast2hgt` installation and its accession/taxonomy database must be prepared outside this repository.
+HGT screening starts by generating BLAST/DIAMOND similarity results against a broad local database such as NR, then uses the external `blast2hgt` workflow to convert those hits into taxonomy-group HGT candidate signals. BioAnalysis separates single-species candidate validation from multi-species HGT-family event summaries. The workflow does not download taxonomy or run remote services; local NR, blast2hgt, accession/taxonomy databases, orthogroups, and node lists must be prepared outside this repository.
 
 Required inputs:
 
 ```text
-query protein, gene, or genomic FASTA
-split or concatenated BLAST outfmt 6 output from a broad local database such as NR
+query protein FASTA
+split or concatenated BLAST/DIAMOND outfmt 6 output from a broad local database such as NR
 local blast2hgt installation with configured accession/taxonomy database
 self/ingroup taxon group used as the first blast2hgt definition
 candidate donor taxon groups
-optional GFF, functional annotation, intron details, and synteny evidence
+species-to-rp.tsv manifest for comparable multi-species matrices
+Orthogroups.HGT.txt and Orthogroups.all.txt when running node HGT event summaries
+ALL and HGT gene-count matrices plus node/species parent lists
+optional GFF, functional annotation, intron details, synteny evidence, and protein FASTA
 ```
 
-Workflow:
+Main Stage 10 scripts:
+
+```text
+scripts/10_hgt/run_hgt_nr_taxonlist_workflow.sh
+scripts/10_hgt/run_hgt_blast2hgt_workflow.sh
+scripts/10_hgt/build_hgt_condition_matrices.py
+scripts/10_hgt/prepare_hgt_orthogroup_inputs.py
+scripts/10_hgt/summarize_hgt_family_events.py
+scripts/10_hgt/prepare_hgt_visualization_handoff.py
+scripts/10_hgt/run_hgt_full_method_workflow.sh
+scripts/10_hgt/run_hgt_family_integration_workflow.sh
+```
+
+Single-species blast2hgt screening and validation handoff:
 
 ```bash
 bash scripts/10_hgt/run_hgt_blast2hgt_workflow.sh \
   --query Arabidopsis_thaliana.protein.primary.fa \
   --blast2hgt-dir refs/blast2hgt \
-  --blast-glob 'Arabidopsis_thaliana.protein.primary.fa_*.nr.out' \
+  --blast-glob 'nr_by_taxon/Arabidopsis_thaliana_*.nr.out' \
   --outdir hgt_work \
   --self-group Brassicaceae=3700 \
   --define Viridiplantae=33090 \
@@ -582,7 +714,7 @@ bash scripts/10_hgt/run_hgt_blast2hgt_workflow.sh \
   --define bacteria=2 \
   --define Metazoa=33208 \
   --define virus=10239 \
-  --donor-groups bacteria,fungi,Metazoa \
+  --donor-groups bacteria,fungi,Metazoa,virus,archaea,other \
   --min-alien-index 0 \
   --min-donor-bitscore 50 \
   --min-donor-taxon-count 1 \
@@ -591,23 +723,48 @@ bash scripts/10_hgt/run_hgt_blast2hgt_workflow.sh \
   --intron-details Arabidopsis_thaliana.introns.details.tsv
 ```
 
-The driver can also create taxon-group DIAMOND outputs when supplied with `--diamond-db-dir` and repeated `--taxon` values. It then runs the blast2hgt handoff, filters `.rp.tsv` candidates, adds genome context when GFF is supplied, and prepares validation files.
-
-After HGT candidates exist, use `scripts/10_hgt/run_hgt_family_integration_workflow.sh` to refine donor taxonomy and join candidates with orthogroups, target-family evidence, and family-evolution calls:
+Comparable multi-species HGT full-method order:
 
 ```bash
-bash scripts/10_hgt/run_hgt_family_integration_workflow.sh \
-  --candidates hgt_work/Arabidopsis_thaliana.protein.primary.fa.hgt.candidates.tsv \
-  --outdir hgt_family_integration \
-  --taxonomy refs/hgt_candidate_donor_taxonomy.tsv \
-  --orthogroups Orthogroups.tsv \
-  --target-evidence target_family_work/Arabidopsis_thaliana.target_families.target_family_evidence.tsv \
-  --family-gain-loss family_gain_loss_summary.tsv
+python3 scripts/10_hgt/build_hgt_condition_matrices.py \
+  --species-manifest hgt_species_rp_manifest.tsv \
+  --outdir hgt_conditions \
+  --donor-groups bacteria,fungi,Metazoa,virus,archaea,other
+
+python3 scripts/10_hgt/prepare_hgt_orthogroup_inputs.py \
+  --candidates hgt_conditions/Condition2_HGT_candidates.tsv \
+  --protein Arabidopsis_thaliana.protein.primary.fa \
+  --outdir hgt_orthogroup_inputs \
+  --prefix tree_species.Condition2
+
+python3 scripts/10_hgt/summarize_hgt_family_events.py \
+  --method m2 \
+  --count-hgt Orthogroups.HGT.GeneCount.result.txt \
+  --count-all Orthogroups.all.GeneCount.result.txt \
+  --node-list node.list \
+  --txt-hgt Orthogroups.HGT.txt \
+  --txt-all Orthogroups.all.txt \
+  --outdir hgt_family_events_m2
+
+python3 scripts/10_hgt/prepare_hgt_visualization_handoff.py \
+  --condition-matrix hgt_conditions/Condition2_Matching_taxon_counts_matrix.tsv \
+  --event-summary hgt_family_events_m2/M2_Summary_Evolution.tsv \
+  --source-breakdown hgt_family_events_m2/M2_HGT_Source_Breakdown.tsv \
+  --outdir hgt_visualization \
+  --prefix tree_species.Condition2.M2
 ```
+
+Method definitions:
+
+- Condition1: `alien_index > 0` and `AI_taxon` is in the external donor whitelist.
+- Condition2: Condition1 plus `AI_taxon == h_taxon`.
+- M1 gene-centric: mark an ALL orthogroup as HGT when HGT genes are more than the configured family ratio cutoff.
+- M2 family-centric: map HGT-only orthogroups back to ALL orthogroups by best overlap, then count ALL-family gain/expansion events; this is the preferred event-summary method when HGT-only clustering is available.
 
 Interpretation rules:
 
 - Treat HGT calls as candidates until phylogenetic and contamination/context evidence are reviewed.
+- Node HGT numbers are family gain/expansion events, not sums of species-level HGT genes.
 - Mark ambiguous taxonomy as `unknown`.
 - Mark missing context data as `missing` or `not_tested`.
 - Do not treat lack of synteny or missing introns alone as HGT evidence.

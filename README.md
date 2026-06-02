@@ -54,10 +54,11 @@ Read the repository in this order:
 ## Workflow stages
 
 ```text
-01 preprocessing and contamination screening
+01 raw-read filtering, preprocessing, and contamination screening
 02 genome survey and ploidy estimation
 02 assembly, Hi-C scaffolding, statistics, and QC helpers
 03 repeat annotation, TE post-processing, and EVE/GEVE region handoffs
+04 gene prediction and RNA evidence alignment
 04 GFF/CDS/PEP extraction and structure statistics
 05 genome features, introns, region context, and methylation workflows
 06 functional annotation, COG/NOG summaries, and GO handoffs

@@ -1,15 +1,16 @@
 # BioAnalysis Scripts
 
-Scripts are organized by numbered workflow stage. Shared Python helpers remain in `common/` so maintained scripts can import `common.bioio` consistently.
+Scripts are organized by numbered workflow stage. Shared Python helpers remain in `common/` so maintained scripts can import `common.bioio` consistently. Each stage directory has its own `README.md` with the recommended run order, example commands, outputs, and QC checks.
 
 ## Layout
 
 ```text
 common/              shared FASTA/GFF/TSV helpers
-01_preprocessing/    input QC and NT-based contamination-screening wrappers
+01_preprocessing/    raw-read filtering, input QC, and NT-based contamination-screening wrappers
 02_genome_survey/    genome survey and ploidy estimation helpers
 02_assembly/         independent assembly, Hi-C scaffolding, statistics, and QC helpers
 03_repeat/           repeat annotation, TE post-processing, and EVE/GEVE handoffs
+04_gene_prediction/  RNA evidence alignment and BRAKER3 gene prediction wrappers
 04_gff/              GFF/CDS/PEP extraction, structure statistics, QC, and plot handoffs
 05_genome_features/  intron, introner, region-context, and methylation evidence tracks
 06_annotation/       functional annotation parsing, COG/NOG summaries, and GO handoffs

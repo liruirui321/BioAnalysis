@@ -30,6 +30,8 @@ RM_*/
 *.cds
 *.2bit
 *.dmnd
+*.tar.gz
+EnrichPipeline/
 
 # Keep documentation/source scripts tracked without tracking generated Python caches
 !docs/**
