@@ -223,38 +223,25 @@ python3 scripts/09_synteny/anchors_to_circos_links.py \
 ## 10 HGT screening and validation handoff
 
 ```bash
-python3 scripts/10_hgt/01_classify_hgt_hits.py \
-  --hits Arabidopsis_thaliana.nr_hits.tsv \
-  --taxonomy subject_taxonomy.tsv \
-  --ingroup-groups Viridiplantae,Brassicaceae \
-  --donor-groups Bacteria,Fungi,Metazoa \
-  --exclude-groups synthetic,vector \
-  --out Arabidopsis_thaliana.hgt.classified_hits.tsv \
-  --summary Arabidopsis_thaliana.hgt.classified_summary.tsv
-```
-
-```bash
-python3 scripts/10_hgt/02_score_hgt_candidates.py \
-  --classified-hits Arabidopsis_thaliana.hgt.classified_hits.tsv \
-  --out Arabidopsis_thaliana.hgt.candidates.tsv \
-  --rejected Arabidopsis_thaliana.hgt.rejected.tsv \
-  --summary Arabidopsis_thaliana.hgt.score_summary.tsv
-```
-
-```bash
-python3 scripts/10_hgt/03_add_hgt_context.py \
-  --candidates Arabidopsis_thaliana.hgt.candidates.tsv \
+bash scripts/10_hgt/run_hgt_blast2hgt_workflow.sh \
+  --query Arabidopsis_thaliana.protein.primary.fa \
+  --blast2hgt-dir refs/blast2hgt \
+  --blast-glob 'Arabidopsis_thaliana.protein.primary.fa_*.nr.out' \
+  --outdir hgt_work \
+  --self-group Brassicaceae=3700 \
+  --define Viridiplantae=33090 \
+  --define fungi=4751 \
+  --define archaea=2157 \
+  --define bacteria=2 \
+  --define Metazoa=33208 \
+  --define virus=10239 \
+  --donor-groups bacteria,fungi,Metazoa \
+  --min-alien-index 0 \
+  --min-donor-bitscore 50 \
+  --min-donor-taxon-count 1 \
   --gff Arabidopsis_thaliana.annotation.primary.gff3 \
   --functional-annotation Arabidopsis_thaliana.functional_annotation.tsv \
-  --intron-details Arabidopsis_thaliana.introns.details.tsv \
-  --out Arabidopsis_thaliana.hgt.context.tsv \
-  --bed Arabidopsis_thaliana.hgt.candidates.bed \
-  --summary Arabidopsis_thaliana.hgt.context_summary.tsv
+  --intron-details Arabidopsis_thaliana.introns.details.tsv
 ```
 
-```bash
-python3 scripts/10_hgt/04_prepare_hgt_validation.py \
-  --context Arabidopsis_thaliana.hgt.context.tsv \
-  --classified-hits Arabidopsis_thaliana.hgt.classified_hits.tsv \
-  --outdir hgt_validation
-```
+If NR taxon-group DIAMOND searches have not already been run, replace `--blast-glob` with `--diamond-db-dir refs/nr_by_taxon` and add repeated `--taxon` values for the self, vertical, and donor groups.

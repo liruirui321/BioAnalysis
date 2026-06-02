@@ -57,6 +57,9 @@ Reusable repository files must use anonymized examples such as `Arabidopsis_thal
 | `08_gene_family_evolution/prepare_cafe_input.py` | Implemented and CLI verified | Convert OrthoFinder count tables to CAFE input. |
 | `08_gene_family_evolution/filter_cafe_families.py` | Implemented and CLI verified | Filter CAFE families and record removed-family reasons. |
 | `09_synteny/anchors_to_circos_links.py` | Implemented and CLI verified | Convert synteny anchors/blocks to Circos links. |
+| `10_hgt/run_hgt_blast2hgt_workflow.sh` | Implemented and CLI verified | Chain NR hit input, blast2hgt handoff, candidate filtering, context annotation, and validation preparation. |
+| `10_hgt/00_run_blast2hgt_handoff.sh` | Reference-derived; cleaned wrapper | Run a parameterized blast2hgt handoff from NR BLAST/DIAMOND outputs to taxonomy-group HGT tables. |
+| `10_hgt/filter_blast2hgt_candidates.py` | Implemented and CLI verified | Filter blast2hgt `.rp.tsv` output into candidate and rejected HGT tables. |
 | `10_hgt/01_classify_hgt_hits.py` | Implemented and CLI verified | Classify similarity hits by local taxonomy groups for HGT screening. |
 | `10_hgt/02_score_hgt_candidates.py` | Implemented and CLI verified | Score conservative HGT candidates from classified hits. |
 | `10_hgt/03_add_hgt_context.py` | Implemented and CLI verified | Merge HGT candidates with coordinate, annotation, intron, and synteny context. |
@@ -87,6 +90,7 @@ Reusable repository files must use anonymized examples such as `Arabidopsis_thal
 | Introner-elements | Introner candidate discovery and filtering. |
 | BRAKER3, AUGUSTUS, GeneMark, gffread | Gene structure annotation. |
 | InterProScan, eggNOG-mapper, KofamScan, DIAMOND, BLASTP | Functional annotation and HGT hit generation. |
+| blast2hgt | HGT candidate screening from BLAST hits and taxonomy-group lineages. |
 | GO, KEGG, Pfam, and pathway mapping tables | Downstream annotation summaries and enrichment. |
 | OrthoFinder | Orthogroups and gene-family count matrices. |
 | MAFFT, trimAl, RAxML, IQ-TREE, MrBayes | Alignment trimming and phylogenetic inference. |

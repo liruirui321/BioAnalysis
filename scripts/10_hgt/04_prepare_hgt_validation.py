@@ -13,7 +13,7 @@ from common.bioio import read_tsv, write_lines, write_tsv
 def main():
     ap = argparse.ArgumentParser(description="Prepare HGT candidate validation handoff files for phylogenetic review.")
     ap.add_argument("--context", required=True, help="HGT context TSV from 03_add_hgt_context.py")
-    ap.add_argument("--classified-hits", required=True, help="Classified hits from 01_classify_hgt_hits.py")
+    ap.add_argument("--classified-hits", default=None, help="Optional classified hits from 01_classify_hgt_hits.py")
     ap.add_argument("--outdir", required=True)
     ap.add_argument("--top-donor-hits", type=int, default=5)
     args = ap.parse_args()
@@ -25,9 +25,10 @@ def main():
     write_lines(outdir / "hgt_candidate.ids", candidate_ids)
 
     donor_by_query = defaultdict(list)
-    for row in read_tsv(args.classified_hits):
-        if row.get("hit_class") == "donor":
-            donor_by_query[row["query_id"]].append(row)
+    if args.classified_hits:
+        for row in read_tsv(args.classified_hits):
+            if row.get("hit_class") == "donor":
+                donor_by_query[row["query_id"]].append(row)
 
     donor_ids = []
     manifest = []

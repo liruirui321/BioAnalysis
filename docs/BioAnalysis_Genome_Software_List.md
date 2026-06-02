@@ -34,8 +34,9 @@ This document lists external tools, databases, and maintained helper scripts use
 | 08 gene-family evolution | `scripts/08_gene_family_evolution/*.py` | Count input preparation, gain/loss parsing, CAFE input preparation, and filtering | Rejected or removed-family reasons are required. |
 | 09 synteny | minimap2, WGDI, MCScanX, JCVI | Genome/protein synteny and dotplots | IDs must match between protein, GFF, and FASTA files. |
 | 09 synteny | `scripts/09_synteny/anchors_to_circos_links.py` | Convert anchors/blocks to Circos links | Validate coordinates against chromosome lengths. |
-| 10 HGT | DIAMOND/BLASTP, local taxonomy tables | HGT candidate discovery | Candidate calls need phylogenetic and context validation. |
-| 10 HGT | `scripts/10_hgt/*.py` | Classify hits, score candidates, add context, prepare validation | No remote database access; all inputs are local files. |
+| 10 HGT | DIAMOND/BLASTP against NR or another broad local database | HGT similarity-search input generation | Use BLAST outfmt 6 with e-value and bitscore columns. |
+| 10 HGT | blast2hgt with configured accession/taxonomy database | HGT candidate screening and taxonomy-group signal table | External tool; first `--define` group is treated as self/vertical lineage. Database credentials and private paths stay outside the repository. |
+| 10 HGT | `scripts/10_hgt/*.sh`, `scripts/10_hgt/*.py` | Run blast2hgt handoff, filter candidates, add context, prepare validation | No remote database access; all inputs are local files. |
 | 11 visualization | Circos, plotting tools, reference Perl helpers | Figures and tracks | Legacy helpers are review-required. |
 
 ## Version record template
@@ -45,6 +46,7 @@ This document lists external tools, databases, and maintained helper scripts use
 | Genome assembly | NA | NA | Fill per project. |
 | NT database | NA | NA | Required for decontamination. |
 | NCBI taxonomy tables | NA | NA | Required for NT/HGT taxonomy interpretation. |
+| blast2hgt accession/taxonomy database | NA | NA | Required for blast2hgt HGT screening. |
 | BUSCO lineage | embryophyta_odb10 | NA | Replace if needed. |
 | InterProScan databases | NA | NA | Fill per project. |
 | eggNOG database | NA | NA | Fill per project. |
