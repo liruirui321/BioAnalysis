@@ -7,7 +7,7 @@ Scripts are organized by numbered workflow stage. Shared Python helpers remain i
 ```text
 common/              shared FASTA/GFF/TSV helpers
 01_preprocessing/    input QC and NT-based contamination-screening wrappers
-02_assembly/         assembly statistics and independent BUSCO/LAI/Merqury QV helpers
+02_assembly/         independent assembly, Hi-C scaffolding, statistics, and QC helpers
 03_repeat/           repeat annotation, TE post-processing, and EVE/GEVE handoffs
 04_gff/              GFF/CDS/PEP extraction, structure statistics, QC, and plot handoffs
 05_genome_features/  intron, introner, region-context, and methylation evidence tracks

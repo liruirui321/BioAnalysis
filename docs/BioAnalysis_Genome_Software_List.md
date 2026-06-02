@@ -9,12 +9,16 @@ This document lists external tools, databases, and maintained helper scripts use
 | 01 preprocessing | BLASTN | NT-based contig screening | Requires a local NT database and documented database version. |
 | 01 preprocessing | accession-to-taxid and lineage tables | Taxonomic interpretation for NT hits | Supply paths at runtime; do not commit private database paths. |
 | 01 preprocessing | `scripts/01_preprocessing/01_nt_decontaminate_contigs.sh` | Portable wrapper for NT-based contig filtering | Requires local helper scripts supplied with `--script-dir`. |
-| 02 assembly | hifiasm, NextDenovo, SPAdes, Canu | Genome assembly | Choose based on sequencing technology and project design. |
-| 02 assembly | purge_dups, NextPolish, HiC-Pro, chromap, HapHiC | Purging, polishing, and scaffolding | Record assembly version after every major change. |
+| 02 assembly | hifiasm, NextDenovo, SPAdes, Flye, Canu, Verkko | Genome assembly | Choose based on sequencing technology and project design; run one wrapper per method. |
+| 02 assembly | seqkit | Optional read-length filtering before hifiasm | Used only when `--min-length` is requested. |
+| 02 assembly | chromap, YaHS, HapHiC, samtools, bedtools | Hi-C scaffolding | Run downstream of an existing assembly; keep scaffolding separate from assembly wrappers. |
+| 02 assembly | purge_dups, NextPolish | Purging and polishing | Record assembly version after every major change. |
 | 02 assembly | BUSCO and BUSCO lineage datasets | Genome/protein/transcript completeness assessment | Run with `run_busco_qc_workflow.sh`; record lineage and BUSCO database version. |
 | 02 assembly | GenomeTools, LTR_FINDER_parallel, LTR_retriever | LAI assessment | Run with `run_lai_qc_workflow.sh`; record LTR length and similarity thresholds. |
 | 02 assembly | meryl, Merqury, read FASTQ/FASTA files | Assembly k-mer QV and completeness assessment | Run with `run_merqury_qv_workflow.sh`; record k-mer choice and read sources. |
 | 02 assembly | compleasm | Optional assembly and annotation QC | Installed separately; record lineage/database versions when used. |
+| 02 assembly | `scripts/02_assembly/run_hifiasm_assembly.sh`, `run_nextdenovo_assembly.sh`, `run_spades_assembly.sh`, `run_flye_assembly.sh`, `run_canu_assembly.sh`, `run_verkko_assembly.sh` | Independent assembly wrappers | Assembly methods are separate scripts, not one combined driver. |
+| 02 assembly | `scripts/02_assembly/run_yahs_scaffolding.sh`, `scripts/02_assembly/run_haphic_scaffolding.sh` | Independent Hi-C scaffolding wrappers | Consume an existing assembly and Hi-C reads. |
 | 02 assembly | `scripts/02_assembly/assembly_stats.py`, `scripts/02_assembly/run_busco_qc_workflow.sh`, `scripts/02_assembly/run_lai_qc_workflow.sh`, `scripts/02_assembly/run_merqury_qv_workflow.sh`, `scripts/02_assembly/*.py` | FASTA statistics and independent assembly assessment summaries | BUSCO, LAI, and Merqury QV are separate scripts, not one combined driver. |
 | 03 repeat | LTR_FINDER_parallel, GenomeTools, LTR_retriever | LTR discovery and curation | Use the same uppercase genome FASTA throughout. |
 | 03 repeat | RepeatModeler, RepeatMasker, TRF | Repeat library construction, masking, and divergence summaries | Keep known/unknown outputs traceable. |
@@ -55,6 +59,8 @@ This document lists external tools, databases, and maintained helper scripts use
 | Component | Version/database date | Command or source | Notes |
 |---|---|---|---|
 | Genome assembly | NA | NA | Fill per project. |
+| Assembly wrapper tool | NA | NA | Record hifiasm, NextDenovo, SPAdes, Flye, Canu, or Verkko version when used. |
+| Hi-C scaffolding tool | NA | NA | Record chromap, YaHS, HapHiC, samtools, and bedtools versions when used. |
 | NT database | NA | NA | Required for decontamination. |
 | NCBI taxonomy tables | NA | NA | Required for NT/HGT taxonomy interpretation. |
 | blast2hgt accession/taxonomy database | NA | NA | Required for blast2hgt HGT screening. |

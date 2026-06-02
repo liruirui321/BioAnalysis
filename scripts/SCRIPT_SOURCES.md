@@ -21,6 +21,14 @@ Reusable repository files must use anonymized examples such as `Arabidopsis_thal
 |---|---|---|
 | `01_preprocessing/01_nt_decontaminate_contigs.sh` | Reference-derived; cleaned wrapper | Run local NT-based contig decontamination using user-supplied BLAST database and helper scripts. |
 | `02_assembly/assembly_stats.py` | Implemented and CLI verified | Compute assembly length, N50/L50, N90/L90, GC, and N statistics. |
+| `02_assembly/run_hifiasm_assembly.sh` | Reference-derived; cleaned wrapper | Run independent hifiasm assembly with optional native Hi-C reads and expose stable FASTA/stat outputs. |
+| `02_assembly/run_nextdenovo_assembly.sh` | Reference-derived; cleaned wrapper | Run independent NextDenovo assembly from long-read files or FOFN and expose stable FASTA/stat outputs. |
+| `02_assembly/run_spades_assembly.sh` | Reference-derived; cleaned wrapper | Run independent SPAdes assembly from paired-end libraries and expose stable FASTA/stat outputs. |
+| `02_assembly/run_flye_assembly.sh` | Reference-derived; cleaned wrapper | Run independent Flye assembly from ONT, PacBio CLR, or HiFi reads and expose stable FASTA/stat outputs. |
+| `02_assembly/run_canu_assembly.sh` | Reference-derived; cleaned wrapper | Run independent Canu assembly from ONT, PacBio CLR, or HiFi reads and expose stable FASTA/stat outputs. |
+| `02_assembly/run_verkko_assembly.sh` | Reference-derived; cleaned wrapper | Run independent Verkko assembly from HiFi and optional ONT/Hi-C reads and expose stable FASTA/stat outputs. |
+| `02_assembly/run_yahs_scaffolding.sh` | Reference-derived; cleaned wrapper | Run independent YaHS Hi-C scaffolding from an existing assembly and Hi-C read pair. |
+| `02_assembly/run_haphic_scaffolding.sh` | Reference-derived; cleaned wrapper | Run independent HapHiC Hi-C scaffolding from an existing assembly and Hi-C read pair. |
 | `02_assembly/run_busco_qc_workflow.sh` | Implemented and CLI verified | Run or summarize BUSCO assessment independently and optionally write assembly/N50 stats. |
 | `02_assembly/summarize_busco_results.py` | Implemented and CLI verified | Summarize BUSCO short_summary JSON/TXT outputs into a stable TSV. |
 | `02_assembly/run_lai_qc_workflow.sh` | Implemented and CLI verified | Run or summarize LAI assessment independently using GenomeTools, LTR_FINDER_parallel, and LTR_retriever. |
@@ -123,9 +131,10 @@ Reusable repository files must use anonymized examples such as `Arabidopsis_thal
 | Tool | Used for |
 |---|---|
 | BLASTN, local NT database, accession-to-taxid table, lineage dump | Contig decontamination. |
-| hifiasm, NextDenovo, SPAdes, Canu | Genome assembly. |
+| hifiasm, NextDenovo, SPAdes, Flye, Canu, Verkko | Genome assembly. |
+| seqkit | Optional read-length filtering before hifiasm. |
 | purge_dups, NextPolish | Redundancy removal and polishing. |
-| HiC-Pro, chromap, HapHiC | Hi-C scaffolding. |
+| chromap, YaHS, HapHiC, samtools, bedtools | Hi-C scaffolding. |
 | BUSCO, compleasm, Merqury | Assembly and annotation QC. |
 | LTR_FINDER_parallel, GenomeTools, LTR_retriever, RepeatModeler, RepeatMasker, TRF, TEsorter | Repeat annotation, TE-domain parsing, and divergence summaries. |
 | Introner-elements | Introner candidate discovery and filtering. |

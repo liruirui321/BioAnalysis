@@ -11,6 +11,14 @@ Status labels match [`../scripts/SCRIPT_SOURCES.md`](../scripts/SCRIPT_SOURCES.m
 | common | `scripts/common/bioio.py` | Maintained helper library | FASTA/GFF/TSV paths | Shared IO functions for Python scripts |
 | 01 preprocessing | `scripts/01_preprocessing/01_nt_decontaminate_contigs.sh` | Reference-derived; cleaned wrapper | Assembly FASTA, local NT database, taxonomy files, helper script directory | NT-filtered FASTA and N50 reports |
 | 02 assembly | `scripts/02_assembly/assembly_stats.py` | Implemented and CLI verified | Genome FASTA | Assembly stats TSV and optional per-sequence lengths |
+| 02 assembly | `scripts/02_assembly/run_hifiasm_assembly.sh` | Reference-derived; cleaned wrapper | HiFi reads and optional native Hi-C reads | hifiasm assembly FASTA and assembly stats |
+| 02 assembly | `scripts/02_assembly/run_nextdenovo_assembly.sh` | Reference-derived; cleaned wrapper | Long-read FASTA/FASTQ or FOFN plus genome size | NextDenovo run config, assembly FASTA, and assembly stats |
+| 02 assembly | `scripts/02_assembly/run_spades_assembly.sh` | Reference-derived; cleaned wrapper | One or more paired-end read libraries | SPAdes assembly FASTA and assembly stats |
+| 02 assembly | `scripts/02_assembly/run_flye_assembly.sh` | Reference-derived; cleaned wrapper | ONT, PacBio CLR, or PacBio HiFi reads plus genome size | Flye assembly FASTA and assembly stats |
+| 02 assembly | `scripts/02_assembly/run_canu_assembly.sh` | Reference-derived; cleaned wrapper | ONT, PacBio CLR, or PacBio HiFi reads plus genome size | Canu assembly FASTA and assembly stats |
+| 02 assembly | `scripts/02_assembly/run_verkko_assembly.sh` | Reference-derived; cleaned wrapper | HiFi reads and optional ONT/Hi-C reads | Verkko assembly FASTA and assembly stats |
+| 02 assembly | `scripts/02_assembly/run_yahs_scaffolding.sh` | Reference-derived; cleaned wrapper | Assembly FASTA and Hi-C read pair | YaHS scaffold FASTA/AGP and scaffold stats |
+| 02 assembly | `scripts/02_assembly/run_haphic_scaffolding.sh` | Reference-derived; cleaned wrapper | Assembly FASTA, Hi-C read pair, and group count | HapHiC scaffold FASTA/AGP and scaffold stats |
 | 02 assembly | `scripts/02_assembly/run_busco_qc_workflow.sh` | Implemented and CLI verified | Genome/protein/transcript FASTA or BUSCO short summaries | BUSCO summary TSV and optional assembly stats |
 | 02 assembly | `scripts/02_assembly/summarize_busco_results.py` | Implemented and CLI verified | BUSCO short_summary JSON/TXT | Stable BUSCO summary TSV |
 | 02 assembly | `scripts/02_assembly/run_lai_qc_workflow.sh` | Implemented and CLI verified | Genome FASTA or existing LAI outputs | LAI work directory and summary TSV |

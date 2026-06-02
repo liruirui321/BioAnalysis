@@ -16,7 +16,7 @@ Missing data must be recorded as `missing` or `not_tested`; it must not be inter
 
 ```text
 01 preprocessing and contamination screening
-02 assembly QC and independent BUSCO/LAI/Merqury QV assessments
+02 independent assembly, Hi-C scaffolding, statistics, and QC assessments
 03 repeat annotation, TE post-processing, and EVE/GEVE region handoffs
 04 GFF/CDS/PEP extraction and structure statistics
 05 genome features, introns, region context, methylation, and introner evidence
@@ -65,9 +65,87 @@ Arabidopsis_thaliana_rm/Arabidopsis_thaliana.nt.fa.n50
 - Inspect removed contigs before treating the filtered FASTA as final.
 - Do not commit private database paths or real sample IDs to this repository.
 
-## 02 Assembly QC and independent BUSCO/LAI/Merqury QV assessments
+## 02 Independent assembly, Hi-C scaffolding, statistics, and QC assessments
 
-Use external assemblers such as hifiasm, NextDenovo, SPAdes, or Canu. Use `scripts/02_assembly/assembly_stats.py` to produce standardized assembly statistics. Run BUSCO, LAI, and Merqury QV as separate assessment scripts so each result can be rerun, skipped, or summarized independently.
+Run one assembler wrapper per method. Hi-C scaffolding wrappers consume an existing assembly FASTA and should stay separate from assembler runs. Use `scripts/02_assembly/assembly_stats.py`, BUSCO, LAI, and Merqury QV as independent QC and assessment steps.
+
+Maintained assembly wrappers:
+
+```text
+scripts/02_assembly/run_hifiasm_assembly.sh
+scripts/02_assembly/run_nextdenovo_assembly.sh
+scripts/02_assembly/run_spades_assembly.sh
+scripts/02_assembly/run_flye_assembly.sh
+scripts/02_assembly/run_canu_assembly.sh
+scripts/02_assembly/run_verkko_assembly.sh
+```
+
+Maintained Hi-C scaffolding wrappers:
+
+```text
+scripts/02_assembly/run_yahs_scaffolding.sh
+scripts/02_assembly/run_haphic_scaffolding.sh
+```
+
+Representative commands:
+
+```bash
+bash scripts/02_assembly/run_hifiasm_assembly.sh \
+  --hifi Arabidopsis_thaliana.hifi.fa.gz \
+  --outdir hifiasm_assembly \
+  --prefix Arabidopsis_thaliana \
+  --threads 32
+
+bash scripts/02_assembly/run_nextdenovo_assembly.sh \
+  --read Arabidopsis_thaliana.ont.fq.gz \
+  --read-type ont \
+  --genome-size 150m \
+  --outdir nextdenovo_assembly \
+  --prefix Arabidopsis_thaliana
+
+bash scripts/02_assembly/run_spades_assembly.sh \
+  --pe1 Arabidopsis_thaliana.insert350_R1.fq.gz \
+  --pe2 Arabidopsis_thaliana.insert350_R2.fq.gz \
+  --outdir spades_assembly \
+  --prefix Arabidopsis_thaliana \
+  --isolate
+
+bash scripts/02_assembly/run_flye_assembly.sh \
+  --read Arabidopsis_thaliana.ont.fq.gz \
+  --read-type nano-raw \
+  --genome-size 150m \
+  --outdir flye_assembly \
+  --prefix Arabidopsis_thaliana
+
+bash scripts/02_assembly/run_canu_assembly.sh \
+  --read Arabidopsis_thaliana.ont.fq.gz \
+  --read-type nanopore \
+  --genome-size 150m \
+  --outdir canu_assembly \
+  --prefix Arabidopsis_thaliana
+
+bash scripts/02_assembly/run_verkko_assembly.sh \
+  --hifi Arabidopsis_thaliana.hifi.fa.gz \
+  --outdir verkko_assembly \
+  --prefix Arabidopsis_thaliana
+
+bash scripts/02_assembly/run_yahs_scaffolding.sh \
+  --assembly hifiasm_assembly/Arabidopsis_thaliana.hifiasm.assembly.fa \
+  --hic-r1 Arabidopsis_thaliana.HiC_R1.fq.gz \
+  --hic-r2 Arabidopsis_thaliana.HiC_R2.fq.gz \
+  --outdir yahs_scaffolding \
+  --prefix Arabidopsis_thaliana
+
+bash scripts/02_assembly/run_haphic_scaffolding.sh \
+  --assembly hifiasm_assembly/Arabidopsis_thaliana.hifiasm.assembly.fa \
+  --hic-r1 Arabidopsis_thaliana.HiC_R1.fq.gz \
+  --hic-r2 Arabidopsis_thaliana.HiC_R2.fq.gz \
+  --groups 5 \
+  --outdir haphic_scaffolding \
+  --prefix Arabidopsis_thaliana
+```
+
+QC and assessment commands remain independent:
 
 ```bash
 python3 scripts/02_assembly/assembly_stats.py \
@@ -107,15 +185,19 @@ bash scripts/02_assembly/run_merqury_qv_workflow.sh \
 Expected handoff files:
 
 ```text
-*.assembly.stats.tsv
-*.assembly.lengths.tsv
+*.<method>.assembly.fa
+*.<method>.assembly_stats.tsv
+*.<method>.assembly_lengths.tsv
+*.yahs.scaffolds.fa
+*.yahs.agp
+*.haphic.scaffolds.fa
+*.haphic.agp
 busco_qc/*.busco_summary.tsv
-busco_qc/*.assembly_stats.tsv
 lai_qc/*.lai_summary.tsv
 merqury_qv/*.merqury_qv_summary.tsv
 ```
 
-QC requires non-empty FASTA, unique sequence IDs, plausible total length, retained assembly logs, documented BUSCO lineage, documented LAI parameter thresholds, documented Merqury k-mer choice, and local database/tool versions recorded in project run notes.
+QC requires non-empty FASTA, unique sequence IDs, plausible total length, retained assembler/scaffolder logs, documented read technology, documented genome-size estimates, documented Hi-C pairing when used, documented BUSCO lineage, documented LAI parameter thresholds, documented Merqury k-mer choice, and local tool/database versions recorded in project run notes.
 
 ## 03 Repeat annotation, TE post-processing, and EVE/GEVE handoffs
 

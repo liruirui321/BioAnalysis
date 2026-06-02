@@ -16,7 +16,112 @@ bash scripts/01_preprocessing/01_nt_decontaminate_contigs.sh \
   --threshold 0.5
 ```
 
-## 02 Assembly QC and assessment
+## 02 Assembly, Hi-C scaffolding, QC, and assessment
+
+Run one assembly method at a time; do not combine these wrappers into a single assembly driver.
+
+### hifiasm assembly
+
+```bash
+bash scripts/02_assembly/run_hifiasm_assembly.sh \
+  --hifi Arabidopsis_thaliana.hifi.fa.gz \
+  --outdir hifiasm_assembly \
+  --prefix Arabidopsis_thaliana \
+  --threads 32 \
+  --hic-r1 Arabidopsis_thaliana.HiC_R1.fq.gz \
+  --hic-r2 Arabidopsis_thaliana.HiC_R2.fq.gz
+```
+
+### NextDenovo assembly
+
+```bash
+bash scripts/02_assembly/run_nextdenovo_assembly.sh \
+  --read Arabidopsis_thaliana.ont.fq.gz \
+  --read-type ont \
+  --genome-size 150m \
+  --outdir nextdenovo_assembly \
+  --prefix Arabidopsis_thaliana \
+  --parallel-jobs 8
+```
+
+### SPAdes assembly
+
+```bash
+bash scripts/02_assembly/run_spades_assembly.sh \
+  --pe1 Arabidopsis_thaliana.insert350_R1.fq.gz \
+  --pe2 Arabidopsis_thaliana.insert350_R2.fq.gz \
+  --pe1 Arabidopsis_thaliana.insert800_R1.fq.gz \
+  --pe2 Arabidopsis_thaliana.insert800_R2.fq.gz \
+  --outdir spades_assembly \
+  --prefix Arabidopsis_thaliana \
+  --threads 32 \
+  --memory-gb 250 \
+  --isolate
+```
+
+### Flye assembly
+
+```bash
+bash scripts/02_assembly/run_flye_assembly.sh \
+  --read Arabidopsis_thaliana.ont.fq.gz \
+  --read-type nano-raw \
+  --genome-size 150m \
+  --outdir flye_assembly \
+  --prefix Arabidopsis_thaliana \
+  --threads 32
+```
+
+### Canu assembly
+
+```bash
+bash scripts/02_assembly/run_canu_assembly.sh \
+  --read Arabidopsis_thaliana.ont.fq.gz \
+  --read-type nanopore \
+  --genome-size 150m \
+  --outdir canu_assembly \
+  --prefix Arabidopsis_thaliana \
+  --threads 32 \
+  --memory-gb 250
+```
+
+### Verkko assembly
+
+```bash
+bash scripts/02_assembly/run_verkko_assembly.sh \
+  --hifi Arabidopsis_thaliana.hifi.fa.gz \
+  --hic-r1 Arabidopsis_thaliana.HiC_R1.fq.gz \
+  --hic-r2 Arabidopsis_thaliana.HiC_R2.fq.gz \
+  --outdir verkko_assembly \
+  --prefix Arabidopsis_thaliana \
+  --threads 32
+```
+
+### YaHS Hi-C scaffolding
+
+```bash
+bash scripts/02_assembly/run_yahs_scaffolding.sh \
+  --assembly hifiasm_assembly/Arabidopsis_thaliana.hifiasm.assembly.fa \
+  --hic-r1 Arabidopsis_thaliana.HiC_R1.fq.gz \
+  --hic-r2 Arabidopsis_thaliana.HiC_R2.fq.gz \
+  --outdir yahs_scaffolding \
+  --prefix Arabidopsis_thaliana \
+  --threads 32
+```
+
+### HapHiC Hi-C scaffolding
+
+```bash
+bash scripts/02_assembly/run_haphic_scaffolding.sh \
+  --assembly hifiasm_assembly/Arabidopsis_thaliana.hifiasm.assembly.fa \
+  --hic-r1 Arabidopsis_thaliana.HiC_R1.fq.gz \
+  --hic-r2 Arabidopsis_thaliana.HiC_R2.fq.gz \
+  --groups 5 \
+  --outdir haphic_scaffolding \
+  --prefix Arabidopsis_thaliana \
+  --threads 32
+```
+
+### Assembly statistics
 
 ```bash
 python3 scripts/02_assembly/assembly_stats.py \
@@ -65,7 +170,7 @@ bash scripts/02_assembly/run_merqury_qv_workflow.sh \
   --best-k
 ```
 
-Use each assessment script independently; do not chain BUSCO, LAI, and Merqury QV into a single driver.
+Use each assembly, scaffolding, and assessment script independently; do not chain these methods into a single driver.
 
 ## 03 Repeat annotation
 
