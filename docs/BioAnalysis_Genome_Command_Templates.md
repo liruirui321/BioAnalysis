@@ -18,12 +18,12 @@ bash scripts/01_preprocessing/01_nt_decontaminate_contigs.sh \
 
 ## 02 Genome survey, ploidy estimation, assembly, Hi-C scaffolding, QC, and assessment
 
-Run genome survey, assembly, scaffolding, and assessment scripts independently; do not combine these wrappers into a single driver.
+Run genome survey, ploidy estimation, assembly, scaffolding, and assessment scripts independently; survey/ploidy scripts live in `scripts/02_genome_survey/`, while assembly and scaffolding scripts live in `scripts/02_assembly/`.
 
 ### Genome survey with Jellyfish and GenomeScope2
 
 ```bash
-bash scripts/02_assembly/run_genome_survey_workflow.sh \
+bash scripts/02_genome_survey/run_genome_survey_workflow.sh \
   --read Arabidopsis_thaliana.reads_1.fq.gz \
   --read Arabidopsis_thaliana.reads_2.fq.gz \
   --outdir genome_survey \
@@ -39,7 +39,7 @@ bash scripts/02_assembly/run_genome_survey_workflow.sh \
 ### WGS/BAM ploidy estimation with ploidyNGS
 
 ```bash
-bash scripts/02_assembly/run_ploidyngs_workflow.sh \
+bash scripts/02_genome_survey/run_ploidyngs_workflow.sh \
   --bam Arabidopsis_thaliana.sorted.bam \
   --outdir ploidy_ngs \
   --prefix Arabidopsis_thaliana \

@@ -9,8 +9,8 @@ This document lists external tools, databases, and maintained helper scripts use
 | 01 preprocessing | BLASTN | NT-based contig screening | Requires a local NT database and documented database version. |
 | 01 preprocessing | accession-to-taxid and lineage tables | Taxonomic interpretation for NT hits | Supply paths at runtime; do not commit private database paths. |
 | 01 preprocessing | `scripts/01_preprocessing/01_nt_decontaminate_contigs.sh` | Portable wrapper for NT-based contig filtering | Requires local helper scripts supplied with `--script-dir`. |
-| 02 assembly | Jellyfish, GenomeScope2, Smudgeplot | Genome survey, heterozygosity, duplication, and k-mer ploidy estimation | Run with `run_genome_survey_workflow.sh`; record k-mer, ploidy, hash-size, and histogram cutoff choices. |
-| 02 assembly | ploidyNGS, Rscript | WGS/BAM ploidy estimation and histogram plotting | Run with `run_ploidyngs_workflow.sh`; record BAM source, guess-ploidy setting, and ploidyNGS options. |
+| 02 genome survey | Jellyfish, GenomeScope2, Smudgeplot | Genome survey, heterozygosity, duplication, and k-mer ploidy estimation | Run with `run_genome_survey_workflow.sh`; record k-mer, ploidy, hash-size, and histogram cutoff choices. |
+| 02 genome survey | ploidyNGS, Rscript | WGS/BAM ploidy estimation and histogram plotting | Run with `run_ploidyngs_workflow.sh`; record BAM source, guess-ploidy setting, and ploidyNGS options. |
 | 02 assembly | hifiasm, NextDenovo, SPAdes, Flye, Canu, Verkko | Genome assembly | Choose based on sequencing technology and project design; run one wrapper per method. |
 | 02 assembly | seqkit | Optional read-length filtering before hifiasm | Used only when `--min-length` is requested. |
 | 02 assembly | chromap, YaHS, HapHiC, samtools, bedtools | Hi-C scaffolding | Run downstream of an existing assembly; keep scaffolding separate from assembly wrappers. |
@@ -19,8 +19,8 @@ This document lists external tools, databases, and maintained helper scripts use
 | 02 assembly | GenomeTools, LTR_FINDER_parallel, LTR_retriever | LAI assessment | Run with `run_lai_qc_workflow.sh`; record LTR length and similarity thresholds. |
 | 02 assembly | meryl, Merqury, read FASTQ/FASTA files | Assembly k-mer QV and completeness assessment | Run with `run_merqury_qv_workflow.sh`; record k-mer choice and read sources. |
 | 02 assembly | compleasm | Optional assembly and annotation QC | Installed separately; record lineage/database versions when used. |
-| 02 assembly | `scripts/02_assembly/run_genome_survey_workflow.sh` | Independent genome survey wrapper | Genome survey stays separate from assembly, scaffolding, and assessment workflows. |
-| 02 assembly | `scripts/02_assembly/run_ploidyngs_workflow.sh` | Independent WGS/BAM ploidy wrapper | ploidyNGS stays separate from k-mer survey, assembly, scaffolding, and assessment workflows. |
+| 02 genome survey | `scripts/02_genome_survey/run_genome_survey_workflow.sh` | Independent genome survey wrapper | Genome survey stays separate from assembly, scaffolding, and assessment workflows. |
+| 02 genome survey | `scripts/02_genome_survey/run_ploidyngs_workflow.sh` | Independent WGS/BAM ploidy wrapper | ploidyNGS stays separate from k-mer survey, assembly, scaffolding, and assessment workflows. |
 | 02 assembly | `scripts/02_assembly/run_hifiasm_assembly.sh`, `run_nextdenovo_assembly.sh`, `run_spades_assembly.sh`, `run_flye_assembly.sh`, `run_canu_assembly.sh`, `run_verkko_assembly.sh` | Independent assembly wrappers | Assembly methods are separate scripts, not one combined driver. |
 | 02 assembly | `scripts/02_assembly/run_yahs_scaffolding.sh`, `scripts/02_assembly/run_haphic_scaffolding.sh` | Independent Hi-C scaffolding wrappers | Consume an existing assembly and Hi-C reads. |
 | 02 assembly | `scripts/02_assembly/assembly_stats.py`, `scripts/02_assembly/run_busco_qc_workflow.sh`, `scripts/02_assembly/run_lai_qc_workflow.sh`, `scripts/02_assembly/run_merqury_qv_workflow.sh`, `scripts/02_assembly/*.py` | FASTA statistics and independent assembly assessment summaries | BUSCO, LAI, and Merqury QV are separate scripts, not one combined driver. |

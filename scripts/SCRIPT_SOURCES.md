@@ -21,8 +21,8 @@ Reusable repository files must use anonymized examples such as `Arabidopsis_thal
 |---|---|---|
 | `01_preprocessing/01_nt_decontaminate_contigs.sh` | Reference-derived; cleaned wrapper | Run local NT-based contig decontamination using user-supplied BLAST database and helper scripts. |
 | `02_assembly/assembly_stats.py` | Implemented and CLI verified | Compute assembly length, N50/L50, N90/L90, GC, and N statistics. |
-| `02_assembly/run_genome_survey_workflow.sh` | Reference-derived; cleaned wrapper | Run independent Jellyfish, GenomeScope2, and optional Smudgeplot genome survey from read files. |
-| `02_assembly/run_ploidyngs_workflow.sh` | Reference-derived; cleaned wrapper | Run independent ploidyNGS WGS/BAM ploidy estimation and histogram handoff generation. |
+| `02_genome_survey/run_genome_survey_workflow.sh` | Reference-derived; cleaned wrapper | Run independent Jellyfish, GenomeScope2, and optional Smudgeplot genome survey from read files. |
+| `02_genome_survey/run_ploidyngs_workflow.sh` | Reference-derived; cleaned wrapper | Run independent ploidyNGS WGS/BAM ploidy estimation and histogram handoff generation. |
 | `02_assembly/run_hifiasm_assembly.sh` | Reference-derived; cleaned wrapper | Run independent hifiasm assembly with optional native Hi-C reads and expose stable FASTA/stat outputs. |
 | `02_assembly/run_nextdenovo_assembly.sh` | Reference-derived; cleaned wrapper | Run independent NextDenovo assembly from long-read files or FOFN and expose stable FASTA/stat outputs. |
 | `02_assembly/run_spades_assembly.sh` | Reference-derived; cleaned wrapper | Run independent SPAdes assembly from paired-end libraries and expose stable FASTA/stat outputs. |

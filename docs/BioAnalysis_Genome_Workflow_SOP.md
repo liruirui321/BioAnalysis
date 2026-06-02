@@ -16,7 +16,8 @@ Missing data must be recorded as `missing` or `not_tested`; it must not be inter
 
 ```text
 01 preprocessing and contamination screening
-02 genome survey, independent assembly, Hi-C scaffolding, statistics, and QC assessments
+02 genome survey and ploidy estimation
+02 assembly, Hi-C scaffolding, statistics, and QC assessments
 03 repeat annotation, TE post-processing, and EVE/GEVE region handoffs
 04 GFF/CDS/PEP extraction and structure statistics
 05 genome features, introns, region context, methylation, and introner evidence
@@ -65,15 +66,20 @@ Arabidopsis_thaliana_rm/Arabidopsis_thaliana.nt.fa.n50
 - Inspect removed contigs before treating the filtered FASTA as final.
 - Do not commit private database paths or real sample IDs to this repository.
 
-## 02 Genome survey, ploidy estimation, independent assembly, Hi-C scaffolding, statistics, and QC assessments
+## 02 Genome survey, ploidy estimation, assembly, Hi-C scaffolding, statistics, and QC assessments
 
-Run genome survey, ploidy estimation, assembly, scaffolding, and assessment wrappers independently. Hi-C scaffolding wrappers consume an existing assembly FASTA and should stay separate from assembler runs. Use `scripts/02_assembly/assembly_stats.py`, BUSCO, LAI, and Merqury QV as independent QC and assessment steps.
+Run genome survey, ploidy estimation, assembly, scaffolding, and assessment wrappers independently. Genome survey and ploidy estimation live in `scripts/02_genome_survey/`; assembly, scaffolding, assembly statistics, and assembly assessments live in `scripts/02_assembly/`.
 
-Maintained genome survey and assembly wrappers:
+Maintained genome survey and ploidy wrappers:
 
 ```text
-scripts/02_assembly/run_genome_survey_workflow.sh
-scripts/02_assembly/run_ploidyngs_workflow.sh
+scripts/02_genome_survey/run_genome_survey_workflow.sh
+scripts/02_genome_survey/run_ploidyngs_workflow.sh
+```
+
+Maintained assembly wrappers:
+
+```text
 scripts/02_assembly/run_hifiasm_assembly.sh
 scripts/02_assembly/run_nextdenovo_assembly.sh
 scripts/02_assembly/run_spades_assembly.sh
@@ -92,7 +98,7 @@ scripts/02_assembly/run_haphic_scaffolding.sh
 Representative commands:
 
 ```bash
-bash scripts/02_assembly/run_genome_survey_workflow.sh \
+bash scripts/02_genome_survey/run_genome_survey_workflow.sh \
   --read Arabidopsis_thaliana.reads_1.fq.gz \
   --read Arabidopsis_thaliana.reads_2.fq.gz \
   --outdir genome_survey \
@@ -101,7 +107,7 @@ bash scripts/02_assembly/run_genome_survey_workflow.sh \
   --ploidy 2 \
   --run-smudgeplot
 
-bash scripts/02_assembly/run_ploidyngs_workflow.sh \
+bash scripts/02_genome_survey/run_ploidyngs_workflow.sh \
   --bam Arabidopsis_thaliana.sorted.bam \
   --outdir ploidy_ngs \
   --prefix Arabidopsis_thaliana \

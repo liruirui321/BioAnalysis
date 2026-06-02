@@ -55,7 +55,8 @@ Read the repository in this order:
 
 ```text
 01 preprocessing and contamination screening
-02 genome survey, ploidy estimation, independent assembly, Hi-C scaffolding, statistics, and QC helpers
+02 genome survey and ploidy estimation
+02 assembly, Hi-C scaffolding, statistics, and QC helpers
 03 repeat annotation, TE post-processing, and EVE/GEVE region handoffs
 04 GFF/CDS/PEP extraction and structure statistics
 05 genome features, introns, region context, and methylation workflows
