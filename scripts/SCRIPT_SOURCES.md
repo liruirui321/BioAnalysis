@@ -21,6 +21,7 @@ Reusable repository files must use anonymized examples such as `Arabidopsis_thal
 |---|---|---|
 | `01_preprocessing/01_nt_decontaminate_contigs.sh` | Reference-derived; cleaned wrapper | Run local NT-based contig decontamination using user-supplied BLAST database and helper scripts. |
 | `02_assembly/assembly_stats.py` | Implemented and CLI verified | Compute assembly length, N50/L50, N90/L90, GC, and N statistics. |
+| `03_repeat/run_repeat_annotation_workflow.sh` | Implemented and CLI verified | Chain uppercase genome preparation, LTR discovery, RepeatModeler, LTR_retriever, TRF, and optional RepeatMasker summaries. |
 | `03_repeat/LTR_Finder.sh` | Reference-derived; cleaned wrapper | Run `LTR_FINDER_parallel` from `PATH`. |
 | `03_repeat/LTR_harvest.sh` | Reference-derived; cleaned wrapper | Run GenomeTools suffixerator and LTRharvest from `PATH`. |
 | `03_repeat/work.sh` | Reference-derived; cleaned wrapper | Merge LTR candidates and run `LTR_retriever`. |
@@ -29,8 +30,10 @@ Reusable repository files must use anonymized examples such as `Arabidopsis_thal
 | `03_repeat/rmout2gff.sh` | Reference-derived; review before use | Convert RepeatMasker `.out` to GFF3. |
 | `03_repeat/repeat_stat.sh` | Reference-derived; review before use | Summarize RepeatMasker coverage by repeat class. |
 | `04_gff/gff_cds_pep.py` | Implemented and CLI verified | Extract clean GFF/CDS/PEP files and CDS QC tables. |
+| `05_genome_features/run_genome_features_workflow.sh` | Implemented and CLI verified | Chain intron extraction outputs and optional Introner-elements execution. |
 | `05_genome_features/extract_introns.py` | Implemented and CLI verified | Infer introns, unique intron loci, short introns, and AT-rich intron summaries. |
 | `05_genome_features/run_introner_elements.sh` | Reference-derived; cleaned wrapper | Run an external Introner-elements workflow using user-supplied tool paths. |
+| `06_annotation/run_functional_annotation_workflow.sh` | Implemented and CLI verified | Chain annotation parsing, merging, downstream term summaries, domain architecture summaries, and optional enrichment. |
 | `06_annotation/parse_interproscan_tsv.py` | Implemented and CLI verified | Parse InterProScan TSV into a compact annotation table. |
 | `06_annotation/parse_kofam_detail.py` | Implemented and CLI verified | Parse KofamScan detail output. |
 | `06_annotation/merge_function_annotations.py` | Implemented and CLI verified | Merge structural, CDS QC, InterPro/Pfam, eggNOG, Kofam, SwissProt, and NR annotations. |
@@ -39,6 +42,7 @@ Reusable repository files must use anonymized examples such as `Arabidopsis_thal
 | `06_annotation/summarize_pfam_domains.py` | Implemented and CLI verified | Produce long gene-to-Pfam and Pfam count tables. |
 | `06_annotation/summarize_domain_architecture.py` | Implemented and CLI verified | Summarize ordered Pfam domain architectures from parsed InterProScan output. |
 | `06_annotation/enrich_annotation_terms.py` | Implemented and CLI verified | Run GO, KEGG, or Pfam overrepresentation tests for foreground gene sets. |
+| `07_gene_family/run_gene_family_workflow.sh` | Implemented and CLI verified | Chain optional FASTA prefixing, OrthoFinder handoff, family summaries, member extraction, and supermatrix handoff. |
 | `07_gene_family/prefix_fasta_ids.py` | Implemented and CLI verified | Prefix FASTA IDs and write an ID map. |
 | `07_gene_family/summarize_orthofinder_gene_families.py` | Implemented and CLI verified | Summarize OrthoFinder families by copy number, occupancy, and selected family classes. |
 | `07_gene_family/extract_orthogroup_members.py` | Implemented and CLI verified | Extract orthogroup member lists. |
@@ -51,6 +55,7 @@ Reusable repository files must use anonymized examples such as `Arabidopsis_thal
 | `07_gene_family/rename_tree_tips.py` | Implemented and CLI verified | Rename tree tips using a mapping table. |
 | `07_gene_family/root_tree.py` | Implemented; limited placeholder behavior | Copy a tree and write a rooting handoff note; it does not reroot topology. |
 | `07_gene_family/summarize_gene_trees.py` | Implemented and CLI verified | Summarize gene-tree outputs and failures. |
+| `08_gene_family_evolution/run_gene_family_evolution_workflow.sh` | Implemented and CLI verified | Chain Count input preparation, optional Count gain/loss summaries, and CAFE input filtering. |
 | `08_gene_family_evolution/prepare_count_input.py` | Implemented and CLI verified | Convert OrthoFinder count tables to Count input while validating species names. |
 | `08_gene_family_evolution/parse_count_gain_loss.py` | Implemented and CLI verified | Normalize Count gain/loss output to long or wide family-node tables. |
 | `08_gene_family_evolution/summarize_family_gain_loss.py` | Implemented and CLI verified | Summarize Count gain/loss calls by family and node. |

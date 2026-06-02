@@ -82,7 +82,13 @@ QC requires non-empty FASTA, unique sequence IDs, plausible total length, and re
 
 Repeat annotation uses portable wrappers around external tools available on `PATH`.
 
-Key scripts:
+Primary workflow driver:
+
+```text
+scripts/03_repeat/run_repeat_annotation_workflow.sh
+```
+
+Key helper scripts:
 
 ```text
 scripts/03_repeat/LTR_Finder.sh
@@ -124,6 +130,8 @@ QC requires matching FASTA/GFF seqids and reviewed CDS check tables.
 
 ## 05 Genome features, introns, and introner evidence
 
+Primary workflow driver: `scripts/05_genome_features/run_genome_features_workflow.sh`.
+
 ### Intron extraction
 
 Use `scripts/05_genome_features/extract_introns.py` to infer introns from exon or CDS features. BED outputs are 0-based half-open. Use unique intron loci for density tracks to avoid isoform double-counting.
@@ -159,7 +167,7 @@ QC requires tool-version notes, candidate-count summaries, and manual review of 
 
 ## 06 Functional annotation and downstream term summaries
 
-Functional annotation combines InterProScan, eggNOG, KofamScan, DIAMOND/BLASTP, and maintained parser scripts.
+Functional annotation combines InterProScan, eggNOG, KofamScan, DIAMOND/BLASTP, and maintained parser scripts. Use `scripts/06_annotation/run_functional_annotation_workflow.sh` as the primary stage driver when multiple annotation inputs are available.
 
 ```bash
 python3 scripts/06_annotation/parse_interproscan_tsv.py --input Arabidopsis_thaliana.interproscan.tsv --out Arabidopsis_thaliana.iprscan.xls
@@ -200,7 +208,7 @@ Unannotated genes should remain in merged tables with `NA` fields. Term-map sour
 
 ## 07 Gene families, orthogroups, and phylogeny helpers
 
-Gene-family and orthogroup analysis comes before alignment and tree-building. Use OrthoFinder to define families, summarize copy-number and occupancy patterns, then select families for downstream phylogeny helpers.
+Gene-family and orthogroup analysis comes before alignment and tree-building. Use `scripts/07_gene_family/run_gene_family_workflow.sh` as the primary stage driver to chain OrthoFinder handoff, family summaries, member extraction, and optional supermatrix preparation.
 
 Key handoff:
 
@@ -234,7 +242,7 @@ Use `extract_orthogroup_members.py`, alignment tools, and tree helpers only afte
 
 ## 08 Gene-family evolution: Count and CAFE
 
-Use Count and CAFE after OrthoFinder has produced a species-by-family count matrix and the species tree has been checked against the same species names.
+Use Count and CAFE after OrthoFinder has produced a species-by-family count matrix and the species tree has been checked against the same species names. Use `scripts/08_gene_family_evolution/run_gene_family_evolution_workflow.sh` as the primary stage driver for Count input preparation, optional Count parsing, and CAFE filtering.
 
 ```bash
 python3 scripts/08_gene_family_evolution/prepare_count_input.py \

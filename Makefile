@@ -34,6 +34,8 @@ check-doc-links:
 	@test -f scripts/README.md
 	@test -f scripts/SCRIPT_SOURCES.md
 	@test -f scripts/01_preprocessing/01_nt_decontaminate_contigs.sh
+	@test -f scripts/03_repeat/run_repeat_annotation_workflow.sh
+	@test -f scripts/05_genome_features/run_genome_features_workflow.sh
 	@test -f scripts/05_genome_features/extract_introns.py
 	@test -f scripts/05_genome_features/run_introner_elements.sh
 	@test -f scripts/06_annotation/summarize_go_terms.py
@@ -41,7 +43,10 @@ check-doc-links:
 	@test -f scripts/06_annotation/summarize_pfam_domains.py
 	@test -f scripts/06_annotation/summarize_domain_architecture.py
 	@test -f scripts/06_annotation/enrich_annotation_terms.py
+	@test -f scripts/06_annotation/run_functional_annotation_workflow.sh
+	@test -f scripts/07_gene_family/run_gene_family_workflow.sh
 	@test -f scripts/07_gene_family/summarize_orthofinder_gene_families.py
+	@test -f scripts/08_gene_family_evolution/run_gene_family_evolution_workflow.sh
 	@test -f scripts/08_gene_family_evolution/prepare_count_input.py
 	@test -f scripts/08_gene_family_evolution/parse_count_gain_loss.py
 	@test -f scripts/08_gene_family_evolution/summarize_family_gain_loss.py
@@ -92,6 +97,8 @@ check-script-help:
 	@python3 scripts/02_assembly/assembly_stats.py --help >/dev/null
 	@bash scripts/03_repeat/LTR_Finder.sh --help >/dev/null
 	@bash scripts/03_repeat/LTR_harvest.sh --help >/dev/null
+	@bash scripts/03_repeat/run_repeat_annotation_workflow.sh --help >/dev/null
+	@bash scripts/05_genome_features/run_genome_features_workflow.sh --help >/dev/null
 	@python3 scripts/05_genome_features/extract_introns.py --help >/dev/null
 	@bash scripts/05_genome_features/run_introner_elements.sh --help >/dev/null
 	@python3 scripts/06_annotation/parse_interproscan_tsv.py --help >/dev/null
@@ -102,10 +109,13 @@ check-script-help:
 	@python3 scripts/06_annotation/summarize_pfam_domains.py --help >/dev/null
 	@python3 scripts/06_annotation/summarize_domain_architecture.py --help >/dev/null
 	@python3 scripts/06_annotation/enrich_annotation_terms.py --help >/dev/null
+	@bash scripts/06_annotation/run_functional_annotation_workflow.sh --help >/dev/null
+	@bash scripts/07_gene_family/run_gene_family_workflow.sh --help >/dev/null
 	@python3 scripts/07_gene_family/prefix_fasta_ids.py --help >/dev/null
 	@python3 scripts/07_gene_family/summarize_orthofinder_gene_families.py --help >/dev/null
 	@python3 scripts/07_gene_family/extract_orthogroup_members.py --help >/dev/null
 	@python3 scripts/07_gene_family/concat_alignments.py --help >/dev/null
+	@bash scripts/08_gene_family_evolution/run_gene_family_evolution_workflow.sh --help >/dev/null
 	@python3 scripts/08_gene_family_evolution/prepare_count_input.py --help >/dev/null
 	@python3 scripts/08_gene_family_evolution/parse_count_gain_loss.py --help >/dev/null
 	@python3 scripts/08_gene_family_evolution/summarize_family_gain_loss.py --help >/dev/null

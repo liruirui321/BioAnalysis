@@ -15,23 +15,23 @@ This document lists external tools, databases, and maintained helper scripts use
 | 02 assembly | `scripts/02_assembly/assembly_stats.py` | FASTA statistics | Produces summary and optional per-sequence length tables. |
 | 03 repeat | LTR_FINDER_parallel, GenomeTools, LTR_retriever | LTR discovery and curation | Use the same uppercase genome FASTA throughout. |
 | 03 repeat | RepeatModeler, RepeatMasker, TRF | Repeat library construction and masking | Keep known/unknown outputs traceable. |
-| 03 repeat | `scripts/03_repeat/*.sh` | Portable repeat wrappers | Tools must be available on `PATH`. |
+| 03 repeat | `scripts/03_repeat/run_repeat_annotation_workflow.sh`, `scripts/03_repeat/*.sh` | Chained repeat workflow and portable repeat wrappers | Tools must be available on `PATH`. |
 | 04 GFF | BRAKER3, AUGUSTUS, GeneMark, gffread | Gene structure annotation and checks | GFF seqids must match genome FASTA. |
 | 04 GFF | `scripts/04_gff/gff_cds_pep.py` | Clean GFF/CDS/PEP extraction | Produces CDS QC tables. |
 | 05 genome features | bedtools, samtools | Window and coordinate operations | Track coordinate systems carefully. |
 | 05 genome features | Introner-elements | Introner candidate workflow | External tool; provide local path at runtime. |
-| 05 genome features | `scripts/05_genome_features/extract_introns.py` | Intron, short-intron, and AT-rich intron outputs | BED output is 0-based half-open. |
+| 05 genome features | `scripts/05_genome_features/run_genome_features_workflow.sh`, `extract_introns.py` | Chained intron and optional introner workflow outputs | BED output is 0-based half-open. |
 | 06 annotation | InterProScan, eggNOG-mapper, KofamScan | Functional annotation | Keep database versions and thresholds. |
 | 06 annotation | DIAMOND, BLASTP | SwissProt/NR/HGT similarity searches | Use explicit output fields and sorting rules. |
 | 06 annotation | GO, KEGG, Pfam, and pathway mapping tables | Downstream term summaries and enrichment | Record term-map source and version in project notes. |
-| 06 annotation | `scripts/06_annotation/*.py` | Parse, merge, summarize, and enrich annotation tables | Missing annotations remain `NA`. |
+| 06 annotation | `scripts/06_annotation/run_functional_annotation_workflow.sh`, `scripts/06_annotation/*.py` | Chain parsing, merging, summaries, and enrichment for annotation tables | Missing annotations remain `NA`. |
 | 06 annotation | `scripts/06_annotation/kegg/*.pl` | Reference KEGG/pathway helpers | Review input formats before use. |
 | 07 gene family | OrthoFinder | Orthogroups and gene-family count matrices | Run before alignment and tree-building helpers. |
 | 07 gene family | MAFFT, trimAl, RAxML, IQ-TREE, MrBayes | Alignment trimming and phylogenetic inference | Preserve logs, models, support values, and failed-family records. |
-| 07 gene family | `scripts/07_gene_family/*.py` | ID mapping, family summaries, member extraction, tree metadata, summaries | `root_tree.py` is a handoff helper only. |
+| 07 gene family | `scripts/07_gene_family/run_gene_family_workflow.sh`, `scripts/07_gene_family/*.py` | Chain ID mapping, family summaries, member extraction, and tree handoffs | `root_tree.py` is a handoff helper only. |
 | 08 gene-family evolution | Count | Gene-family gain/loss inference from count matrices and species trees | Validate Count output format before parsing. |
 | 08 gene-family evolution | CAFE/CAFE5 | Expansion/contraction analysis | Requires matching species tree and count matrix. |
-| 08 gene-family evolution | `scripts/08_gene_family_evolution/*.py` | Count input preparation, gain/loss parsing, CAFE input preparation, and filtering | Rejected or removed-family reasons are required. |
+| 08 gene-family evolution | `scripts/08_gene_family_evolution/run_gene_family_evolution_workflow.sh`, `scripts/08_gene_family_evolution/*.py` | Chain Count input preparation, gain/loss parsing, CAFE input preparation, and filtering | Rejected or removed-family reasons are required. |
 | 09 synteny | minimap2, WGDI, MCScanX, JCVI | Genome/protein synteny and dotplots | IDs must match between protein, GFF, and FASTA files. |
 | 09 synteny | `scripts/09_synteny/anchors_to_circos_links.py` | Convert anchors/blocks to Circos links | Validate coordinates against chromosome lengths. |
 | 10 HGT | DIAMOND/BLASTP against NR or another broad local database | HGT similarity-search input generation | Use BLAST outfmt 6 with e-value and bitscore columns. |
