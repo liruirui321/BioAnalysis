@@ -31,8 +31,9 @@ This document lists external tools, databases, and maintained helper scripts use
 | 06 annotation | `scripts/06_annotation/run_functional_annotation_workflow.sh`, `scripts/06_annotation/run_go_enrichment_plot_handoff.sh`, `scripts/06_annotation/*.py` | Chain parsing, merging, summaries, enrichment, and GO plot handoffs for annotation tables | Missing annotations remain `NA`; external plotting dependencies are not vendored. |
 | 06 annotation | `scripts/06_annotation/kegg/*.pl` | Reference KEGG/pathway helpers | Review input formats before use. |
 | 07 gene family | OrthoFinder | Orthogroups and gene-family count matrices | Run before alignment and tree-building helpers. |
+| 07 gene family | RSEM or compatible TPM matrices | Expression evidence for selected gene sets | BioAnalysis summarizes existing matrices; expression quantification happens outside these helpers. |
 | 07 gene family | MAFFT, trimAl, RAxML, IQ-TREE, MrBayes | Alignment trimming and phylogenetic inference | Preserve logs, models, support values, and failed-family records. |
-| 07 gene family | `scripts/07_gene_family/run_gene_family_workflow.sh`, `scripts/07_gene_family/*.py` | Chain ID mapping, family summaries, member extraction, and tree handoffs | `root_tree.py` is a handoff helper only. |
+| 07 gene family | `scripts/07_gene_family/run_gene_family_workflow.sh`, `scripts/07_gene_family/run_target_family_workflow.sh`, `scripts/07_gene_family/*.py` | Chain ID mapping, family summaries, target-family evidence, expression summaries, member extraction, and tree handoffs | `root_tree.py` is a handoff helper only; target-family rules are project-supplied. |
 | 08 gene-family evolution | Count | Gene-family gain/loss inference from count matrices and species trees | Validate Count output format before parsing. |
 | 08 gene-family evolution | CAFE/CAFE5 | Expansion/contraction analysis | Requires matching species tree and count matrix. |
 | 08 gene-family evolution | `scripts/08_gene_family_evolution/run_gene_family_evolution_workflow.sh`, `scripts/08_gene_family_evolution/*.py` | Chain Count input preparation, gain/loss parsing, CAFE input preparation, and filtering | Rejected or removed-family reasons are required. |
@@ -63,6 +64,7 @@ This document lists external tools, databases, and maintained helper scripts use
 | KEGG KO-to-pathway map | NA | NA | Fill per project. |
 | Pfam database | NA | NA | Fill per project. |
 | OrthoFinder | NA | NA | Fill per project. |
+| RSEM or expression matrix source | NA | NA | Required when Stage 07 expression summaries are used. |
 | Count | NA | NA | Fill per project. |
 | IQ-TREE/RAxML | NA | NA | Fill per project. |
 | CAFE | NA | NA | Fill per project. |

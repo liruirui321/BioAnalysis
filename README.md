@@ -60,7 +60,7 @@ Read the repository in this order:
 04 GFF/CDS/PEP extraction
 05 genome features, introns, region context, and methylation workflows
 06 functional annotation, COG/NOG summaries, and GO handoffs
-07 gene families, orthogroups, and phylogeny helpers
+07 gene families, target-family discovery, expression evidence, and phylogeny helpers
 08 gene-family evolution with Count and CAFE
 09 synteny and Circos links
 10 HGT candidate screening and validation handoff

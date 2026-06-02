@@ -56,6 +56,10 @@ check-doc-links:
 	@test -f scripts/06_annotation/run_functional_annotation_workflow.sh
 	@test -f scripts/06_annotation/run_go_enrichment_plot_handoff.sh
 	@test -f scripts/07_gene_family/run_gene_family_workflow.sh
+	@test -f scripts/07_gene_family/run_target_family_workflow.sh
+	@test -f scripts/07_gene_family/merge_target_family_evidence.py
+	@test -f scripts/07_gene_family/build_target_family_inputs.py
+	@test -f scripts/07_gene_family/summarize_gene_set_expression.py
 	@test -f scripts/07_gene_family/summarize_orthofinder_gene_families.py
 	@test -f scripts/08_gene_family_evolution/run_gene_family_evolution_workflow.sh
 	@test -f scripts/08_gene_family_evolution/prepare_count_input.py
@@ -133,6 +137,10 @@ check-script-help:
 	@bash scripts/06_annotation/run_functional_annotation_workflow.sh --help >/dev/null
 	@bash scripts/06_annotation/run_go_enrichment_plot_handoff.sh --help >/dev/null
 	@bash scripts/07_gene_family/run_gene_family_workflow.sh --help >/dev/null
+	@bash scripts/07_gene_family/run_target_family_workflow.sh --help >/dev/null
+	@python3 scripts/07_gene_family/merge_target_family_evidence.py --help >/dev/null
+	@python3 scripts/07_gene_family/build_target_family_inputs.py --help >/dev/null
+	@python3 scripts/07_gene_family/summarize_gene_set_expression.py --help >/dev/null
 	@python3 scripts/07_gene_family/prefix_fasta_ids.py --help >/dev/null
 	@python3 scripts/07_gene_family/summarize_orthofinder_gene_families.py --help >/dev/null
 	@python3 scripts/07_gene_family/extract_orthogroup_members.py --help >/dev/null

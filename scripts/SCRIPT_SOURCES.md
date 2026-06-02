@@ -54,6 +54,10 @@ Reusable repository files must use anonymized examples such as `Arabidopsis_thal
 | `06_annotation/prepare_go_semantic_handoff.py` | Implemented and CLI verified | Prepare GO enrichment results for external semantic-space visualization tools. |
 | `06_annotation/run_go_enrichment_plot_handoff.sh` | Implemented and CLI verified | Chain GO enrichment and semantic-visualization handoff table preparation. |
 | `07_gene_family/run_gene_family_workflow.sh` | Implemented and CLI verified | Chain optional FASTA prefixing, OrthoFinder handoff, family summaries, member extraction, and supermatrix handoff. |
+| `07_gene_family/run_target_family_workflow.sh` | Implemented and CLI verified | Chain rule-based target-family evidence merging, peptide handoff generation, and optional expression summaries. |
+| `07_gene_family/merge_target_family_evidence.py` | Implemented and CLI verified | Merge functional annotation, rule-table, BLAST/DIAMOND, and seed evidence for target functional families. |
+| `07_gene_family/build_target_family_inputs.py` | Implemented and CLI verified | Build target peptide FASTA and tree-tip metadata from selected gene IDs. |
+| `07_gene_family/summarize_gene_set_expression.py` | Implemented and CLI verified | Summarize expression matrices by target family or selected gene set. |
 | `07_gene_family/prefix_fasta_ids.py` | Implemented and CLI verified | Prefix FASTA IDs and write an ID map. |
 | `07_gene_family/summarize_orthofinder_gene_families.py` | Implemented and CLI verified | Summarize OrthoFinder families by copy number, occupancy, and selected family classes. |
 | `07_gene_family/extract_orthogroup_members.py` | Implemented and CLI verified | Extract orthogroup member lists. |
@@ -111,6 +115,7 @@ Reusable repository files must use anonymized examples such as `Arabidopsis_thal
 | blast2hgt | HGT candidate screening from BLAST hits and taxonomy-group lineages. |
 | GO, KEGG, Pfam, and pathway mapping tables | Downstream annotation summaries and enrichment. |
 | OrthoFinder | Orthogroups and gene-family count matrices. |
+| RSEM or compatible TPM matrices | Expression evidence for target gene sets. |
 | MAFFT, trimAl, RAxML, IQ-TREE, MrBayes | Alignment trimming and phylogenetic inference. |
 | Count, CAFE/CAFE5 | Gene-family gain/loss, expansion, and contraction. |
 | minimap2, WGDI, MCScanX, JCVI, Circos, bedtools, samtools | Synteny, WGD, and visualization. |

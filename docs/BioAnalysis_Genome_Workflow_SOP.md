@@ -21,7 +21,7 @@ Missing data must be recorded as `missing` or `not_tested`; it must not be inter
 04 GFF/CDS/PEP extraction
 05 genome features, introns, region context, methylation, and introner evidence
 06 functional annotation, COG/NOG summaries, and GO handoffs
-07 gene families, orthogroups, and phylogeny helpers
+07 gene families, target-family discovery, expression evidence, and phylogeny helpers
 08 gene-family evolution with Count and CAFE
 09 synteny and Circos links
 10 HGT candidate screening and validation handoff
@@ -264,14 +264,15 @@ bash scripts/06_annotation/run_go_enrichment_plot_handoff.sh \
 
 Unannotated genes should remain in merged tables with `NA` fields. Term-map sources, eggNOG database versions, foreground/background gene lists, and external GO visualization tools must be recorded in project run notes.
 
-## 07 Gene families, orthogroups, and phylogeny helpers
+## 07 Gene families, target-family discovery, expression evidence, and phylogeny helpers
 
-Gene-family and orthogroup analysis comes before alignment and tree-building. Use `scripts/07_gene_family/run_gene_family_workflow.sh` as the primary stage driver to chain OrthoFinder handoff, family summaries, member extraction, and optional supermatrix preparation.
+Gene-family and orthogroup analysis comes before alignment and tree-building. Use `scripts/07_gene_family/run_gene_family_workflow.sh` to chain OrthoFinder handoff, family summaries, member extraction, and optional supermatrix preparation. Use `scripts/07_gene_family/run_target_family_workflow.sh` when a project needs data-driven discovery of a functional family or gene set from annotation, BLAST/DIAMOND, seed IDs, peptide FASTA, and expression evidence.
 
-Key handoff:
+Key handoffs:
 
 ```text
 protein FASTA per species -> optional FASTA ID prefixing -> OrthoFinder -> gene-family summaries -> selected orthogroups -> alignments -> trimmed alignments -> gene trees -> tree summaries
+functional annotation + target rule table + optional BLAST/seed/expression evidence -> target gene IDs -> peptide FASTA and tree-tip metadata -> family expression summaries
 ```
 
 ```bash
@@ -294,9 +295,16 @@ python3 scripts/07_gene_family/summarize_orthofinder_gene_families.py \
   --single-copy-list single_copy_orthogroups.list \
   --core-list core_orthogroups.list \
   --lineage-specific-list lineage_specific_orthogroups.list
+
+bash scripts/07_gene_family/run_target_family_workflow.sh \
+  --annotation Arabidopsis_thaliana.functional_annotation.tsv \
+  --rules refs/target_family_rules.tsv \
+  --outdir target_family_work \
+  --peptides Arabidopsis_thaliana.protein.primary.fa \
+  --expression Arabidopsis_thaliana.rsem_tpm.tsv
 ```
 
-Use `extract_orthogroup_members.py`, alignment tools, and tree helpers only after the family or orthogroup set is defined. `root_tree.py` is a rooting handoff helper only; it does not reroot topology. Use validated external tree tools for real rerooting.
+Target-family rule tables should record rule IDs, family IDs, evidence types, source fields, patterns, and match modes. Use `extract_orthogroup_members.py`, alignment tools, and tree helpers only after the family or orthogroup set is defined. `root_tree.py` is a rooting handoff helper only; it does not reroot topology. Use validated external tree tools for real rerooting.
 
 ## 08 Gene-family evolution: Count and CAFE
 

@@ -143,6 +143,24 @@ bash scripts/07_gene_family/run_gene_family_workflow.sh \
   --alignment-suffix .trimmed.fa
 ```
 
+### Target functional-family discovery and expression evidence
+
+```bash
+bash scripts/07_gene_family/run_target_family_workflow.sh \
+  --annotation annotation_work/Arabidopsis_thaliana.functional_annotation.tsv \
+  --rules refs/target_family_rules.tsv \
+  --outdir target_family_work \
+  --prefix Arabidopsis_thaliana.target_families \
+  --blast-hits Arabidopsis_thaliana.target_family.diamond.tsv \
+  --seed-ids refs/target_family_seed_genes.ids \
+  --peptides Arabidopsis_thaliana.protein.primary.fa \
+  --expression Arabidopsis_thaliana.rsem_tpm.tsv \
+  --id-column transcript_id \
+  --expression-id-column gene_id
+```
+
+The rule table is project-supplied and can combine annotation keywords, Pfam/InterPro signatures, KO IDs, seed genes, and BLAST/DIAMOND subject patterns without hardcoding biological family names into the scripts.
+
 ## 08 Gene-family evolution: Count and CAFE
 
 ```bash

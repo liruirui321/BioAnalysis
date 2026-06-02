@@ -45,6 +45,10 @@ Status labels match [`../scripts/SCRIPT_SOURCES.md`](../scripts/SCRIPT_SOURCES.m
 | 06 annotation | `scripts/06_annotation/run_go_enrichment_plot_handoff.sh` | Implemented and CLI verified | Functional annotation table and foreground IDs | GO enrichment and semantic-plot handoff outputs |
 | 06 annotation | `scripts/06_annotation/kegg/*.pl` | Reference-derived; review before use | KEGG/pathway inputs | KEGG helper outputs |
 | 07 gene family | `scripts/07_gene_family/run_gene_family_workflow.sh` | Implemented and CLI verified | OrthoFinder count table and optional protein/alignment inputs | Chained gene-family summary, member extraction, and supermatrix handoffs |
+| 07 gene family | `scripts/07_gene_family/run_target_family_workflow.sh` | Implemented and CLI verified | Functional annotation, target rules, optional BLAST/seed/expression inputs | Target-family evidence, selected IDs, peptide FASTA, tip metadata, and expression summaries |
+| 07 gene family | `scripts/07_gene_family/merge_target_family_evidence.py` | Implemented and CLI verified | Functional annotation, target rules, optional BLAST/seed inputs | Target-family evidence table, selected IDs, and summary |
+| 07 gene family | `scripts/07_gene_family/build_target_family_inputs.py` | Implemented and CLI verified | Target IDs, peptide FASTA, optional annotation/evidence | Target peptide FASTA and tree-tip metadata |
+| 07 gene family | `scripts/07_gene_family/summarize_gene_set_expression.py` | Implemented and CLI verified | Expression matrix and target-family evidence | Gene-level and family-level expression summaries |
 | 07 gene family | `scripts/07_gene_family/prefix_fasta_ids.py` | Implemented and CLI verified | Protein FASTA | Prefixed FASTA and ID map |
 | 07 gene family | `scripts/07_gene_family/summarize_orthofinder_gene_families.py` | Implemented and CLI verified | OrthoFinder orthogroup and gene-count tables | Family summary and selected orthogroup lists |
 | 07 gene family | `scripts/07_gene_family/extract_orthogroup_members.py` | Implemented and CLI verified | OrthoFinder outputs | Per-family ID lists |
